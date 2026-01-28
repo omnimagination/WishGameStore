@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+            color: var(--neon-green);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+        }
+
+        .cart-icon:hover {
+            background: var(--neon-green);
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(0,255,133,0.1) 0%, transparent 70%);
+            padding-top: 100px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        /* CHECKOUT CONTAINER */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* ORDER SUMMARY */
+        .order-summary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .summary-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            color: var(--neon-green);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 600;
+        }
+
+        .item-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .summary-row.total {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-top: 1rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-top: 2px solid var(--glass-border);
+            padding-top: 1.5rem;
+        }
+
+        /* CHECKOUT FORM */
+        .checkout-form {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .form-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--glass-border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--neon-green);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1.2rem;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(0,255,133,0.3);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* PAYMENT METHODS */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            padding: 1.5rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: var(--glass-bg);
+        }
+
+        .payment-method.active {
+            border-color: var(--neon-green);
+            background: rgba(0,255,133,0.1);
+            box-shadow: 0 0 20px rgba(0,255,133,0.3);
+        }
+
+        .payment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* CHECKOUT BUTTON */
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 1.5rem;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2rem;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0,255,133,0.5);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-green);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        @media (max-width: 1024px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .order-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkout-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#store">Store</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="page-title">Secure Checkout</h1>
+            <p style="font-size: 1.3rem; color: var(--text-secondary);">Complete your order in seconds</p>
+        </div>
+    </section>
+
+    <!-- CHECKOUT CONTENT -->
+    <div class="checkout-container">
+        <!-- CHECKOUT FORM -->
+        <div class="checkout-form">
+            <a href="cart.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Cart
+            </a>
+            
+            <form id="checkoutForm" onsubmit="completeOrder(event)">
+                <!-- CONTACT INFO -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-user"></i> Contact Information
+                    </h3>
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" class="form-input" id="email" placeholder="your@email.com" required>
+                    </div>
+                </div>
+
+                <!-- SHIPPING INFO -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-map-marker-alt"></i> Shipping Address
+                    </h3>
+                    <div class="form-group">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" class="form-input" id="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Address *</label>
+                        <input type="text" class="form-input" id="address" placeholder="123 Gaming Street" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">City *</label>
+                        <input type="text" class="form-input" id="city" placeholder="Nagpur" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" id="phone" placeholder="+91 9876543210">
+                    </div>
+                </div>
+
+                <!-- PAYMENT -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-credit-card"></i> Payment Method
+                    </h3>
+                    <div class="payment-methods">
+                        <div class="payment-method active" onclick="selectPayment(this, 'card')">
+                            <i class="fab fa-cc-visa payment-icon"></i>
+                            <div>Card</div>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment(this, 'paypal')">
+                            <i class="fab fa-paypal payment-icon" style="color: #003087;"></i>
+                            <div>PayPal</div>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment(this, 'crypto')">
+                            <i class="fab fa-bitcoin payment-icon" style="color: #f7931a;"></i>
+                            <div>Crypto</div>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment(this, 'cod')">
+                            <i class="fas fa-cash payment-icon"></i>
+                            <div>Cash on Delivery</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="checkout-btn">
+                    Complete Order → 
+                    <span id="orderTotal">$0.00</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="order-summary" id="orderSummary">
+            <h3 class="summary-title">
+                <i class="fas fa-receipt"></i>
+                Order Summary
+            </h3>
+            <!-- DYNAMIC ORDER ITEMS -->
+            <div id="orderItems"></div>
+            
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="summarySubtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax (8%):</span>
+                <span id="summaryTax">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping:</span>
+                <span style="color: var(--neon-green);">FREE</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span id="summaryTotal">$0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Products data (same as cart.html)
+        const products = {
+            1: { name: 'GTA V Premium Edition', price: 9.99, image: '🚗' },
+            2: { name: 'Red Dead Redemption 2', price: 14.99, image: '🤠' },
+            3: { name: 'Cyberpunk 2077', price: 19.99, image: '🌃' },
+            4: { name: 'Elden Ring', price: 23.99, image: '⚔️' }
+        };
+
+        let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+
+        function renderOrderSummary() {
+            const orderItemsEl = document.getElementById('orderItems');
+            const orderSummaryEl = document.getElementById('orderSummary');
+            
+            if (cart.length === 0) {
+                orderSummaryEl.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-shopping-cart" style="font-size: 4rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--text-secondary);">No items in cart</h3>
+                        <a href="index.html" style="color: var(--neon-green); text-decoration: none; font-weight: 600;">
+                            Start Shopping →
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            orderItemsEl.innerHTML = cart.map(item => `
+                <div class="order-item">
+                    <div class="item-name">
+                        <div class="item-icon">${item.image}</div>
+                        <span>${item.name} × ${item.quantity}</span>
+                    </div>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            updateOrderTotals();
+        }
+
+        function updateOrderTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+
+            document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('orderTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function selectPayment(element, method) {
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function completeOrder(event) {
+            event.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+
+            // Clear cart and show success
+            localStorage.removeItem('wishgamestore_cart');
+            
+            alert(`🎉 Order completed successfully!\n\nThank you ${name}!\n\nOrder Summary:\n${cart.map(item => `• ${item.name} x${item.quantity}`).join('\n')}\n\nTotal: $${total.toFixed(2)}\n\n✅ Keys delivered instantly to ${email}\n\nThank you for shopping at WishGameStore! 🚀`);
+            
+            // Redirect to success page or home
+            window.location.href = 'index.html';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderOrderSummary();
+        });
+    </script>
+</body>
+</html>

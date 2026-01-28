@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-icon:hover {
+            color: var(--neon-green);
+            background: var(--glass-bg);
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--neon-green);
+            color: black;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0,255,133,0.1), rgba(0,212,255,0.05));
+            padding-top: 100px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(4rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* POLICY CONTAINER */
+        .policy-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .policy-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+
+        .policy-header {
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            padding: 2rem 3rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 800;
+            position: relative;
+        }
+
+        .policy-header i {
+            margin-right: 1rem;
+            font-size: 2rem;
+        }
+
+        .policy-content {
+            padding: 3rem;
+        }
+
+        .policy-highlight {
+            background: rgba(0,255,133,0.1);
+            border-left: 4px solid var(--neon-green);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .policy-highlight h4 {
+            color: var(--neon-green);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .guarantee-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,255,133,0.4);
+        }
+
+        .policy-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .policy-list li {
+            padding: 1rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .policy-list li:last-child {
+            border-bottom: none;
+        }
+
+        .policy-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--neon-green);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .policy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .policy-table th,
+        .policy-table td {
+            padding: 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .policy-table th {
+            background: rgba(0,255,133,0.1);
+            color: var(--neon-green);
+            font-weight: 700;
+        }
+
+        .policy-table tr:hover {
+            background: rgba(0,255,133,0.05);
+        }
+
+        .status-yes { color: var(--neon-green); font-weight: bold; }
+        .status-no { color: #ff4757; font-weight: bold; }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 6rem 0;
+            background: rgba(0,255,133,0.05);
+            margin-top: 4rem;
+        }
+
+        .cta-btn {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 1.5rem 4rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 15px 40px rgba(0,255,133,0.4);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0,255,133,0.6);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .policy-content {
+                padding: 2rem;
+            }
+            
+            .policy-table {
+                font-size: 0.9rem;
+            }
+            
+            .policy-table th,
+            .policy-table td {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html">Deals</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="goToCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="page-title">Refund Policy</h1>
+            <p class="hero-subtitle">
+                Customer satisfaction guaranteed. Clear, fair refund policy with <strong>30-day money-back guarantee</strong>.<br>
+                Instant processing - no hassle.
+            </p>
+        </div>
+    </section>
+
+    <!-- POLICY SECTIONS -->
+    <div class="policy-container">
+        <!-- 30-DAY GUARANTEE -->
+        <div class="policy-section">
+            <div class="policy-header">
+                <i class="fas fa-shield-alt"></i>
+                30-Day Money-Back Guarantee
+            </div>
+            <div class="policy-content">
+                <div class="guarantee-badge">
+                    <i class="fas fa-check-circle"></i>
+                    No Questions Asked - Full Refund
+                </div>
+                <p><strong>Your satisfaction is our priority.</strong> If for any reason you're not completely satisfied with your purchase within 30 days, we'll refund 100% of your money instantly.</p>
+                
+                <div class="policy-highlight">
+                    <h4>✅ Eligible for Full Refund:</h4>
+                    <ul class="policy-list">
+                        <li>Account doesn't work as described</li>
+                        <li>Login credentials incorrect</li>
+                        <li>Games/DLCs missing from account</li>
+                        <li>Multiplayer doesn't work</li>
+                        <li>Any technical issues</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSTANT REPLACEMENTS -->
+        <div class="policy-section">
+            <div class="policy-header">
+                <i class="fas fa-sync-alt"></i>
+                Lifetime Account Warranty
+            </div>
+            <div class="policy-content">
+                <p><strong>Most issues resolved instantly with FREE replacements.</strong> 99% of problems fixed within 15 minutes.</p>
+                
+                <div class="policy-highlight">
+                    <h4>⚡ Faster Than Refund:</h4>
+                    <ul class="policy-list">
+                        <li>Login issues → New account in 5 minutes</li>
+                        <li>Banned accounts → Instant replacement</li>
+                        <li>Region lock → Corrected account</li>
+                        <li>Any access problems → Guaranteed fix</li>
+                    </ul>
+                </div>
+                
+                <p><em>Refunds only processed if replacement not possible.</em></p>
+            </div>
+        </div>
+
+        <!-- PROCESS -->
+        <div class="policy-section">
+            <div class="policy-header">
+                <i class="fas fa-clock"></i>
+                Refund Process (2 Minutes)
+            </div>
+            <div class="policy-content">
+                <ol style="padding-left: 2rem; margin: 2rem 0; font-size: 1.1rem;">
+                    <li><strong>Contact Support</strong> via Live Chat/Email/WhatsApp</li>
+                    <li><strong>Submit Proof</strong> (screenshot of issue + order #)</li>
+                    <li><strong>Instant Decision</strong> (replacement or refund)</li>
+                    <li><strong>Payment Returned</strong> to original method (2-5 minutes)</li>
+                </ol>
+                
+                <div class="policy-highlight">
+                    <h4>⏱️ Processing Times:</h4>
+                    <table class="policy-table">
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Processing Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Credit/Debit Card</td>
+                                <td class="status-yes">2-5 minutes</td>
+                            </tr>
+                            <tr>
+                                <td>PayPal</td>
+                                <td class="status-yes">Instant</td>
+                            </tr>
+                            <tr>
+                                <td>Cryptocurrency</td>
+                                <td class="status-yes">5-10 minutes</td>
+                            </tr>
+                            <tr>
+                                <td>UPI/Net Banking</td>
+                                <td class="status-yes">1-2 hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- NON-REFUNDABLE -->
+        <div class="policy-section">
+            <div class="policy-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                Non-Refundable Items
+            </div>
+            <div class="policy-content">
+                <p><strong>Digital products accessed cannot be refunded:</strong></p>
+                
+                <div class="policy-highlight">
+                    <h4>❌ No Refund After:</h4>
+                    <ul class="policy-list">
+                        <li>Account login successful</li>
+                        <li>Games downloaded/played</li>
+                        <li>Password changed by customer</li>
+                        <li>30 days from purchase date</li>
+                        <li>Multiple replacement requests</li>
+                    </ul>
+                </div>
+                
+                <p><em>However, our <strong>Lifetime Warranty</strong> covers all future issues.</em></p>
+            </div>
+        </div>
+
+        <!-- CONTACT SUPPORT -->
+        <div class="policy-section">
+            <div class="policy-header">
+                <i class="fas fa-headset"></i>
+                Need Help? Contact Us
+            </div>
+            <div class="policy-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan)); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; color: black;">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4>Live Chat</h4>
+                        <p><strong>45 seconds</strong> avg response</p>
+                    </div>
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan)); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; color: black;">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h4>WhatsApp</h4>
+                        <p>+91 98765 43210</p>
+                    </div>
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan)); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; color: black;">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4>Email</h4>
+                        <p>support@wishgamestore.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="policy-container">
+            <h2 style="font-size: 3rem; color: var(--neon-green); margin-bottom: 2rem; font-weight: 900;">
+                99.9% Satisfaction Rate
+            </h2>
+            <p style="font-size: 1.4rem; color: var(--text-secondary); margin-bottom: 3rem;">
+                Trusted by 500K+ gamers. Most issues resolved instantly with FREE replacements.
+            </p>
+            <button class="cta-btn" onclick="goToStore()">Continue Shopping Safely</button>
+        </div>
+    </section>
+
+    <script>
+        // =====================================================
+        // REFUND POLICY PAGE - FULLY FUNCTIONAL
+        // =====================================================
+        
+        let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+
+        // =====================================================
+        // CART FUNCTIONS
+        // =====================================================
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            if (badge) {
+                badge.textContent = count || 0;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function goToCart() {
+            window.location.href = 'cart.html';
+        }
+
+        function goToStore() {
+            window.location.href = 'store.html';
+        }
+
+        // =====================================================
+        // PAGE INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

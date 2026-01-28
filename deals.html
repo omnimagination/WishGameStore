@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deals - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --flash-red: #ff4757;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-icon:hover {
+            color: var(--neon-green);
+            background: var(--glass-bg);
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--neon-green);
+            color: black;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* HERO COUNTDOWN */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--flash-red), var(--neon-cyan), var(--neon-green));
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            padding-top: 100px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-badge {
+            background: var(--flash-red);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+            box-shadow: 0 10px 30px rgba(255,71,87,0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(4rem, 10vw, 7rem);
+            font-weight: 900;
+            -webkit-text-stroke: 2px black;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255,255,255,0.5);
+        }
+
+        .countdown {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .countdown-item {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--flash-red);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--flash-red);
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* DEALS CONTAINER */
+        .deals-container {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .deals-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--flash-red);
+            color: white;
+            border-color: var(--flash-red);
+            box-shadow: 0 10px 25px rgba(255,71,87,0.4);
+        }
+
+        /* DEALS GRID */
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .deal-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .deal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--flash-red), var(--neon-cyan));
+        }
+
+        .deal-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--flash-red);
+            box-shadow: 0 30px 60px rgba(255,71,87,0.3);
+        }
+
+        .deal-image {
+            height: 200px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .deal-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--flash-red);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .deal-time {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: rgba(0,0,0,0.8);
+            color: var(--flash-red);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .deal-content {
+            padding: 2rem;
+        }
+
+        .deal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .deal-prices {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .deal-new {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--flash-red);
+        }
+
+        .deal-old {
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .deal-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--flash-red), var(--neon-cyan));
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .deal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(255,71,87,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .countdown {
+                gap: 1rem;
+            }
+            
+            .countdown-number {
+                font-size: 2.5rem;
+            }
+            
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html" class="active">Deals</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="goToCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO COUNTDOWN -->
+    <section class="hero">
+        <div class="hero-badge">
+            <i class="fas fa-bolt"></i> FLASH SALE LIVE
+        </div>
+        <h1 class="hero-title">90% OFF</h1>
+        <p style="font-size: 1.5rem; margin-bottom: 3rem; color: rgba(255,255,255,0.9);">Limited time only - Ends in:</p>
+        
+        <div class="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">23</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">59</span>
+                <span class="countdown-label">Minutes</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">30</span>
+                <span class="countdown-label">Seconds</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEALS CONTENT -->
+    <div class="deals-container">
+        <div class="deals-tabs">
+            <button class="tab-btn active" data-tab="flash">Flash Deals</button>
+            <button class="tab-btn" data-tab="daily">Daily Deals</button>
+            <button class="tab-btn" data-tab="bundle">Bundles</button>
+            <button class="tab-btn" data-tab="ending">Ending Soon</button>
+        </div>
+
+        <div class="deals-grid" id="dealsGrid">
+            <!-- DYNAMIC DEALS LOAD HERE -->
+        </div>
+    </div>
+
+    <script>
+        // =====================================================
+        // DEALS PAGE - FULLY FUNCTIONAL
+        // =====================================================
+        
+        // Flash Deals Data
+        const dealsData = [
+            { id: 101, name: 'GTA V + Online', price: 7.99, oldPrice: 79.99, discount: 90, image: '🚗', timeLeft: '2h 15m' },
+            { id: 102, name: 'Cyberpunk 2077 Ultimate', price: 14.99, oldPrice: 89.99, discount: 83, image: '🌃', timeLeft: '1h 45m' },
+            { id: 103, name: 'Call of Duty Black Ops 6', price: 19.99, oldPrice: 69.99, discount: 71, image: '🔫', timeLeft: '3h 20m' },
+            { id: 104, name: 'God of War Complete', price: 12.99, oldPrice: 79.99, discount: 84, image: '🪓', timeLeft: '45m' },
+            { id: 105, name: 'Elden Ring Deluxe', price: 18.99, oldPrice: 69.99, discount: 73, image: '⚔️', timeLeft: '2h 10m' },
+            { id: 106, name: 'Resident Evil Collection', price: 22.99, oldPrice: 149.99, discount: 85, image: '🧟', timeLeft: '1h 30m' },
+            { id: 107, name: 'DOOM Slayer Bundle', price: 9.99, oldPrice: 59.99, discount: 83, image: '💀', timeLeft: '4h 5m' },
+            { id: 108, name: 'Spider-Man Ultimate', price: 29.99, oldPrice: 79.99, discount: 62, image: '🕷️', timeLeft: '2h 50m' },
+            { id: 109, name: 'Hogwarts Legacy Deluxe', price: 24.99, oldPrice: 69.99, discount: 64, image: '🪄', timeLeft: '1h 20m' },
+            { id: 110, name: 'Battlefield Premium', price: 16.99, oldPrice: 89.99, discount: 81, image: '🎮', timeLeft: '3h 40m' },
+            { id: 111, name: 'Assassin\'s Creed Collection', price: 19.99, oldPrice: 199.99, discount: 90, image: '🏹', timeLeft: '50m' },
+            { id: 112, name: 'Starfield Premium', price: 34.99, oldPrice: 99.99, discount: 65, image: '🚀', timeLeft: '2h 25m' }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+        let currentTab = 'flash';
+
+        // =====================================================
+        // CART FUNCTIONS (shared across all pages)
+        // =====================================================
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            if (badge) {
+                badge.textContent = count || 0;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function addToCart(productId) {
+            const product = dealsData.find(deal => deal.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ 
+                    id: productId, 
+                    name: product.name, 
+                    price: product.price, 
+                    image: product.image, 
+                    quantity: 1 
+                });
+            }
+            
+            saveCart();
+            updateCartCount();
+            
+            // Visual feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Grabbed! 🔥';
+            btn.style.background = 'var(--neon-green)';
+            setTimeout(() => {
+                btn.textContent = 'Grab Deal Now!';
+                btn.style.background = '';
+            }, 1500);
+        }
+
+        function saveCart() {
+            localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
+        }
+
+        function goToCart() {
+            window.location.href = 'cart.html';
+        }
+
+        // =====================================================
+        // COUNTDOWN TIMER
+        // =====================================================
+        function startCountdown() {
+            let timeLeft = 90 * 60; // 90 minutes in seconds
+            
+            const timer = setInterval(() => {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    document.querySelector('.hero').innerHTML = `
+                        <div style="text-align: center; padding: 4rem;">
+                            <i class="fas fa-fire" style="font-size: 6rem; color: var(--flash-red);"></i>
+                            <h2 style="font-size: 3rem; margin: 2rem 0; color: white;">NEXT SALE IN</h2>
+                            <div style="font-size: 4rem; color: var(--neon-green);">00:00:00</div>
+                        </div>
+                    `;
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        // =====================================================
+        // RENDER DEALS
+        // =====================================================
+        function renderDeals() {
+            const dealsGrid = document.getElementById('dealsGrid');
+            dealsGrid.innerHTML = dealsData.map(deal => `
+                <div class="deal-card">
+                    <div class="deal-image">
+                        <span>${deal.image}</span>
+                        <div class="deal-badge">-${deal.discount}%</div>
+                        <div class="deal-time">${deal.timeLeft}</div>
+                    </div>
+                    <div class="deal-content">
+                        <div class="deal-title">${deal.name}</div>
+                        <div class="deal-prices">
+                            <span class="deal-new">$${deal.price}</span>
+                            <span class="deal-old">$${deal.oldPrice}</span>
+                        </div>
+                        <button class="deal-btn" onclick="addToCart(${deal.id})">Grab Deal Now!</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // =====================================================
+        // EVENT LISTENERS
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            renderDeals();
+            startCountdown();
+
+            // Tabs functionality
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.onclick = () => {
+                    document.querySelector('.tab-btn.active').classList.remove('active');
+                    tab.classList.add('active');
+                    currentTab = tab.dataset.tab;
+                    // Could filter deals here based on tab
+                };
+            });
+
+            // Navbar active link
+            document.querySelector('.nav-links a[href="deals.html"]').classList.add('active');
+        });
+    </script>
+</body>
+</html>

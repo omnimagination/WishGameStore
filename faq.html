@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-icon:hover {
+            color: var(--neon-green);
+            background: var(--glass-bg);
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--neon-green);
+            color: black;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0,255,133,0.1), rgba(0,212,255,0.05));
+            padding-top: 100px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(4rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* FAQ SEARCH */
+        .faq-search-section {
+            padding: 4rem 0;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.5rem 2rem 1.5rem 4rem;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0,255,133,0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        /* FAQ CATEGORIES */
+        .faq-categories {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 1rem 2rem;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--neon-green);
+            color: black;
+            border-color: var(--neon-green);
+            box-shadow: 0 10px 25px rgba(0,255,133,0.4);
+        }
+
+        /* FAQ GRID */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .faq-column {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--glass-border);
+            padding: 2rem 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 0;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .faq-question:hover {
+            color: var(--neon-green);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .faq-answer.active {
+            max-height: 300px;
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--neon-green);
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            color: var(--neon-green);
+        }
+
+        .faq-toggle.active {
+            transform: rotate(45deg);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+
+        .no-results i {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-column {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html">Deals</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="goToCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="page-title">Frequently Asked Questions</h1>
+            <p class="hero-subtitle">Find answers instantly or search below. Can't find what you need? Contact our 24/7 support.</p>
+        </div>
+    </section>
+
+    <!-- FAQ SEARCH -->
+    <section class="faq-search-section">
+        <div class="container">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="faqSearch" placeholder="Search FAQs... (ex: 'instant access', 'payment', 'multiplayer')">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ CONTENT -->
+    <div class="container">
+        <!-- CATEGORIES -->
+        <div class="faq-categories">
+            <button class="category-btn active" data-category="all">All Questions</button>
+            <button class="category-btn" data-category="accounts">Account Access</button>
+            <button class="category-btn" data-category="payment">Payments</button>
+            <button class="category-btn" data-category="delivery">Delivery</button>
+            <button class="category-btn" data-category="security">Security</button>
+            <button class="category-btn" data-category="support">Support</button>
+        </div>
+
+        <!-- FAQ GRID -->
+        <div class="faq-grid" id="faqGrid">
+            <!-- DYNAMIC FAQS LOAD HERE -->
+        </div>
+    </div>
+
+    <script>
+        // =====================================================
+        // COMPLETE FAQ PAGE - FULLY FUNCTIONAL
+        // =====================================================
+        
+        let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+
+        // Complete FAQ Database
+        const faqs = [
+            // ACCOUNT ACCESS
+            { id: 1, question: "How fast do I get game access after payment?", answer: "Instant! After payment confirmation (2-10 seconds), full login credentials appear immediately. Download & play within 2 minutes guaranteed.", category: "delivery" },
+            { id: 2, question: "Are these full game accounts with everything included?", answer: "Yes! Complete accounts with all DLCs, saves, achievements, multiplayer, and lifetime access. No subscriptions or time limits.", category: "accounts" },
+            { id: 3, question: "Can I change the account email/password?", answer: "Yes! You get full account ownership. Change email, password, and all security settings immediately after delivery.", category: "accounts" },
+            { id: 4, question: "Do accounts support Steam Family Sharing?", answer: "Yes! All accounts support Family Sharing & Family View. Share eligible games with up to 5 family members.", category: "accounts" },
+
+            // PAYMENTS
+            { id: 5, question: "What payment methods do you accept?", answer: "All major methods: Credit/Debit cards (Visa, MasterCard, Amex), PayPal, cryptocurrencies (BTC, ETH, USDT, BNB), Apple Pay, Google Pay, UPI, and Cash on Delivery (India).", category: "payment" },
+            { id: 6, question: "Is my payment information secure?", answer: "100% secure! Enterprise-grade SSL encryption (256-bit). Processed via Stripe & PayPal. We never store card details. PCI-DSS Level 1 compliant.", category: "security" },
+            { id: 7, question: "Do you offer refunds?", answer: "Yes! 30-day money-back guarantee. If account doesn't work as described, full refund within 24 hours. Instant processing.", category: "payment" },
+            { id: 8, question: "Can I pay with cryptocurrency?", answer: "Yes! Accept BTC, ETH, USDT, BNB, LTC, DOGE. No KYC required. Lightning-fast processing (10-30 seconds).", category: "payment" },
+
+            // DELIVERY
+            { id: 9, question: "How are games delivered?", answer: "Instant digital delivery! Full login credentials (email:password) delivered immediately after payment. Copy-paste to Steam/Epic/etc.", category: "delivery" },
+            { id: 10, question: "What platforms do you support?", answer: "Steam, Epic Games, Battle.net, Origin/EA App, Ubisoft Connect, Rockstar Launcher, GOG Galaxy. PC games only.", category: "delivery" },
+            { id: 11, question: "Can I download games immediately?", answer: "Yes! Log in to platform → games appear in library instantly → click Download → play within 2 minutes.", category: "delivery" },
+            { id: 12, question: "What if delivery fails?", answer: "Automatic retry system. If email doesn't arrive in 30 seconds, check spam/promotions. Manual resend available 24/7.", category: "delivery" },
+
+            // SECURITY
+            { id: 13, question: "Are accounts safe from bans?", answer: "99.9% safe! Premium accounts sourced legally. No VAC bans, HWID locks, or trade bans. Lifetime warranty included.", category: "security" },
+            { id: 14, question: "Can accounts be recovered by previous owner?", answer: "No! Accounts use private domains we control. Previous owners cannot recover. Full ownership transfer guaranteed.", category: "security" },
+            { id: 15, question: "Is 2FA enabled on accounts?", answer: "Optional 2FA available. We provide backup codes. You can enable Google Authenticator/App Authenticator immediately.", category: "security" },
+            { id: 16, question: "My site/payment security?", answer: "Full SSL encryption. Cloudflare DDoS protection. Regular penetration testing. Same security as major banks.", category: "security" },
+
+            // SUPPORT
+            { id: 17, question: "What is your support response time?", answer: "Live Chat: 45 seconds average. Email: 2 hours max. WhatsApp: 5 minutes. 24/7/365 availability.", category: "support" },
+            { id: 18, question: "Do you offer account warranty?", answer: "Lifetime warranty! Free replacement if account issues occur. No questions asked. Same-day resolution guaranteed.", category: "support" },
+            { id: 19, question: "How do I contact support?", answer: "Live Chat (bottom right), Email: support@wishgamestore.com, WhatsApp: +91-9876543210, Discord server link in account dashboard.", category: "support" },
+            { id: 20, question: "What if game doesn't work?", answer: "Immediate replacement! Send ticket with proof. New account delivered within 15 minutes. No hassle.", category: "support" },
+
+            // MULTIPLAYER & FEATURES
+            { id: 21, question: "Does multiplayer work on all accounts?", answer: "Yes! Full online multiplayer supported. Play with friends on all platforms. Crossplay fully functional.", category: "accounts" },
+            { id: 22, question: "Are DLCs and expansions included?", answer: "Yes! All DLCs, season passes, expansions included where available. Check product description for specifics.", category: "accounts" },
+            { id: 23, question: "Can I get achievements/trophies?", answer: "Yes! Full achievement support. No restrictions. 100% unlockable.", category: "accounts" },
+            { id: 24, question: "Region locked games?", answer: "All accounts worldwide unlocked. No region restrictions. Play from any country.", category: "accounts" }
+        ];
+
+        let currentCategory = 'all';
+        let searchTerm = '';
+
+        // =====================================================
+        // CART FUNCTIONS
+        // =====================================================
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            if (badge) {
+                badge.textContent = count || 0;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
+        }
+
+        function goToCart() {
+            window.location.href = 'cart.html';
+        }
+
+        // =====================================================
+        // FILTER FAQS
+        // =====================================================
+        function filterFAQs() {
+            let filtered = faqs.filter(faq => {
+                const matchesCategory = currentCategory === 'all' || faq.category === currentCategory;
+                const matchesSearch = faq.question.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                                    faq.answer.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            renderFAQs(filtered);
+        }
+
+        // =====================================================
+        // RENDER FAQS
+        // =====================================================
+        function renderFAQs(faqList) {
+            const faqGrid = document.getElementById('faqGrid');
+            
+            if (faqList.length === 0) {
+                faqGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>No results found</h3>
+                        <p>Try different keywords or select a different category</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Split into 2 columns
+            const midPoint = Math.ceil(faqList.length / 2);
+            const column1 = faqList.slice(0, midPoint);
+            const column2 = faqList.slice(midPoint);
+
+            faqGrid.innerHTML = `
+                <div class="faq-column">
+                    ${column1.map(faq => createFAQItem(faq)).join('')}
+                </div>
+                <div class="faq-column">
+                    ${column2.map(faq => createFAQItem(faq)).join('')}
+                </div>
+            `;
+
+            // Re-attach event listeners
+            attachFAQListeners();
+        }
+
+        function createFAQItem(faq) {
+            return `
+                <div class="faq-item">
+                    <button class="faq-question">
+                        ${faq.question}
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </button>
+                    <div class="faq-answer">${faq.answer}</div>
+                </div>
+            `;
+        }
+
+        // =====================================================
+        // EVENT LISTENERS
+        // =====================================================
+        function attachFAQListeners() {
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.onclick = function() {
+                    const answer = this.nextElementSibling;
+                    const toggle = this.querySelector('.faq-toggle');
+                    
+                    // Close all others
+                    document.querySelectorAll('.faq-answer.active').forEach(active => {
+                        if (active !== answer) {
+                            active.classList.remove('active');
+                            active.previousElementSibling.querySelector('.faq-toggle').classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current
+                    answer.classList.toggle('active');
+                    toggle.classList.toggle('active');
+                };
+            });
+        }
+
+        // =====================================================
+        // INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            filterFAQs();
+
+            // Search functionality
+            document.getElementById('faqSearch').addEventListener('input', function(e) {
+                searchTerm = e.target.value;
+                filterFAQs();
+            });
+
+            // Category filters
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.onclick = function() {
+                    document.querySelector('.category-btn.active').classList.remove('active');
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    filterFAQs();
+                };
+            });
+        });
+    </script>
+</body>
+</html>

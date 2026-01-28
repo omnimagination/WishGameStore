@@ -681,11 +681,11 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#store">Store</a></li>
-                <li><a href="#gamepass">Game Pass</a></li>
-                <li><a href="#deals">Deals</a></li>
-                <li><a href="#howitworks">How It Works</a></li>
-                <li><a href="#faq">FAQ</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html">Deals</a></li>
+                <li><a href="howitworks.html">How It Works</a></li>
+                <li><a href="faq.html">FAQ</a></li>
             </ul>
             <div class="nav-icons">
                 <div class="search-icon">
@@ -693,7 +693,7 @@
                 </div>
                 <div class="cart-icon" onclick="window.location.href='cart.html'">
     <i class="fas fa-shopping-cart"></i>
-    <span class="cart-badge" id="cartCount">3</span>
+    <span class="cart-badge" id="cartCount">0</span>
 </div>
                 <button class="signin-btn">Sign In</button>
             </div>
@@ -713,7 +713,9 @@
                 Instant delivery, unbeatable prices.
             </p>
             <div class="cta-buttons">
-                <button class="btn-primary">Browse Games →</button>
+                <button class="btn-primary" onclick="window.location.href='store.html'">
+                 Browse Games →
+                </button>
                 <button class="btn-secondary">View Deals ⚡</button>
             </div>
         </div>
@@ -787,7 +789,7 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
                 <h2 class="section-title">Trending Games</h2>
-                <a href="#" class="view-all">View All →</a>
+                <a href="store.html" class="view-all">View All →</a>
             </div>
             <div class="games-container">
                 <div class="games-grid">
@@ -884,19 +886,20 @@
                     </div>
                 </div>
                 <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <a href="#">Store</a>
-                    <a href="#">Game Pass</a>
-                    <a href="#">Deals</a>
-                    <a href="#">How It Works</a>
-                </div>
+            <h3>Quick Links</h3>
+             <a href="store.html">Store</a>
+             <a href="gamepass.html">Game Pass</a>
+             <a href="deals.html">Deals</a>
+             <a href="howitworks.html">How It Works</a>
+            </div>
                 <div class="footer-section">
-                    <h3>Support</h3>
-                    <a href="#">FAQ</a>
-                    <a href="#">Contact Us</a>
-                    <a href="#">About Us</a>
-                    <a href="#">Refund Policy</a>
-                </div>
+            <h3>Support</h3>
+             <a href="faq.html">FAQ</a>
+             <a href="contactus.html">Contact Us</a>
+             <a href="about.html">About Us</a>
+             <a href="refund.html">Refund Policy</a>
+            </div>
+
                 <div class="footer-section">
                     <h3>Contact Info</h3>
                     <p><a href="mailto:support@wishgamestore.com">support@wishgamestore.com</a></p>
@@ -908,5 +911,209 @@
             </div>
         </div>
     </footer>
+<script>
+    // Shopping Cart System - DYNAMIC BADGE COUNTER
+    let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+    
+    const products = {
+        1: { name: 'GTA V Premium Edition', price: 9.99, image: '🚗' },
+        2: { name: 'Red Dead Redemption 2', price: 14.99, image: '🤠' },
+        3: { name: 'Cyberpunk 2077', price: 19.99, image: '🌃' },
+        4: { name: 'Elden Ring', price: 23.99, image: '⚔️' }
+    };
+
+    // Update cart badge (shows TOTAL items count)
+    function updateCartCount() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const badge = document.getElementById('cartCount');
+        badge.textContent = count || 0;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    // Add to cart function
+    function addToCart(productId) {
+        const product = products[productId];
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id: productId, name: product.name, price: product.price, image: product.image, quantity: 1 });
+        }
+        
+        saveCart();
+        updateCartCount();
+        
+        // Visual feedback
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Added! ✅';
+        btn.style.background = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.textContent = 'Buy Now';
+            btn.style.background = '';
+        }, 1500);
+    }
+
+    // Save cart to localStorage
+    function saveCart() {
+        localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
+    }
+
+    // Update ALL Buy Now buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCount(); // Load initial count
+        
+        // Convert all Buy Now buttons to Add to Cart
+        document.querySelectorAll('.buy-btn').forEach((btn, index) => {
+            btn.textContent = 'Add to Cart';
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                addToCart(index + 1);
+            };
+        });
+    });
+</script>
+<script>
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+
+// LOGO
+document.querySelector(".logo").onclick = () => scrollToSection("home");
+
+// HERO BUTTONS
+document.querySelector(".btn-secondary").onclick = () => scrollToSection("deals");
+
+// CTA BUTTON
+document.querySelector(".cta-section .btn-primary").onclick = () => {
+    window.location.href = "store.html";
+};
+
+
+
+// SIGN IN
+document.querySelector(".signin-btn").onclick = () => {
+    window.location.href = "login.html";
+};
+</script>script src="search-data.js"></script>
+</script>
+<!-- 🔍 SLIM SEARCH BAR -->
+<div id="searchBox" style="
+display:none;
+position:fixed;
+top:16px;
+left:50%;
+transform:translateX(-50%);
+width:90%;
+max-width:420px;
+background:#0a0a0e;
+border:1px solid rgba(0,255,133,0.4);
+border-radius:10px;
+padding:0.6rem 0.8rem;
+z-index:3000;
+">
+  <input
+    id="searchInput"
+    placeholder="Search games or pages…"
+    style="
+      width:100%;
+      background:transparent;
+      border:none;
+      outline:none;
+      color:white;
+      font-size:1rem;
+    "
+  />
+  <div id="searchResults" style="margin-top:6px;"></div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  console.log("✅ Search script loaded");
+
+  // 🔑 HARD-CODED SEARCH DATA (TEST)
+  const SEARCH_INDEX = window.SEARCH_INDEX || [
+    { title: "GTA V Premium Edition", page: "store.html" },
+    { title: "Red Dead Redemption 2", page: "store.html" },
+    { title: "Cyberpunk 2077", page: "store.html" },
+    { title: "FAQ", page: "faq.html" },
+    { title: "Contact Us", page: "contactus.html" }
+  ];
+
+  const searchIcon   = document.querySelector(".search-icon");
+  const searchBox    = document.getElementById("searchBox");
+  const searchInput  = document.getElementById("searchInput");
+  const searchResults= document.getElementById("searchResults");
+
+  if (!searchIcon || !searchBox || !searchInput || !searchResults) {
+    console.error("❌ Search DOM elements missing");
+    return;
+  }
+
+  // Open search
+  searchIcon.addEventListener("click", (e) => {
+  e.stopPropagation();
+  searchBox.style.display = "block";
+  searchInput.focus();
+});
+
+
+  // Close with ESC
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      searchBox.style.display = "none";
+      searchInput.value = "";
+      searchResults.innerHTML = "";
+    }
+  });
+  document.addEventListener("click", (e) => {
+  if (!searchBox.contains(e.target) && !searchIcon.contains(e.target)) {
+    searchBox.style.display = "none";
+    searchInput.value = "";
+    searchResults.innerHTML = "";
+  }
+});
+
+
+  // Live search
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+    searchResults.innerHTML = "";
+
+    if (!q) return;
+
+    const matches = SEARCH_INDEX.filter(item =>
+      item.title.toLowerCase().includes(q)
+    );
+
+    if (!matches.length) {
+      searchResults.innerHTML =
+        `<div style="color:#777;padding:6px;">No results</div>`;
+      return;
+    }
+
+    matches.forEach(item => {
+      const row = document.createElement("div");
+      row.textContent = item.title;
+      row.style.cssText = `
+        padding:6px;
+        cursor:pointer;
+        border-radius:6px;
+      `;
+      row.onmouseenter = () => row.style.background = "rgba(0,255,133,0.15)";
+      row.onmouseleave = () => row.style.background = "transparent";
+      row.onclick = () => window.location.href = item.page;
+      searchResults.appendChild(row);
+    });
+  });
+
+});
+</script>
+
 </body>
 </html>

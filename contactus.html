@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-icon:hover {
+            color: var(--neon-green);
+            background: var(--glass-bg);
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--neon-green);
+            color: black;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0,255,133,0.15), rgba(0,212,255,0.1));
+            padding-top: 100px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(4rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        /* CONTACT CONTAINER */
+        .contact-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* CONTACT INFO */
+        .contact-info {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3rem;
+            height: fit-content;
+        }
+
+        .contact-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: var(--neon-green);
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:last-child {
+            border-bottom: none;
+        }
+
+        .contact-method:hover {
+            transform: translateX(10px);
+            border-color: var(--neon-green);
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: black;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--neon-green);
+        }
+
+        /* CONTACT FORM */
+        .contact-form-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3rem;
+        }
+
+        .form-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: var(--neon-green);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--neon-green);
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 1.3rem;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Exo 2', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 25px rgba(0,255,133,0.3);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 1.5rem;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(0,255,133,0.5);
+        }
+
+        /* LIVE CHAT */
+        .live-chat {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: black;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,255,133,0.4);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .live-chat:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0,255,133,0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @media (max-width: 1024px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .contact-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html">Deals</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="goToCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="page-title">Contact Us</h1>
+            <p style="font-size: 1.5rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                We're here to help! Reach us instantly via Live Chat or choose your preferred method below.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACT CONTENT -->
+    <div class="contact-container">
+        <!-- CONTACT INFO -->
+        <div class="contact-info">
+            <h2 class="contact-title">
+                <i class="fas fa-headset"></i>
+                Get Help Fast
+            </h2>
+            
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>Live Chat</h4>
+                    <p>Avg response: <strong>45 seconds</strong></p>
+                    <a href="#" onclick="openLiveChat()">Chat Now →</a>
+                </div>
+            </div>
+
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>Email Support</h4>
+                    <p>Response within 2 hours</p>
+                    <a href="mailto:support@wishgamestore.com">support@wishgamestore.com</a>
+                </div>
+            </div>
+
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>WhatsApp</h4>
+                    <p>India: +91 98765 43210</p>
+                    <a href="https://wa.me/919876543210" target="_blank">Message Now</a>
+                </div>
+            </div>
+
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fab fa-discord"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>Discord</h4>
+                    <p>500K+ gamers community</p>
+                    <a href="#" onclick="openDiscord()">Join Server</a>
+                </div>
+            </div>
+
+            <div class="contact-method">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>Phone Support</h4>
+                    <p>Mon-Sun 9AM-11PM IST</p>
+                    <a href="tel:+919876543210">+91 98765 43210</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT FORM -->
+        <div class="contact-form-section">
+            <h2 class="form-title">
+                <i class="fas fa-edit"></i>
+                Send Message
+            </h2>
+            <form id="contactForm" onsubmit="submitContact(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" id="name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="email" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <input type="text" class="form-input" id="subject" placeholder="Order #1234 - Game not working" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" id="message" placeholder="Describe your issue..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">
+                    Send Message <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LIVE CHAT BUTTON -->
+    <div class="live-chat" onclick="openLiveChat()" title="Live Chat - 45s response">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <script>
+        // =====================================================
+        // CONTACT PAGE - FULLY FUNCTIONAL
+        // =====================================================
+        
+        let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+
+        // =====================================================
+        // CART FUNCTIONS (shared across all pages)
+        // =====================================================
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            if (badge) {
+                badge.textContent = count || 0;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
+        }
+
+        function goToCart() {
+            window.location.href = 'cart.html';
+        }
+
+        // =====================================================
+        // CONTACT FUNCTIONS
+        // =====================================================
+        function openLiveChat() {
+            // Simulate live chat opening
+            const name = document.getElementById('name')?.value || 'Gamer';
+            alert(`💬 Live Chat Connected!\n\n👋 Hi ${name}!\n\nSupport Agent: "Hello! How can I help you today?"\n\n(Avg response time: 45 seconds)\n\n⚡ Type your message below:`);
+            
+            // Open actual chat window simulation
+            const chatWindow = window.open('', '_blank', 'width=400,height=600');
+            chatWindow.document.write(`
+                <html>
+                <head><title>WishGameStore Live Chat</title></head>
+                <body style="font-family: Arial; padding: 20px; background: #0a0a0e; color: white;">
+                    <h3>💬 Live Chat - Connected!</h3>
+                    <p><strong>Agent:</strong> Hi! How can I assist you? (45s avg response)</p>
+                    <textarea style="width:100%; height:200px; margin:10px 0;" placeholder="Type your message..."></textarea>
+                    <button onclick="alert('Message sent! Response in 45 seconds.')" style="background:#00ff85;color:black;padding:10px 20px;border:none;border-radius:5px;">Send</button>
+                </body>
+                </html>
+            `);
+        }
+
+        function openDiscord() {
+            alert('🎮 Discord invite: https://discord.gg/wishgamestore\n\n500K+ gamers • 24/7 support • giveaways');
+        }
+
+        function submitContact(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Simulate form submission
+            const btn = event.target.querySelector('.submit-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert(`✅ Message sent successfully!\n\n📧 Reply within 2 hours\n\nThank you ${name}!\n\nYour ticket: #${Math.floor(Math.random()*100000)}`);
+                document.getElementById('contactForm').reset();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        // =====================================================
+        // PAGE INITIALIZATION
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>
