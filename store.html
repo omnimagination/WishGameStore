@@ -69,6 +69,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-decoration: none;
         }
 
         .nav-links {
@@ -166,7 +167,7 @@
 
         /* HERO */
         .hero {
-            height: 60vh;
+            height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -216,6 +217,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 15px;
             padding: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .filter-tab {
@@ -276,11 +278,31 @@
         .game-image {
             height: 220px;
             background: linear-gradient(45deg, #1a1a2e, #16213e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4.5rem;
+            background-size: cover;
+            background-position: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .game-image.loading {
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .game-image.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
         }
 
         .discount-badge {
@@ -337,24 +359,40 @@
             color: var(--text-secondary);
         }
 
-        .buy-btn {
-            width: 100%;
+        .card-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .buy-btn, .view-btn {
+            flex: 1;
             background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
             color: black;
             border: none;
             padding: 1rem;
             border-radius: 12px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
+        .view-btn {
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+
         .buy-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(0,255,133,0.5);
+        }
+
+        .view-btn:hover {
+            background: var(--neon-green);
+            color: black;
         }
 
         .buy-btn.success {
@@ -391,7 +429,26 @@
             border-color: var(--neon-green);
         }
 
+        /* FOOTER */
+        .footer {
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
             .store-controls {
                 flex-direction: column;
                 align-items: stretch;
@@ -403,6 +460,10 @@
             
             .sort-container {
                 justify-content: center;
+            }
+
+            .card-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -416,10 +477,11 @@
                 WishGameStore
             </a>
             <ul class="nav-links">
-                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="store.html" class="active">Store</a></li>
-                <li><a href="#gamepass">Game Pass</a></li>
-                <li><a href="#deals">Deals</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html">Deals</a></li>
+                <li><a href="faq.html">FAQ</a></li>
             </ul>
             <div class="nav-icons">
                 <div class="search-icon">
@@ -429,7 +491,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cartCount">0</span>
                 </div>
-                <button class="signin-btn">Sign In</button>
+                <button class="signin-btn" onclick="window.location.href='login.html'">Sign In</button>
             </div>
         </div>
     </nav>
@@ -466,43 +528,70 @@
 
         <!-- GAMES GRID -->
         <div class="games-grid" id="gamesGrid">
-            <!-- 16 DYNAMIC GAMES WILL LOAD HERE -->
+            <!-- GAMES WILL LOAD HERE -->
         </div>
 
         <!-- PAGINATION -->
-        <div class="pagination">
-            <button class="page-btn active" data-page="1">1</button>
-            <button class="page-btn" data-page="2">2</button>
-            <button class="page-btn" data-page="3">3</button>
-            <span style="color: var(--text-secondary);">...</span>
-            <button class="page-btn" data-page="10">10</button>
+        <div class="pagination" id="pagination">
         </div>
     </div>
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 WishGameStore. All rights reserved. | Premium Gaming Marketplace</p>
+        </div>
+    </footer>
+
     <script>
         // =====================================================
-        // COMPLETE STORE PAGE - FULLY FUNCTIONAL
+        // COMPLETE GAME DATABASE
         // =====================================================
+        // Game cover image URLs - Using smaller thumbnail versions for faster loading
+        const gameCovers = {
+            1: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/220px-Grand_Theft_Auto_V.png',
+            2: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/44/Red_Dead_Redemption_II.jpg/220px-Red_Dead_Redemption_II.jpg',
+            3: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Cyberpunk_2077_box_art.jpg/220px-Cyberpunk_2077_box_art.jpg',
+            4: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Elden_Ring_Box_art.jpg/220px-Elden_Ring_Box_art.jpg',
+            5: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Call_of_Duty_Modern_Warfare_III_Cover.jpg/220px-Call_of_Duty_Modern_Warfare_III_Cover.jpg',
+            6: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/ee/God_of_War_Ragnar%C3%B6k_cover.jpg/220px-God_of_War_Ragnar%C3%B6k_cover.jpg',
+            7: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/TLOU_P2_Box_Art_2.png/220px-TLOU_P2_Box_Art_2.png',
+            8: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6d/Starfield_cover.jpg/220px-Starfield_cover.jpg',
+            9: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Resident_Evil_4_remake_cover_art.jpg/220px-Resident_Evil_4_remake_cover_art.jpg',
+            10: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Hogwarts_Legacy_cover_art.png/220px-Hogwarts_Legacy_cover_art.png',
+            11: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9d/Cover_Art_of_Doom_Eternal.png/220px-Cover_Art_of_Doom_Eternal.png',
+            12: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Assassin%27s_Creed_Valhalla_cover.jpg/220px-Assassin%27s_Creed_Valhalla_cover.jpg',
+            13: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Spider-Man_Remastered_cover_art.png/220px-Spider-Man_Remastered_cover_art.png',
+            14: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Baldur%27s_Gate_3_cover_art.jpg/220px-Baldur%27s_Gate_3_cover_art.jpg',
+            15: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Battlefield_2042.jpg/220px-Battlefield_2042.jpg',
+            16: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg/220px-Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg'
+        };
         
-        // 16 Premium Games
+        // Image loading cache
+        const imageCache = new Map();
+
         const allGames = [
-            { id: 1, name: 'GTA V Premium Edition', price: 9.99, oldPrice: 59.99, discount: 83, image: '🚗', category: 'action', popularity: 1000 },
-            { id: 2, name: 'Red Dead Redemption 2', price: 14.99, oldPrice: 59.99, discount: 75, image: '🤠', category: 'action', popularity: 950 },
-            { id: 3, name: 'Cyberpunk 2077', price: 19.99, oldPrice: 59.99, discount: 67, image: '🌃', category: 'rpg', popularity: 900 },
-            { id: 4, name: 'Elden Ring', price: 23.99, oldPrice: 59.99, discount: 60, image: '⚔️', category: 'rpg', popularity: 850 },
-            { id: 5, name: 'Call of Duty: MW3', price: 29.99, oldPrice: 69.99, discount: 57, image: '🔫', category: 'shooter', popularity: 800 },
-            { id: 6, name: 'God of War Ragnarök', price: 34.99, oldPrice: 69.99, discount: 50, image: '🪓', category: 'action', popularity: 780 },
-            { id: 7, name: 'The Last of Us Part II', price: 27.99, oldPrice: 59.99, discount: 53, image: '🧟', category: 'adventure', popularity: 750 },
-            { id: 8, name: 'Starfield', price: 39.99, oldPrice: 69.99, discount: 43, image: '🚀', category: 'rpg', popularity: 720 },
-            { id: 9, name: 'Resident Evil 4 Remake', price: 24.99, oldPrice: 59.99, discount: 58, image: '🧟‍♂️', category: 'action', popularity: 700 },
-            { id: 10, name: 'Hogwarts Legacy', price: 31.99, oldPrice: 69.99, discount: 54, image: '🪄', category: 'rpg', popularity: 680 },
-            { id: 11, name: 'DOOM Eternal', price: 19.99, oldPrice: 39.99, discount: 50, image: '💀', category: 'shooter', popularity: 650 },
-            { id: 12, name: 'Assassin\'s Creed Valhalla', price: 22.99, oldPrice: 59.99, discount: 61, image: '🏹', category: 'action', popularity: 620 },
-            { id: 13, name: 'Spider-Man 2', price: 44.99, oldPrice: 69.99, discount: 36, image: '🕷️', category: 'action', popularity: 600 },
-            { id: 14, name: 'Baldur\'s Gate 3', price: 49.99, oldPrice: 59.99, discount: 17, image: '🗡️', category: 'rpg', popularity: 580 },
-            { id: 15, name: 'Battlefield 2042', price: 26.99, oldPrice: 59.99, discount: 54, image: '🎮', category: 'shooter', popularity: 550 },
-            { id: 16, name: 'Uncharted Legacy', price: 28.99, oldPrice: 49.99, discount: 42, image: '🗺️', category: 'adventure', popularity: 520 }
+            { id: 1, name: 'GTA V Premium Edition', price: 9.99, oldPrice: 59.99, discount: 83, image: gameCovers[1], category: 'action', popularity: 1000, edition: 'Premium Edition', platform: 'PC', publisher: 'Rockstar Games', releaseDate: '2013-09-17', description: 'Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.', features: ['4K Resolution Support', 'First Person Mode', 'Online Multiplayer', 'Open World', 'Story Mode'] },
+            { id: 2, name: 'Red Dead Redemption 2', price: 14.99, oldPrice: 59.99, discount: 75, image: gameCovers[2], category: 'action', popularity: 950, edition: 'Ultimate Edition', platform: 'PC', publisher: 'Rockstar Games', releaseDate: '2019-11-05', description: 'Winner of over 175 Game of the Year Awards and recipient of over 250 perfect scores, Red Dead Redemption 2 is an epic tale of honor and loyalty at the dawn of the modern age.', features: ['Open World', '4K Support', 'HDR', 'Online Mode', 'Story Campaign'] },
+            { id: 3, name: 'Cyberpunk 2077', price: 19.99, oldPrice: 59.99, discount: 67, image: gameCovers[3], category: 'rpg', popularity: 900, edition: 'Ultimate Edition', platform: 'PC', publisher: 'CD Projekt Red', releaseDate: '2020-12-10', description: 'Cyberpunk 2077 is an open-world, action-adventure RPG set in the megalopolis of Night City, where you play as a cyberpunk mercenary wrapped up in a do-or-die fight for survival.', features: ['Ray Tracing', 'Open World', 'Character Customization', 'Multiple Endings', 'Phantom Liberty DLC'] },
+            { id: 4, name: 'Elden Ring', price: 23.99, oldPrice: 59.99, discount: 60, image: gameCovers[4], category: 'rpg', popularity: 850, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Bandai Namco', releaseDate: '2022-02-25', description: 'THE NEW FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.', features: ['Open World', 'Co-op Multiplayer', 'PvP', 'Character Classes', 'Boss Battles'] },
+            { id: 5, name: 'Call of Duty: MW3', price: 29.99, oldPrice: 69.99, discount: 57, image: gameCovers[5], category: 'shooter', popularity: 800, edition: 'Vault Edition', platform: 'PC', publisher: 'Activision', releaseDate: '2023-11-10', description: 'Call of Duty: Modern Warfare III is the direct sequel to the record-breaking Call of Duty: Modern Warfare II. Captain Price and Task Force 141 face off against the ultimate threat.', features: ['Campaign', 'Multiplayer', 'Zombies', 'Warzone Integration', 'Cross-Platform'] },
+            { id: 6, name: 'God of War Ragnarök', price: 34.99, oldPrice: 69.99, discount: 50, image: gameCovers[6], category: 'action', popularity: 780, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2024-09-19', description: 'Embark on an epic and heartfelt journey as Kratos and Atreus struggle with holding on and letting go. Witness the changing dynamic of their relationship.', features: ['Story Mode', 'Combat System', 'Norse Mythology', 'Boss Battles', 'Exploration'] },
+            { id: 7, name: 'The Last of Us Part II', price: 27.99, oldPrice: 59.99, discount: 53, image: gameCovers[7], category: 'adventure', popularity: 750, edition: 'Remastered', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2024-04-02', description: 'Experience the devastating physical and emotional journey of Ellie as she pursues vengeance against those who have wronged her.', features: ['Story Driven', 'Stealth Gameplay', 'Crafting System', 'Accessibility Options', 'Photo Mode'] },
+            { id: 8, name: 'Starfield', price: 39.99, oldPrice: 69.99, discount: 43, image: gameCovers[8], category: 'rpg', popularity: 720, edition: 'Premium Edition', platform: 'PC', publisher: 'Bethesda', releaseDate: '2023-09-06', description: 'Starfield is the first new universe in 25 years from Bethesda Game Studios. In this next generation role-playing game set amongst the stars, create any character you want and explore with unparalleled freedom.', features: ['Open World', 'Space Exploration', 'Ship Building', 'Base Building', 'Modding Support'] },
+            { id: 9, name: 'Resident Evil 4 Remake', price: 24.99, oldPrice: 59.99, discount: 58, image: gameCovers[9], category: 'action', popularity: 700, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Capcom', releaseDate: '2023-03-24', description: 'Survival is just the beginning. Six years have passed since the biological disaster in Raccoon City. Leon S. Kennedy, one of the survivors, tracks the presidents kidnapped daughter to a secluded European village.', features: ['Ray Tracing', 'Reimagined Story', 'Modern Controls', 'VR Support', 'New Game Plus'] },
+            { id: 10, name: 'Hogwarts Legacy', price: 31.99, oldPrice: 69.99, discount: 54, image: gameCovers[10], category: 'rpg', popularity: 680, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Warner Bros', releaseDate: '2023-02-10', description: 'Hogwarts Legacy is an immersive, open-world action RPG. Your legacy is what you make of it. Live the unwritten.', features: ['Open World', 'Spell Casting', 'Character Creator', 'House Selection', 'Magical Beasts'] },
+            { id: 11, name: 'DOOM Eternal', price: 19.99, oldPrice: 39.99, discount: 50, image: gameCovers[11], category: 'shooter', popularity: 650, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Bethesda', releaseDate: '2020-03-20', description: 'Hells armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity.', features: ['Fast Combat', 'Glory Kills', 'Multiplayer', 'DLC Campaigns', 'Master Levels'] },
+            { id: 12, name: 'Assassins Creed Valhalla', price: 22.99, oldPrice: 59.99, discount: 61, image: gameCovers[12], category: 'action', popularity: 620, edition: 'Complete Edition', platform: 'PC', publisher: 'Ubisoft', releaseDate: '2020-11-10', description: 'Become Eivor, a legendary Viking raider on a quest for glory. Explore Englands Dark Ages as you raid your enemies, grow your settlement, and build your political power.', features: ['Open World', 'Viking Combat', 'Settlement Building', 'Raids', 'Multiple DLCs'] },
+            { id: 13, name: 'Spider-Man Remastered', price: 44.99, oldPrice: 69.99, discount: 36, image: gameCovers[13], category: 'action', popularity: 600, edition: 'Remastered', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2022-08-12', description: 'In Marvels Spider-Man Remastered, the worlds of Peter Parker and Spider-Man collide in an original, action-packed story. Play as an experienced Peter Parker, fighting big crime and iconic villains in Marvels New York.', features: ['Open World NYC', 'Web Swinging', 'Suit Collection', 'Ray Tracing', 'Photo Mode'] },
+            { id: 14, name: 'Baldurs Gate 3', price: 49.99, oldPrice: 59.99, discount: 17, image: gameCovers[14], category: 'rpg', popularity: 580, edition: 'Digital Deluxe', platform: 'PC', publisher: 'Larian Studios', releaseDate: '2023-08-03', description: 'Gather your party and return to the Forgotten Realms in a tale of fellowship and betrayal, sacrifice and survival, and the lure of absolute power.', features: ['Turn-Based Combat', 'Co-op Multiplayer', 'Character Creation', 'Multiple Endings', 'Romance Options'] },
+            { id: 15, name: 'Battlefield 2042', price: 26.99, oldPrice: 59.99, discount: 54, image: gameCovers[15], category: 'shooter', popularity: 550, edition: 'Gold Edition', platform: 'PC', publisher: 'EA', releaseDate: '2021-11-19', description: 'Battlefield 2042 is a first-person shooter that marks the return to the iconic all-out warfare of the franchise. Adapt and overcome in a near-future world transformed by disorder.', features: ['128 Players', 'All-Out Warfare', 'Portal Mode', 'Hazard Zone', 'Specialists'] },
+            { id: 16, name: 'Uncharted Legacy of Thieves', price: 28.99, oldPrice: 49.99, discount: 42, image: gameCovers[16], category: 'adventure', popularity: 520, edition: 'Collection', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2022-10-19', description: 'Seek your legacy and leave your mark on the map in UNCHARTED: Legacy of Thieves Collection. Includes UNCHARTED 4: A Thiefs End and UNCHARTED: The Lost Legacy.', features: ['Two Games', 'Remastered Graphics', 'Photo Mode', 'Accessibility', 'PC Optimized'] }
         ];
+
+        // Store games in window for product page access
+        window.ALL_GAMES = allGames;
+        localStorage.setItem('wishgamestore_products', JSON.stringify(allGames));
 
         let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
         let filteredGames = [...allGames];
@@ -512,7 +601,7 @@
         const gamesPerPage = 12;
 
         // =====================================================
-        // CART FUNCTIONS (same as other pages)
+        // CART FUNCTIONS
         // =====================================================
         function updateCartCount() {
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -523,8 +612,9 @@
             }
         }
 
-        function addToCart(productId) {
-            const product = filteredGames.find(game => game.id === productId);
+        function addToCart(productId, event) {
+            if (event) event.stopPropagation();
+            const product = allGames.find(game => game.id === productId);
             const existingItem = cart.find(item => item.id === productId);
             
             if (existingItem) {
@@ -543,14 +633,16 @@
             updateCartCount();
             
             // Visual feedback
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = 'Added! ✅';
-            btn.classList.add('success');
-            setTimeout(() => {
-                btn.textContent = 'Add to Cart';
-                btn.classList.remove('success');
-            }, 1500);
+            const btn = event ? event.target : null;
+            if (btn) {
+                const originalText = btn.textContent;
+                btn.textContent = 'Added! ✅';
+                btn.classList.add('success');
+                setTimeout(() => {
+                    btn.textContent = 'Add to Cart';
+                    btn.classList.remove('success');
+                }, 1500);
+            }
         }
 
         function saveCart() {
@@ -561,11 +653,16 @@
             window.location.href = 'cart.html';
         }
 
+        function viewProduct(productId) {
+            window.location.href = `product.html?id=${productId}`;
+        }
+
         // =====================================================
         // FILTER & SORT FUNCTIONS
         // =====================================================
         function filterGames(filter) {
             currentFilter = filter;
+            currentPage = 1;
             if (filter === 'all') {
                 filteredGames = [...allGames];
             } else {
@@ -593,11 +690,10 @@
             
             const gamesGrid = document.getElementById('gamesGrid');
             gamesGrid.innerHTML = pageGames.map(game => `
-                <div class="game-card">
-                    <div class="game-image">
-                        <span>${game.image}</span>
+                <div class="game-card" onclick="viewProduct(${game.id})">
+                    <div class="game-image loading" data-src="${game.image}" id="img-${game.id}">
                         <div class="discount-badge">-${game.discount}%</div>
-                        <div class="edition-tag">Premium</div>
+                        <div class="edition-tag">${game.edition}</div>
                     </div>
                     <div class="game-info">
                         <div class="game-name">${game.name}</div>
@@ -605,26 +701,92 @@
                             <span class="new-price">$${game.price.toFixed(2)}</span>
                             <span class="old-price">$${game.oldPrice.toFixed(2)}</span>
                         </div>
-                        <button class="buy-btn" onclick="addToCart(${game.id})">Add to Cart</button>
+                        <div class="card-buttons">
+                            <button class="buy-btn" onclick="addToCart(${game.id}, event)">Add to Cart</button>
+                            <button class="view-btn" onclick="viewProduct(${game.id}); event.stopPropagation();">View</button>
+                        </div>
                     </div>
                 </div>
             `).join('');
 
-            updatePagination();
+            // Lazy load images
+            lazyLoadImages();
+            renderPagination();
+        }
+        
+        // Lazy load images with Intersection Observer
+        function lazyLoadImages() {
+            const imageElements = document.querySelectorAll('.game-image[data-src]');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const element = entry.target;
+                            const src = element.dataset.src;
+                            
+                            // Load image
+                            loadImage(src).then(() => {
+                                element.style.backgroundImage = `url('${src}')`;
+                                element.classList.remove('loading');
+                            }).catch(() => {
+                                // Fallback gradient if image fails
+                                element.classList.remove('loading');
+                            });
+                            
+                            observer.unobserve(element);
+                        }
+                    });
+                }, { rootMargin: '50px' });
+                
+                imageElements.forEach(el => observer.observe(el));
+            } else {
+                // Fallback for older browsers
+                imageElements.forEach(element => {
+                    const src = element.dataset.src;
+                    element.style.backgroundImage = `url('${src}')`;
+                    element.classList.remove('loading');
+                });
+            }
+        }
+        
+        // Preload image and cache
+        function loadImage(src) {
+            if (imageCache.has(src)) {
+                return Promise.resolve(imageCache.get(src));
+            }
+            
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => {
+                    imageCache.set(src, src);
+                    resolve(src);
+                };
+                img.onerror = reject;
+                img.src = src;
+            });
         }
 
-        function updatePagination() {
+        function renderPagination() {
             const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
-            const pagination = document.querySelector('.pagination');
-            pagination.innerHTML = `
-                <button class="page-btn ${currentPage === 1 ? 'active' : ''}" data-page="1">1</button>
-                ${currentPage > 2 ? `<span>...</span>` : ''}
-                <button class="page-btn ${currentPage === 2 ? 'active' : ''}" data-page="${Math.max(2, currentPage - 1)}">${Math.max(2, currentPage - 1)}</button>
-                <button class="page-btn active" data-page="${currentPage}">${currentPage}</button>
-                <button class="page-btn ${currentPage === totalPages ? 'active' : ''}" data-page="${Math.min(totalPages, currentPage + 1)}">${Math.min(totalPages, currentPage + 1)}</button>
-                ${currentPage < totalPages - 1 ? `<span>...</span>` : ''}
-                <button class="page-btn ${currentPage === totalPages ? 'active' : ''}" data-page="${totalPages}">${totalPages}</button>
-            `;
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderGames();
+            window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
         // =====================================================
@@ -649,17 +811,6 @@
                 sortGames();
                 renderGames();
             };
-
-            // Pagination
-            document.addEventListener('click', (e) => {
-                if (e.target.classList.contains('page-btn')) {
-                    currentPage = parseInt(e.target.dataset.page);
-                    renderGames();
-                }
-            });
-
-            // Navbar active link
-            document.querySelector('.nav-links a[href="store.html"]').classList.add('active');
         });
     </script>
 </body>

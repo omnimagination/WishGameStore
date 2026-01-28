@@ -69,6 +69,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            cursor: pointer;
         }
 
         .nav-links {
@@ -173,6 +174,7 @@
             text-align: center;
             position: relative;
             background: radial-gradient(ellipse at center, rgba(0,255,133,0.1) 0%, transparent 70%);
+            overflow: hidden;
         }
 
         .hero::before {
@@ -190,6 +192,139 @@
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             33% { transform: translateY(-20px) rotate(120deg); }
             66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        /* PREMIUM KEYBOARD WAVE ANIMATION */
+        .rgb-keyboard {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: center;
+            opacity: 0.6;
+            z-index: 1;
+            padding: 0 2rem;
+        }
+
+        .keyboard-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .keyboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .key {
+            width: 65px;
+            height: 50px;
+            background: linear-gradient(145deg, #4a4a52, #2d2d32);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+            animation: premiumWave 4s ease-in-out infinite;
+            box-shadow: 
+                0 4px 12px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .key::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            background: linear-gradient(145deg, #3a3a40, #28282d);
+            border-radius: 5px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .key.wide { width: 90px; }
+        .key.wider { width: 110px; }
+        .key.space { width: 320px; }
+
+        @keyframes premiumWave {
+            0%, 100% {
+                box-shadow: 
+                    0 4px 12px rgba(0,0,0,0.4),
+                    0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 1px 0 rgba(255,255,255,0.1);
+                border-color: rgba(255, 255, 255, 0.15);
+            }
+            25% {
+                box-shadow: 
+                    0 4px 15px rgba(0,0,0,0.4),
+                    0 0 30px rgba(255, 255, 255, 0.3),
+                    0 0 60px rgba(200, 220, 255, 0.2),
+                    inset 0 1px 0 rgba(255,255,255,0.2);
+                border-color: rgba(255, 255, 255, 0.4);
+            }
+            50% {
+                box-shadow: 
+                    0 4px 15px rgba(0,0,0,0.4),
+                    0 0 35px rgba(0, 212, 255, 0.4),
+                    0 0 70px rgba(0, 212, 255, 0.2),
+                    inset 0 1px 0 rgba(0, 212, 255, 0.3);
+                border-color: rgba(0, 212, 255, 0.5);
+            }
+            75% {
+                box-shadow: 
+                    0 4px 15px rgba(0,0,0,0.4),
+                    0 0 30px rgba(200, 220, 255, 0.3),
+                    0 0 60px rgba(255, 255, 255, 0.15),
+                    inset 0 1px 0 rgba(255,255,255,0.2);
+                border-color: rgba(200, 220, 255, 0.4);
+            }
+        }
+
+        /* Staggered animation delays for wave effect */
+        .key:nth-child(1) { animation-delay: 0s; }
+        .key:nth-child(2) { animation-delay: 0.1s; }
+        .key:nth-child(3) { animation-delay: 0.2s; }
+        .key:nth-child(4) { animation-delay: 0.3s; }
+        .key:nth-child(5) { animation-delay: 0.4s; }
+        .key:nth-child(6) { animation-delay: 0.5s; }
+        .key:nth-child(7) { animation-delay: 0.6s; }
+        .key:nth-child(8) { animation-delay: 0.7s; }
+        .key:nth-child(9) { animation-delay: 0.8s; }
+        .key:nth-child(10) { animation-delay: 0.9s; }
+        .key:nth-child(11) { animation-delay: 1.0s; }
+        .key:nth-child(12) { animation-delay: 1.1s; }
+        .key:nth-child(13) { animation-delay: 1.2s; }
+        .key:nth-child(14) { animation-delay: 1.3s; }
+        .key:nth-child(15) { animation-delay: 1.4s; }
+        .key:nth-child(16) { animation-delay: 1.5s; }
+
+        .keyboard-row:nth-child(1) .key { animation-delay: calc(var(--i, 0) * 0.1s); }
+        .keyboard-row:nth-child(2) .key { animation-delay: calc(var(--i, 0) * 0.1s + 0.2s); }
+        .keyboard-row:nth-child(3) .key { animation-delay: calc(var(--i, 0) * 0.1s + 0.4s); }
+        .keyboard-row:nth-child(4) .key { animation-delay: calc(var(--i, 0) * 0.1s + 0.6s); }
+        .keyboard-row:nth-child(5) .key { animation-delay: calc(var(--i, 0) * 0.1s + 0.8s); }
+
+        @media (max-width: 1200px) {
+            .key { width: 50px; height: 40px; }
+            .key.wide { width: 70px; }
+            .key.wider { width: 85px; }
+            .key.space { width: 240px; }
+        }
+
+        @media (max-width: 768px) {
+            .key { width: 30px; height: 28px; }
+            .key.wide { width: 45px; }
+            .key.wider { width: 55px; }
+            .key.space { width: 140px; }
+            .keyboard-row { gap: 3px; }
+            .keyboard-container { gap: 3px; }
         }
 
         .hero-content {
@@ -454,11 +589,26 @@
         .game-image {
             height: 200px;
             background: linear-gradient(45deg, #1a1a2e, #16213e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
+            background-size: cover;
+            background-position: center;
             position: relative;
+        }
+
+        .game-image.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .discount-badge {
@@ -631,6 +781,7 @@
             font-size: 1.5rem;
             color: var(--text-secondary);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .social-icons i:hover {
@@ -692,9 +843,9 @@
                     <i class="fas fa-search"></i>
                 </div>
                 <div class="cart-icon" onclick="window.location.href='cart.html'">
-    <i class="fas fa-shopping-cart"></i>
-    <span class="cart-badge" id="cartCount">0</span>
-</div>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
                 <button class="signin-btn">Sign In</button>
             </div>
         </div>
@@ -702,6 +853,90 @@
 
     <!-- HERO -->
     <section id="home" class="hero">
+        <!-- PREMIUM KEYBOARD BACKGROUND -->
+        <div class="rgb-keyboard">
+            <div class="keyboard-container">
+                <!-- Row 1 - Function/Number row -->
+                <div class="keyboard-row">
+                    <div class="key" style="--i:0"></div>
+                    <div class="key" style="--i:1"></div>
+                    <div class="key" style="--i:2"></div>
+                    <div class="key" style="--i:3"></div>
+                    <div class="key" style="--i:4"></div>
+                    <div class="key" style="--i:5"></div>
+                    <div class="key" style="--i:6"></div>
+                    <div class="key" style="--i:7"></div>
+                    <div class="key" style="--i:8"></div>
+                    <div class="key" style="--i:9"></div>
+                    <div class="key" style="--i:10"></div>
+                    <div class="key" style="--i:11"></div>
+                    <div class="key" style="--i:12"></div>
+                    <div class="key" style="--i:13"></div>
+                    <div class="key wider" style="--i:14"></div>
+                </div>
+                <!-- Row 2 - QWERTY row -->
+                <div class="keyboard-row">
+                    <div class="key wide" style="--i:0"></div>
+                    <div class="key" style="--i:1"></div>
+                    <div class="key" style="--i:2"></div>
+                    <div class="key" style="--i:3"></div>
+                    <div class="key" style="--i:4"></div>
+                    <div class="key" style="--i:5"></div>
+                    <div class="key" style="--i:6"></div>
+                    <div class="key" style="--i:7"></div>
+                    <div class="key" style="--i:8"></div>
+                    <div class="key" style="--i:9"></div>
+                    <div class="key" style="--i:10"></div>
+                    <div class="key" style="--i:11"></div>
+                    <div class="key" style="--i:12"></div>
+                    <div class="key wide" style="--i:13"></div>
+                </div>
+                <!-- Row 3 - ASDF row -->
+                <div class="keyboard-row">
+                    <div class="key wider" style="--i:0"></div>
+                    <div class="key" style="--i:1"></div>
+                    <div class="key" style="--i:2"></div>
+                    <div class="key" style="--i:3"></div>
+                    <div class="key" style="--i:4"></div>
+                    <div class="key" style="--i:5"></div>
+                    <div class="key" style="--i:6"></div>
+                    <div class="key" style="--i:7"></div>
+                    <div class="key" style="--i:8"></div>
+                    <div class="key" style="--i:9"></div>
+                    <div class="key" style="--i:10"></div>
+                    <div class="key" style="--i:11"></div>
+                    <div class="key wider" style="--i:12"></div>
+                </div>
+                <!-- Row 4 - ZXCV row -->
+                <div class="keyboard-row">
+                    <div class="key wider" style="--i:0"></div>
+                    <div class="key" style="--i:1"></div>
+                    <div class="key" style="--i:2"></div>
+                    <div class="key" style="--i:3"></div>
+                    <div class="key" style="--i:4"></div>
+                    <div class="key" style="--i:5"></div>
+                    <div class="key" style="--i:6"></div>
+                    <div class="key" style="--i:7"></div>
+                    <div class="key" style="--i:8"></div>
+                    <div class="key" style="--i:9"></div>
+                    <div class="key" style="--i:10"></div>
+                    <div class="key wider" style="--i:11"></div>
+                </div>
+                <!-- Row 5 - Space bar row -->
+                <div class="keyboard-row">
+                    <div class="key wide" style="--i:0"></div>
+                    <div class="key wide" style="--i:1"></div>
+                    <div class="key wide" style="--i:2"></div>
+                    <div class="key space" style="--i:3"></div>
+                    <div class="key wide" style="--i:4"></div>
+                    <div class="key wide" style="--i:5"></div>
+                    <div class="key" style="--i:6"></div>
+                    <div class="key" style="--i:7"></div>
+                    <div class="key" style="--i:8"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="hero-content">
             <div class="badge">Trusted by 10,000+ Gamers</div>
             <h1 class="hero-title">
@@ -793,9 +1028,8 @@
             </div>
             <div class="games-container">
                 <div class="games-grid">
-                    <div class="game-card">
-                        <div class="game-image">
-                            <div>🚗</div>
+                    <div class="game-card" onclick="window.location.href='product.html?id=1'">
+                        <div class="game-image" data-src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/220px-Grand_Theft_Auto_V.png">
                             <div class="discount-badge">-83%</div>
                             <div class="edition-tag">Premium Edition</div>
                         </div>
@@ -808,9 +1042,8 @@
                             <button class="buy-btn">Buy Now</button>
                         </div>
                     </div>
-                    <div class="game-card">
-                        <div class="game-image">
-                            <div>🤠</div>
+                    <div class="game-card" onclick="window.location.href='product.html?id=2'">
+                        <div class="game-image" data-src="https://upload.wikimedia.org/wikipedia/en/thumb/4/44/Red_Dead_Redemption_II.jpg/220px-Red_Dead_Redemption_II.jpg">
                             <div class="discount-badge">-75%</div>
                             <div class="edition-tag">Ultimate</div>
                         </div>
@@ -823,9 +1056,8 @@
                             <button class="buy-btn">Buy Now</button>
                         </div>
                     </div>
-                    <div class="game-card">
-                        <div class="game-image">
-                            <div>🌃</div>
+                    <div class="game-card" onclick="window.location.href='product.html?id=3'">
+                        <div class="game-image" data-src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Cyberpunk_2077_box_art.jpg/220px-Cyberpunk_2077_box_art.jpg">
                             <div class="discount-badge">-67%</div>
                             <div class="edition-tag">Deluxe</div>
                         </div>
@@ -838,9 +1070,8 @@
                             <button class="buy-btn">Buy Now</button>
                         </div>
                     </div>
-                    <div class="game-card">
-                        <div class="game-image">
-                            <div>⚔️</div>
+                    <div class="game-card" onclick="window.location.href='product.html?id=4'">
+                        <div class="game-image" data-src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Elden_Ring_Box_art.jpg/220px-Elden_Ring_Box_art.jpg">
                             <div class="discount-badge">-60%</div>
                             <div class="edition-tag">Deluxe</div>
                         </div>
@@ -886,20 +1117,19 @@
                     </div>
                 </div>
                 <div class="footer-section">
-            <h3>Quick Links</h3>
-             <a href="store.html">Store</a>
-             <a href="gamepass.html">Game Pass</a>
-             <a href="deals.html">Deals</a>
-             <a href="howitworks.html">How It Works</a>
-            </div>
+                    <h3>Quick Links</h3>
+                    <a href="store.html">Store</a>
+                    <a href="gamepass.html">Game Pass</a>
+                    <a href="deals.html">Deals</a>
+                    <a href="howitworks.html">How It Works</a>
+                </div>
                 <div class="footer-section">
-            <h3>Support</h3>
-             <a href="faq.html">FAQ</a>
-             <a href="contactus.html">Contact Us</a>
-             <a href="about.html">About Us</a>
-             <a href="refund.html">Refund Policy</a>
-            </div>
-
+                    <h3>Support</h3>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contactus.html">Contact Us</a>
+                    <a href="about.html">About Us</a>
+                    <a href="refund.html">Refund Policy</a>
+                </div>
                 <div class="footer-section">
                     <h3>Contact Info</h3>
                     <p><a href="mailto:support@wishgamestore.com">support@wishgamestore.com</a></p>
@@ -911,8 +1141,103 @@
             </div>
         </div>
     </footer>
-<script>
-    // Shopping Cart System - DYNAMIC BADGE COUNTER
+
+    <!-- 🔍 SEARCH OVERLAY -->
+    <div id="searchBox" style="
+        display:none;
+        position:fixed;
+        top:16px;
+        left:50%;
+        transform:translateX(-50%);
+        width:90%;
+        max-width:500px;
+        background:#0a0a0e;
+        border:1px solid rgba(0,255,133,0.4);
+        border-radius:12px;
+        padding:0.8rem 1rem;
+        z-index:3000;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    ">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <i class="fas fa-search" style="color:#00ff85;"></i>
+            <input
+                id="searchInput"
+                placeholder="Search games, passes, pages..."
+                style="
+                    flex:1;
+                    background:transparent;
+                    border:none;
+                    outline:none;
+                    color:white;
+                    font-size:1rem;
+                "
+            />
+            <span id="closeSearch" style="color:#777;cursor:pointer;font-size:0.8rem;">ESC</span>
+        </div>
+        <div id="searchResults" style="margin-top:10px;max-height:350px;overflow-y:auto;"></div>
+    </div>
+
+    <script>
+    // RGB KEYBOARD WAVE ANIMATION - Dynamic delay assignment
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('.keyboard-row');
+        rows.forEach((row, rowIndex) => {
+            const keys = row.querySelectorAll('.key');
+            keys.forEach((key, keyIndex) => {
+                // Create wave effect: delay based on both row and column
+                const delay = (keyIndex * 0.06) + (rowIndex * 0.12);
+                key.style.animationDelay = `${delay}s`;
+            });
+        });
+        
+        // Lazy load game images
+        lazyLoadGameImages();
+    });
+    
+    // Lazy load images with Intersection Observer
+    function lazyLoadGameImages() {
+        const imageElements = document.querySelectorAll('.game-image[data-src]');
+        
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const src = element.dataset.src;
+                        
+                        // Create image to preload
+                        const img = new Image();
+                        img.onload = () => {
+                            element.style.backgroundImage = `url('${src}')`;
+                            element.classList.remove('loading');
+                        };
+                        img.onerror = () => {
+                            element.classList.remove('loading');
+                        };
+                        img.src = src;
+                        element.classList.add('loading');
+                        
+                        observer.unobserve(element);
+                    }
+                });
+            }, { rootMargin: '100px' });
+            
+            imageElements.forEach(el => {
+                el.classList.add('loading');
+                observer.observe(el);
+            });
+        } else {
+            // Fallback for older browsers
+            imageElements.forEach(element => {
+                const src = element.dataset.src;
+                element.style.backgroundImage = `url('${src}')`;
+            });
+        }
+    }
+    </script>
+
+    <script>
+    // Shopping Cart System
     let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
     
     const products = {
@@ -922,7 +1247,6 @@
         4: { name: 'Elden Ring', price: 23.99, image: '⚔️' }
     };
 
-    // Update cart badge (shows TOTAL items count)
     function updateCartCount() {
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
         const badge = document.getElementById('cartCount');
@@ -930,7 +1254,6 @@
         badge.style.display = count > 0 ? 'flex' : 'none';
     }
 
-    // Add to cart function
     function addToCart(productId) {
         const product = products[productId];
         const existingItem = cart.find(item => item.id === productId);
@@ -944,27 +1267,23 @@
         saveCart();
         updateCartCount();
         
-        // Visual feedback
         const btn = event.target;
         const originalText = btn.textContent;
         btn.textContent = 'Added! ✅';
         btn.style.background = 'var(--neon-green)';
         setTimeout(() => {
-            btn.textContent = 'Buy Now';
+            btn.textContent = 'Add to Cart';
             btn.style.background = '';
         }, 1500);
     }
 
-    // Save cart to localStorage
     function saveCart() {
         localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
     }
 
-    // Update ALL Buy Now buttons
     document.addEventListener('DOMContentLoaded', function() {
-        updateCartCount(); // Load initial count
+        updateCartCount();
         
-        // Convert all Buy Now buttons to Add to Cart
         document.querySelectorAll('.buy-btn').forEach((btn, index) => {
             btn.textContent = 'Add to Cart';
             btn.onclick = (e) => {
@@ -973,147 +1292,240 @@
             };
         });
     });
-</script>
-<script>
-function scrollToSection(id) {
-    const el = document.getElementById(id);
-    if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-    }
-}
+    </script>
 
-
-// LOGO
-document.querySelector(".logo").onclick = () => scrollToSection("home");
-
-// HERO BUTTONS
-document.querySelector(".btn-secondary").onclick = () => scrollToSection("deals");
-
-// CTA BUTTON
-document.querySelector(".cta-section .btn-primary").onclick = () => {
-    window.location.href = "store.html";
-};
-
-
-
-// SIGN IN
-document.querySelector(".signin-btn").onclick = () => {
-    window.location.href = "login.html";
-};
-</script>script src="search-data.js"></script>
-</script>
-<!-- 🔍 SLIM SEARCH BAR -->
-<div id="searchBox" style="
-display:none;
-position:fixed;
-top:16px;
-left:50%;
-transform:translateX(-50%);
-width:90%;
-max-width:420px;
-background:#0a0a0e;
-border:1px solid rgba(0,255,133,0.4);
-border-radius:10px;
-padding:0.6rem 0.8rem;
-z-index:3000;
-">
-  <input
-    id="searchInput"
-    placeholder="Search games or pages…"
-    style="
-      width:100%;
-      background:transparent;
-      border:none;
-      outline:none;
-      color:white;
-      font-size:1rem;
-    "
-  />
-  <div id="searchResults" style="margin-top:6px;"></div>
-</div>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  console.log("✅ Search script loaded");
-
-  // 🔑 HARD-CODED SEARCH DATA (TEST)
-  const SEARCH_INDEX = window.SEARCH_INDEX || [
-    { title: "GTA V Premium Edition", page: "store.html" },
-    { title: "Red Dead Redemption 2", page: "store.html" },
-    { title: "Cyberpunk 2077", page: "store.html" },
-    { title: "FAQ", page: "faq.html" },
-    { title: "Contact Us", page: "contactus.html" }
-  ];
-
-  const searchIcon   = document.querySelector(".search-icon");
-  const searchBox    = document.getElementById("searchBox");
-  const searchInput  = document.getElementById("searchInput");
-  const searchResults= document.getElementById("searchResults");
-
-  if (!searchIcon || !searchBox || !searchInput || !searchResults) {
-    console.error("❌ Search DOM elements missing");
-    return;
-  }
-
-  // Open search
-  searchIcon.addEventListener("click", (e) => {
-  e.stopPropagation();
-  searchBox.style.display = "block";
-  searchInput.focus();
-});
-
-
-  // Close with ESC
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      searchBox.style.display = "none";
-      searchInput.value = "";
-      searchResults.innerHTML = "";
-    }
-  });
-  document.addEventListener("click", (e) => {
-  if (!searchBox.contains(e.target) && !searchIcon.contains(e.target)) {
-    searchBox.style.display = "none";
-    searchInput.value = "";
-    searchResults.innerHTML = "";
-  }
-});
-
-
-  // Live search
-  searchInput.addEventListener("input", () => {
-    const q = searchInput.value.toLowerCase().trim();
-    searchResults.innerHTML = "";
-
-    if (!q) return;
-
-    const matches = SEARCH_INDEX.filter(item =>
-      item.title.toLowerCase().includes(q)
-    );
-
-    if (!matches.length) {
-      searchResults.innerHTML =
-        `<div style="color:#777;padding:6px;">No results</div>`;
-      return;
+    <script>
+    function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+        }
     }
 
-    matches.forEach(item => {
-      const row = document.createElement("div");
-      row.textContent = item.title;
-      row.style.cssText = `
-        padding:6px;
-        cursor:pointer;
-        border-radius:6px;
-      `;
-      row.onmouseenter = () => row.style.background = "rgba(0,255,133,0.15)";
-      row.onmouseleave = () => row.style.background = "transparent";
-      row.onclick = () => window.location.href = item.page;
-      searchResults.appendChild(row);
+    document.querySelector(".logo").onclick = () => scrollToSection("home");
+    document.querySelector(".btn-secondary").onclick = () => {
+        window.location.href = "deals.html";
+    };
+    document.querySelector(".cta-section .btn-primary").onclick = () => {
+        window.location.href = "store.html";
+    };
+    document.querySelector(".signin-btn").onclick = () => {
+        window.location.href = "login.html";
+    };
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("✅ Multi-page search loaded");
+
+        // 🔑 COMPREHENSIVE SEARCH INDEX - ALL PAGES WITH DIRECT PRODUCT LINKS
+        const SEARCH_INDEX = [
+            // HOME PAGE
+            { title: "Home", page: "index.html", description: "WishGameStore Homepage", category: "Page" },
+            { title: "Play More Pay Less", page: "index.html", description: "Main tagline", category: "Home" },
+            { title: "Trending Games", page: "index.html", description: "Featured games section", category: "Home" },
+            
+            // STORE PAGE
+            { title: "Store", page: "store.html", description: "Browse all games", category: "Page" },
+            { title: "PC Games", page: "store.html", description: "All PC Games Collection", category: "Category" },
+            
+            // INDIVIDUAL GAME PRODUCTS - Direct links to product.html?id=X
+            { title: "GTA V Premium Edition", page: "product.html?id=1", description: "Grand Theft Auto V - Open World Action - $9.99", category: "Game", price: "$9.99", emoji: "🚗" },
+            { title: "Red Dead Redemption 2", page: "product.html?id=2", description: "RDR2 Western Action Adventure - $14.99", category: "Game", price: "$14.99", emoji: "🤠" },
+            { title: "Cyberpunk 2077", page: "product.html?id=3", description: "Futuristic Open World RPG - $19.99", category: "Game", price: "$19.99", emoji: "🌃" },
+            { title: "Elden Ring", page: "product.html?id=4", description: "FromSoftware Action RPG Souls-like - $23.99", category: "Game", price: "$23.99", emoji: "⚔️" },
+            { title: "Call of Duty MW3", page: "product.html?id=5", description: "FPS Shooter Military - $29.99", category: "Game", price: "$29.99", emoji: "🔫" },
+            { title: "God of War Ragnarok", page: "product.html?id=6", description: "Action Adventure Norse Mythology - $34.99", category: "Game", price: "$34.99", emoji: "🪓" },
+            { title: "The Last of Us Part II", page: "product.html?id=7", description: "Post-apocalyptic Adventure - $27.99", category: "Game", price: "$27.99", emoji: "🧟" },
+            { title: "Starfield", page: "product.html?id=8", description: "Bethesda Space Exploration RPG - $39.99", category: "Game", price: "$39.99", emoji: "🚀" },
+            { title: "Resident Evil 4 Remake", page: "product.html?id=9", description: "Horror Survival Capcom - $24.99", category: "Game", price: "$24.99", emoji: "🧟‍♂️" },
+            { title: "Hogwarts Legacy", page: "product.html?id=10", description: "Harry Potter Wizarding World RPG - $31.99", category: "Game", price: "$31.99", emoji: "🪄" },
+            { title: "DOOM Eternal", page: "product.html?id=11", description: "Fast-paced FPS Shooter - $19.99", category: "Game", price: "$19.99", emoji: "💀" },
+            { title: "Assassin's Creed Valhalla", page: "product.html?id=12", description: "Viking Action Adventure - $22.99", category: "Game", price: "$22.99", emoji: "🏹" },
+            { title: "Spider-Man Remastered", page: "product.html?id=13", description: "Marvel Superhero Action - $44.99", category: "Game", price: "$44.99", emoji: "🕷️" },
+            { title: "Baldur's Gate 3", page: "product.html?id=14", description: "CRPG D&D Fantasy Adventure - $49.99", category: "Game", price: "$49.99", emoji: "🗡️" },
+            { title: "Battlefield 2042", page: "product.html?id=15", description: "Large-scale FPS Shooter - $26.99", category: "Game", price: "$26.99", emoji: "🎮" },
+            { title: "Uncharted Legacy of Thieves", page: "product.html?id=16", description: "Action Adventure Collection - $28.99", category: "Game", price: "$28.99", emoji: "🗺️" },
+            
+            // DEALS PAGE
+            { title: "Deals", page: "deals.html", description: "Special offers and discounts", category: "Page" },
+            { title: "Flash Sale", page: "deals.html", description: "Limited time flash deals", category: "Deals" },
+            { title: "Weekly Deals", page: "deals.html", description: "Best weekly offers", category: "Deals" },
+            { title: "Discounts", page: "deals.html", description: "Discounted games collection", category: "Deals" },
+            { title: "Special Offers", page: "deals.html", description: "Exclusive special deals", category: "Deals" },
+            { title: "Bundle Deals", page: "deals.html", description: "Game bundle packages", category: "Deals" },
+            { title: "Sale Games", page: "deals.html", description: "Games currently on sale", category: "Deals" },
+            { title: "Clearance", page: "deals.html", description: "Clearance sale items", category: "Deals" },
+            
+            // GAME PASS PAGE
+            { title: "Game Pass", page: "gamepass.html", description: "Gaming subscriptions hub", category: "Page" },
+            { title: "Xbox Game Pass", page: "gamepass.html", description: "Microsoft Xbox subscription", category: "Subscription" },
+            { title: "Xbox Game Pass Ultimate", page: "gamepass.html", description: "Premium Xbox subscription with EA Play", category: "Subscription" },
+            { title: "Xbox Game Pass PC", page: "gamepass.html", description: "PC only Game Pass", category: "Subscription" },
+            { title: "EA Play", page: "gamepass.html", description: "Electronic Arts subscription", category: "Subscription" },
+            { title: "EA Play Pro", page: "gamepass.html", description: "Premium EA subscription", category: "Subscription" },
+            { title: "PlayStation Plus", page: "gamepass.html", description: "Sony PlayStation subscription", category: "Subscription" },
+            { title: "PS Plus Essential", page: "gamepass.html", description: "Basic PlayStation subscription", category: "Subscription" },
+            { title: "PS Plus Extra", page: "gamepass.html", description: "Mid-tier PlayStation subscription", category: "Subscription" },
+            { title: "PS Plus Premium", page: "gamepass.html", description: "Premium PlayStation subscription", category: "Subscription" },
+            { title: "Ubisoft Plus", page: "gamepass.html", description: "Ubisoft+ subscription service", category: "Subscription" },
+            { title: "Nintendo Switch Online", page: "gamepass.html", description: "Nintendo online subscription", category: "Subscription" },
+            { title: "Humble Bundle", page: "gamepass.html", description: "Monthly game bundles", category: "Subscription" },
+            { title: "Subscriptions", page: "gamepass.html", description: "All subscription services", category: "Category" },
+            
+            // FAQ PAGE
+            { title: "FAQ", page: "faq.html", description: "Frequently Asked Questions", category: "Page" },
+            { title: "How do I redeem my key?", page: "faq.html", description: "Key redemption guide Steam", category: "FAQ" },
+            { title: "How to activate game", page: "faq.html", description: "Game activation instructions", category: "FAQ" },
+            { title: "Payment methods accepted", page: "faq.html", description: "Credit card PayPal crypto", category: "FAQ" },
+            { title: "Refund policy", page: "faq.html", description: "How to get a refund", category: "FAQ" },
+            { title: "Is it safe to buy?", page: "faq.html", description: "Security and legitimacy", category: "FAQ" },
+            { title: "Delivery time", page: "faq.html", description: "How long for instant delivery", category: "FAQ" },
+            { title: "Account issues", page: "faq.html", description: "Help with account problems", category: "FAQ" },
+            { title: "Region lock restrictions", page: "faq.html", description: "Regional game restrictions", category: "FAQ" },
+            { title: "Steam key activation", page: "faq.html", description: "How to redeem on Steam", category: "FAQ" },
+            { title: "Epic Games key", page: "faq.html", description: "Epic Games Store activation", category: "FAQ" },
+            { title: "Help Support", page: "faq.html", description: "Get customer help", category: "FAQ" },
+            
+            // OTHER PAGES
+            { title: "Contact Us", page: "contactus.html", description: "Get in touch with support", category: "Page" },
+            { title: "About Us", page: "about.html", description: "About WishGameStore company", category: "Page" },
+            { title: "How It Works", page: "howitworks.html", description: "How our store works step by step", category: "Page" },
+            { title: "Cart", page: "cart.html", description: "View shopping cart", category: "Page" },
+            { title: "Login Sign In", page: "login.html", description: "Sign in to your account", category: "Page" },
+            { title: "Refund Policy", page: "refund.html", description: "Refund terms and conditions", category: "Page" },
+            { title: "Customer Support", page: "contactus.html", description: "24/7 customer assistance", category: "Support" }
+        ];
+
+        const searchIcon = document.querySelector(".search-icon");
+        const searchBox = document.getElementById("searchBox");
+        const searchInput = document.getElementById("searchInput");
+        const searchResults = document.getElementById("searchResults");
+        const closeSearch = document.getElementById("closeSearch");
+
+        if (!searchIcon || !searchBox || !searchInput || !searchResults) {
+            console.error("❌ Search DOM elements missing");
+            return;
+        }
+
+        // Open search
+        searchIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            searchBox.style.display = "block";
+            searchInput.focus();
+        });
+
+        // Close search
+        closeSearch.addEventListener("click", () => {
+            searchBox.style.display = "none";
+            searchInput.value = "";
+            searchResults.innerHTML = "";
+        });
+
+        // Close with ESC
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") {
+                searchBox.style.display = "none";
+                searchInput.value = "";
+                searchResults.innerHTML = "";
+            }
+        });
+
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!searchBox.contains(e.target) && !searchIcon.contains(e.target)) {
+                searchBox.style.display = "none";
+                searchInput.value = "";
+                searchResults.innerHTML = "";
+            }
+        });
+
+        // Live search with category badges
+        searchInput.addEventListener("input", () => {
+            const q = searchInput.value.toLowerCase().trim();
+            searchResults.innerHTML = "";
+
+            if (!q) return;
+
+            // Search in title and description
+            const matches = SEARCH_INDEX.filter(item =>
+                item.title.toLowerCase().includes(q) ||
+                item.description.toLowerCase().includes(q)
+            ).slice(0, 10); // Limit to 10 results
+
+            if (!matches.length) {
+                searchResults.innerHTML = `
+                    <div style="color:#777;padding:12px;text-align:center;">
+                        <i class="fas fa-search" style="font-size:1.5rem;margin-bottom:8px;display:block;"></i>
+                        No results found for "${q}"
+                    </div>`;
+                return;
+            }
+
+            matches.forEach(item => {
+                const row = document.createElement("div");
+                row.style.cssText = `
+                    padding:10px 12px;
+                    cursor:pointer;
+                    border-radius:8px;
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:4px;
+                    transition:background 0.2s;
+                `;
+                
+                // Category color coding
+                let categoryColor = "#00ff85";
+                let categoryIcon = "fas fa-file";
+                switch(item.category) {
+                    case "Game": categoryColor = "#00d4ff"; categoryIcon = "fas fa-gamepad"; break;
+                    case "Subscription": categoryColor = "#ff6b6b"; categoryIcon = "fas fa-ticket-alt"; break;
+                    case "Deals": categoryColor = "#ffd93d"; categoryIcon = "fas fa-bolt"; break;
+                    case "FAQ": categoryColor = "#c084fc"; categoryIcon = "fas fa-question-circle"; break;
+                    case "Page": categoryColor = "#00ff85"; categoryIcon = "fas fa-link"; break;
+                }
+
+                // Show emoji for games, icon for others
+                const iconDisplay = item.emoji 
+                    ? `<span style="font-size:1.5rem;width:30px;text-align:center;">${item.emoji}</span>`
+                    : `<i class="${categoryIcon}" style="color:${categoryColor};width:30px;text-align:center;"></i>`;
+
+                // Show price badge for games
+                const priceDisplay = item.price 
+                    ? `<span style="background:#00ff85;color:black;padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-right:8px;">${item.price}</span>`
+                    : '';
+
+                row.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        ${iconDisplay}
+                        <div>
+                            <div style="font-weight:600;">${item.title}</div>
+                            <div style="font-size:0.8rem;color:#777;">${item.description}</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;">
+                        ${priceDisplay}
+                        <span style="
+                            background:${categoryColor}22;
+                            color:${categoryColor};
+                            padding:2px 8px;
+                            border-radius:20px;
+                            font-size:0.7rem;
+                            font-weight:600;
+                        ">${item.category}</span>
+                    </div>
+                `;
+                
+                row.onmouseenter = () => row.style.background = "rgba(0,255,133,0.1)";
+                row.onmouseleave = () => row.style.background = "transparent";
+                row.onclick = () => window.location.href = item.page;
+                searchResults.appendChild(row);
+            });
+        });
+
+        console.log(`✅ Search index loaded with ${SEARCH_INDEX.length} items`);
     });
-  });
-
-});
-</script>
-
+    </script>
 </body>
 </html>

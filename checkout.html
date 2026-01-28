@@ -23,18 +23,12 @@
             --text-secondary: #b0b0b0;
         }
 
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--neon-green) var(--dark-bg);
-        }
-
         body {
             font-family: 'Exo 2', sans-serif;
             background: var(--dark-bg);
             color: var(--text-primary);
             line-height: 1.6;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            min-height: 100vh;
         }
 
         /* NAVBAR */
@@ -84,18 +78,11 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .nav-links a:hover {
             color: var(--neon-green);
             text-shadow: 0 0 10px var(--neon-green);
-        }
-
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
         }
 
         .cart-icon {
@@ -116,7 +103,7 @@
 
         /* HERO */
         .hero {
-            min-height: 40vh;
+            min-height: 30vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -126,100 +113,24 @@
             padding-top: 100px;
         }
 
-        .hero-content {
-            max-width: 800px;
-            padding: 0 2rem;
-        }
-
         .page-title {
             font-family: 'Orbitron', monospace;
-            font-size: clamp(3rem, 8vw, 5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 900;
             background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
         }
 
         /* CHECKOUT CONTAINER */
         .checkout-container {
             max-width: 1200px;
-            margin: 4rem auto;
+            margin: 2rem auto 4rem;
             padding: 0 2rem;
             display: grid;
             grid-template-columns: 1fr 400px;
-            gap: 4rem;
+            gap: 3rem;
             align-items: start;
-        }
-
-        /* ORDER SUMMARY */
-        .order-summary {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            height: fit-content;
-            position: sticky;
-            top: 120px;
-        }
-
-        .summary-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.8rem;
-            color: var(--neon-green);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
-        }
-
-        .item-name {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-weight: 600;
-        }
-
-        .item-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #1a1a2e, #16213e);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem 0;
-            font-size: 1.1rem;
-        }
-
-        .summary-row.total {
-            font-size: 2rem;
-            font-weight: 900;
-            margin-top: 1rem;
-            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-top: 2px solid var(--glass-border);
-            padding-top: 1.5rem;
         }
 
         /* CHECKOUT FORM */
@@ -228,36 +139,62 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 3rem;
+            padding: 2.5rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
         }
 
         .form-section {
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .section-title {
             font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--neon-green);
             margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--neon-green);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
 
         .form-input {
             width: 100%;
-            padding: 1.2rem;
+            padding: 1rem 1.2rem;
             background: rgba(255,255,255,0.08);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
@@ -269,24 +206,24 @@
         .form-input:focus {
             outline: none;
             border-color: var(--neon-green);
-            box-shadow: 0 0 20px rgba(0,255,133,0.3);
+            box-shadow: 0 0 20px rgba(0,255,133,0.2);
             background: rgba(255,255,255,0.1);
         }
 
         .form-input::placeholder {
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.4);
         }
 
         /* PAYMENT METHODS */
         .payment-methods {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .payment-method {
-            padding: 1.5rem;
+            padding: 1.2rem 0.8rem;
             border: 2px solid var(--glass-border);
             border-radius: 15px;
             cursor: pointer;
@@ -295,53 +232,285 @@
             background: var(--glass-bg);
         }
 
+        .payment-method:hover {
+            border-color: var(--neon-cyan);
+        }
+
         .payment-method.active {
             border-color: var(--neon-green);
             background: rgba(0,255,133,0.1);
-            box-shadow: 0 0 20px rgba(0,255,133,0.3);
+            box-shadow: 0 0 20px rgba(0,255,133,0.2);
         }
 
         .payment-icon {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 0.5rem;
             display: block;
         }
 
-        /* CHECKOUT BUTTON */
+        .payment-method span {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* ORDER SUMMARY */
+        .order-summary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+            color: var(--neon-green);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .order-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .item-thumb {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .item-qty {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: var(--neon-green);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            font-size: 1rem;
+        }
+
+        .summary-row.total {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--glass-border);
+        }
+
+        .summary-row.total span:last-child {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .checkout-btn {
             width: 100%;
             background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
             color: black;
             border: none;
-            padding: 1.5rem;
+            padding: 1.3rem;
             border-radius: 15px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .checkout-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(0,255,133,0.5);
+            box-shadow: 0 15px 35px rgba(0,255,133,0.5);
         }
 
-        .back-link {
-            display: inline-flex;
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .secure-badge {
+            display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
-            color: var(--neon-green);
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
-        .back-link:hover {
-            text-shadow: 0 0 10px var(--neon-green);
+        .secure-badge i {
+            color: var(--neon-green);
+        }
+
+        /* EMPTY CART STATE */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .empty-state-icon:hover {
+            color: var(--neon-green);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .shop-btn {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .shop-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,255,133,0.5);
+        }
+
+        /* SUCCESS MODAL */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-modal.show {
+            display: flex;
+        }
+
+        .success-content {
+            background: var(--dark-bg);
+            border: 2px solid var(--neon-green);
+            border-radius: 25px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--neon-green);
+            margin-bottom: 1.5rem;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .success-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .success-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .success-btn {
+            background: var(--neon-green);
+            color: black;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .success-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,255,133,0.4);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(10,10,14,0.95);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-secondary);
         }
 
         @media (max-width: 1024px) {
@@ -349,19 +518,24 @@
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-            
+
             .order-summary {
                 position: static;
+                order: -1;
             }
         }
 
         @media (max-width: 768px) {
-            .payment-methods {
-                grid-template-columns: 1fr;
+            .nav-links {
+                display: none;
             }
-            
-            .checkout-container {
-                padding: 0 1rem;
+
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -375,13 +549,13 @@
                 WishGameStore
             </a>
             <ul class="nav-links">
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#store">Store</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html">Deals</a></li>
             </ul>
-            <div class="nav-icons">
-                <div class="cart-icon" onclick="window.location.href='cart.html'">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
+            <div class="cart-icon" onclick="window.location.href='cart.html'">
+                <i class="fas fa-shopping-cart"></i>
             </div>
         </div>
     </nav>
@@ -389,25 +563,24 @@
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
-            <h1 class="page-title">Secure Checkout</h1>
-            <p style="font-size: 1.3rem; color: var(--text-secondary);">Complete your order in seconds</p>
+            <h1 class="page-title"><i class="fas fa-lock"></i> Secure Checkout</h1>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-top: 0.5rem;">Complete your purchase securely</p>
         </div>
     </section>
 
     <!-- CHECKOUT CONTENT -->
-    <div class="checkout-container">
+    <div class="checkout-container" id="checkoutContainer">
         <!-- CHECKOUT FORM -->
         <div class="checkout-form">
             <a href="cart.html" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-                Back to Cart
+                <i class="fas fa-arrow-left"></i> Back to Cart
             </a>
-            
+
             <form id="checkoutForm" onsubmit="completeOrder(event)">
                 <!-- CONTACT INFO -->
                 <div class="form-section">
                     <h3 class="section-title">
-                        <i class="fas fa-user"></i> Contact Information
+                        <i class="fas fa-envelope"></i> Contact Information
                     </h3>
                     <div class="form-group">
                         <label class="form-label">Email Address *</label>
@@ -415,26 +588,40 @@
                     </div>
                 </div>
 
-                <!-- SHIPPING INFO -->
+                <!-- BILLING INFO -->
                 <div class="form-section">
                     <h3 class="section-title">
-                        <i class="fas fa-map-marker-alt"></i> Shipping Address
+                        <i class="fas fa-user"></i> Billing Information
                     </h3>
-                    <div class="form-group">
-                        <label class="form-label">Full Name *</label>
-                        <input type="text" class="form-input" id="name" placeholder="John Doe" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name *</label>
+                            <input type="text" class="form-input" id="firstName" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name *</label>
+                            <input type="text" class="form-input" id="lastName" placeholder="Doe" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Address *</label>
-                        <input type="text" class="form-input" id="address" placeholder="123 Gaming Street" required>
+                        <label class="form-label">Country *</label>
+                        <select class="form-input" id="country" required>
+                            <option value="">Select Country</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="IN">India</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="JP">Japan</option>
+                            <option value="BR">Brazil</option>
+                            <option value="OTHER">Other</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">City *</label>
-                        <input type="text" class="form-input" id="city" placeholder="Nagpur" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input type="tel" class="form-input" id="phone" placeholder="+91 9876543210">
+                        <label class="form-label">Phone (Optional)</label>
+                        <input type="tel" class="form-input" id="phone" placeholder="+1 234 567 8900">
                     </div>
                 </div>
 
@@ -445,27 +632,44 @@
                     </h3>
                     <div class="payment-methods">
                         <div class="payment-method active" onclick="selectPayment(this, 'card')">
-                            <i class="fab fa-cc-visa payment-icon"></i>
-                            <div>Card</div>
+                            <i class="fas fa-credit-card payment-icon" style="color: var(--neon-cyan);"></i>
+                            <span>Card</span>
                         </div>
                         <div class="payment-method" onclick="selectPayment(this, 'paypal')">
                             <i class="fab fa-paypal payment-icon" style="color: #003087;"></i>
-                            <div>PayPal</div>
+                            <span>PayPal</span>
                         </div>
                         <div class="payment-method" onclick="selectPayment(this, 'crypto')">
                             <i class="fab fa-bitcoin payment-icon" style="color: #f7931a;"></i>
-                            <div>Crypto</div>
+                            <span>Crypto</span>
                         </div>
-                        <div class="payment-method" onclick="selectPayment(this, 'cod')">
-                            <i class="fas fa-cash payment-icon"></i>
-                            <div>Cash on Delivery</div>
+                        <div class="payment-method" onclick="selectPayment(this, 'gpay')">
+                            <i class="fab fa-google-pay payment-icon" style="color: #4285f4;"></i>
+                            <span>GPay</span>
+                        </div>
+                    </div>
+
+                    <!-- Card Details (shown by default) -->
+                    <div id="cardDetails">
+                        <div class="form-group">
+                            <label class="form-label">Card Number *</label>
+                            <input type="text" class="form-input" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Expiry Date *</label>
+                                <input type="text" class="form-input" id="expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CVV *</label>
+                                <input type="text" class="form-input" id="cvv" placeholder="123" maxlength="4">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="checkout-btn">
-                    Complete Order → 
-                    <span id="orderTotal">$0.00</span>
+                <button type="submit" class="checkout-btn" id="submitBtn">
+                    <i class="fas fa-lock"></i> Complete Purchase
                 </button>
             </form>
         </div>
@@ -473,54 +677,95 @@
         <!-- ORDER SUMMARY -->
         <div class="order-summary" id="orderSummary">
             <h3 class="summary-title">
-                <i class="fas fa-receipt"></i>
-                Order Summary
+                <i class="fas fa-receipt"></i> Order Summary
             </h3>
-            <!-- DYNAMIC ORDER ITEMS -->
-            <div id="orderItems"></div>
-            
-            <div class="summary-row">
-                <span>Subtotal:</span>
-                <span id="summarySubtotal">$0.00</span>
+            <div class="order-items" id="orderItems">
+                <!-- Dynamic items -->
             </div>
             <div class="summary-row">
-                <span>Tax (8%):</span>
-                <span id="summaryTax">$0.00</span>
+                <span>Subtotal</span>
+                <span id="subtotal">$0.00</span>
             </div>
             <div class="summary-row">
-                <span>Shipping:</span>
-                <span style="color: var(--neon-green);">FREE</span>
+                <span>Tax (8%)</span>
+                <span id="tax">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery</span>
+                <span style="color: var(--neon-green);">FREE (Instant)</span>
             </div>
             <div class="summary-row total">
-                <span>Total:</span>
-                <span id="summaryTotal">$0.00</span>
+                <span>Total</span>
+                <span id="total">$0.00</span>
+            </div>
+            <div class="secure-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure 256-bit SSL Encryption</span>
             </div>
         </div>
     </div>
 
+    <!-- SUCCESS MODAL -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="success-title">Order Complete!</h2>
+            <p class="success-text" id="successText">
+                Thank you for your purchase!<br>
+                Your game keys have been sent to your email.
+            </p>
+            <button class="success-btn" onclick="window.location.href='index.html'">
+                Back to Home
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 WishGameStore. All rights reserved.</p>
+    </footer>
+
     <script>
-        // Products data (same as cart.html)
-        const products = {
-            1: { name: 'GTA V Premium Edition', price: 9.99, image: '🚗' },
-            2: { name: 'Red Dead Redemption 2', price: 14.99, image: '🤠' },
-            3: { name: 'Cyberpunk 2077', price: 19.99, image: '🌃' },
-            4: { name: 'Elden Ring', price: 23.99, image: '⚔️' }
+        // Game cover images
+        const gameCovers = {
+            1: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/220px-Grand_Theft_Auto_V.png',
+            2: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/44/Red_Dead_Redemption_II.jpg/220px-Red_Dead_Redemption_II.jpg',
+            3: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Cyberpunk_2077_box_art.jpg/220px-Cyberpunk_2077_box_art.jpg',
+            4: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Elden_Ring_Box_art.jpg/220px-Elden_Ring_Box_art.jpg',
+            5: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Call_of_Duty_Modern_Warfare_III_Cover.jpg/220px-Call_of_Duty_Modern_Warfare_III_Cover.jpg',
+            6: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/ee/God_of_War_Ragnar%C3%B6k_cover.jpg/220px-God_of_War_Ragnar%C3%B6k_cover.jpg',
+            7: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/TLOU_P2_Box_Art_2.png/220px-TLOU_P2_Box_Art_2.png',
+            8: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6d/Starfield_cover.jpg/220px-Starfield_cover.jpg',
+            9: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Resident_Evil_4_remake_cover_art.jpg/220px-Resident_Evil_4_remake_cover_art.jpg',
+            10: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Hogwarts_Legacy_cover_art.png/220px-Hogwarts_Legacy_cover_art.png',
+            11: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9d/Cover_Art_of_Doom_Eternal.png/220px-Cover_Art_of_Doom_Eternal.png',
+            12: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Assassin%27s_Creed_Valhalla_cover.jpg/220px-Assassin%27s_Creed_Valhalla_cover.jpg',
+            13: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Spider-Man_Remastered_cover_art.png/220px-Spider-Man_Remastered_cover_art.png',
+            14: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Baldur%27s_Gate_3_cover_art.jpg/220px-Baldur%27s_Gate_3_cover_art.jpg',
+            15: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Battlefield_2042.jpg/220px-Battlefield_2042.jpg',
+            16: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg/220px-Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg'
         };
 
         let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+        let selectedPayment = 'card';
 
         function renderOrderSummary() {
+            const container = document.getElementById('checkoutContainer');
             const orderItemsEl = document.getElementById('orderItems');
-            const orderSummaryEl = document.getElementById('orderSummary');
-            
+
             if (cart.length === 0) {
-                orderSummaryEl.innerHTML = `
-                    <div style="text-align: center; padding: 3rem;">
-                        <i class="fas fa-shopping-cart" style="font-size: 4rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--text-secondary);">No items in cart</h3>
-                        <a href="index.html" style="color: var(--neon-green); text-decoration: none; font-weight: 600;">
-                            Start Shopping →
-                        </a>
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-state-icon" onclick="window.location.href='store.html'">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3>Your cart is empty</h3>
+                        <p style="color: var(--text-secondary);">Add some games to your cart before checking out.</p>
+                        <button class="shop-btn" onclick="window.location.href='store.html'">
+                            <i class="fas fa-store"></i> Browse Store
+                        </button>
                     </div>
                 `;
                 return;
@@ -528,59 +773,93 @@
 
             orderItemsEl.innerHTML = cart.map(item => `
                 <div class="order-item">
-                    <div class="item-name">
-                        <div class="item-icon">${item.image}</div>
-                        <span>${item.name} × ${item.quantity}</span>
+                    <div class="item-info">
+                        <div class="item-thumb" style="background-image: url('${gameCovers[item.id] || ''}');"></div>
+                        <div>
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-qty">Qty: ${item.quantity}</div>
+                        </div>
                     </div>
-                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
                 </div>
             `).join('');
 
-            updateOrderTotals();
+            updateTotals();
         }
 
-        function updateOrderTotals() {
+        function updateTotals() {
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const tax = subtotal * 0.08;
             const total = subtotal + tax;
 
-            document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
-            document.getElementById('orderTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
         }
 
         function selectPayment(element, method) {
             document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
+            selectedPayment = method;
+
+            // Show/hide card details
+            const cardDetails = document.getElementById('cardDetails');
+            if (method === 'card') {
+                cardDetails.style.display = 'block';
+            } else {
+                cardDetails.style.display = 'none';
+            }
         }
 
         function completeOrder(event) {
             event.preventDefault();
-            
+
             if (cart.length === 0) {
                 alert('Your cart is empty!');
                 return;
             }
 
             const email = document.getElementById('email').value;
-            const name = document.getElementById('name').value;
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const tax = subtotal * 0.08;
-            const total = subtotal + tax;
+            const firstName = document.getElementById('firstName').value;
 
-            // Clear cart and show success
+            // Show success modal
+            document.getElementById('successText').innerHTML = `
+                Thank you, ${firstName}!<br><br>
+                Your game keys have been sent to:<br>
+                <strong style="color: var(--neon-green);">${email}</strong><br><br>
+                <small>Order includes: ${cart.map(i => i.name).join(', ')}</small>
+            `;
+
+            // Clear cart
             localStorage.removeItem('wishgamestore_cart');
-            
-            alert(`🎉 Order completed successfully!\n\nThank you ${name}!\n\nOrder Summary:\n${cart.map(item => `• ${item.name} x${item.quantity}`).join('\n')}\n\nTotal: $${total.toFixed(2)}\n\n✅ Keys delivered instantly to ${email}\n\nThank you for shopping at WishGameStore! 🚀`);
-            
-            // Redirect to success page or home
-            window.location.href = 'index.html';
+
+            // Show modal
+            document.getElementById('successModal').classList.add('show');
         }
 
-        // Initialize
+        // Format card number
         document.addEventListener('DOMContentLoaded', function() {
             renderOrderSummary();
+
+            const cardInput = document.getElementById('cardNumber');
+            if (cardInput) {
+                cardInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+                    let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+                    e.target.value = formatted;
+                });
+            }
+
+            const expiryInput = document.getElementById('expiry');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2);
+                    }
+                    e.target.value = value;
+                });
+            }
         });
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deals - WishGameStore</title>
+    <title>Deals & Offers - WishGameStore</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -16,12 +16,14 @@
         :root {
             --neon-green: #00ff85;
             --neon-cyan: #00d4ff;
+            --neon-orange: #ff6b35;
+            --neon-pink: #ff2e63;
+            --neon-purple: #9d4edd;
             --dark-bg: #0a0a0e;
             --glass-bg: rgba(255,255,255,0.05);
             --glass-border: rgba(0,255,133,0.2);
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
-            --flash-red: #ff4757;
         }
 
         * {
@@ -35,7 +37,6 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
         /* NAVBAR */
@@ -70,6 +71,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-decoration: none;
         }
 
         .nav-links {
@@ -84,27 +86,11 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .nav-links a:hover, .nav-links a.active {
             color: var(--neon-green);
             text-shadow: 0 0 10px var(--neon-green);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--neon-green);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after, .nav-links a.active::after {
-            width: 100%;
         }
 
         .nav-icons {
@@ -126,7 +112,6 @@
         .cart-icon:hover {
             color: var(--neon-green);
             background: var(--glass-bg);
-            transform: scale(1.1);
         }
 
         .cart-badge {
@@ -145,37 +130,97 @@
             font-weight: bold;
         }
 
-        /* HERO COUNTDOWN */
-        .hero {
-            height: 80vh;
+        .signin-btn {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,255,133,0.4);
+        }
+
+        .signin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,133,0.6);
+        }
+
+        /* HERO BANNER */
+        .hero-banner {
+            min-height: 60vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: relative;
-            background: linear-gradient(135deg, var(--flash-red), var(--neon-cyan), var(--neon-green));
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
             padding-top: 100px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(255,46,99,0.1), rgba(0,255,133,0.1));
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6b35' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
         }
 
-        .hero-badge {
-            background: var(--flash-red);
+        /* Animated Sale Tags */
+        .floating-tags {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .sale-tag {
+            position: absolute;
+            background: linear-gradient(45deg, var(--neon-orange), var(--neon-pink));
             color: white;
-            padding: 1rem 2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            animation: floatTag 8s ease-in-out infinite;
+            box-shadow: 0 5px 20px rgba(255,107,53,0.4);
+        }
+
+        .sale-tag:nth-child(1) { top: 15%; left: 5%; animation-delay: 0s; }
+        .sale-tag:nth-child(2) { top: 25%; right: 8%; animation-delay: 1s; }
+        .sale-tag:nth-child(3) { top: 60%; left: 10%; animation-delay: 2s; }
+        .sale-tag:nth-child(4) { top: 70%; right: 5%; animation-delay: 3s; }
+        .sale-tag:nth-child(5) { top: 40%; left: 3%; animation-delay: 4s; }
+
+        @keyframes floatTag {
+            0%, 100% { transform: translateY(0) rotate(-5deg); opacity: 0.8; }
+            50% { transform: translateY(-20px) rotate(5deg); opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .deal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(45deg, var(--neon-orange), var(--neon-pink));
+            padding: 0.8rem 2rem;
             border-radius: 50px;
-            font-weight: 900;
-            font-size: 1.2rem;
+            font-weight: 700;
             margin-bottom: 2rem;
-            animation: pulse 2s infinite;
-            box-shadow: 0 10px 30px rgba(255,71,87,0.5);
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(255,107,53,0.5);
         }
 
         @keyframes pulse {
@@ -183,37 +228,56 @@
             50% { transform: scale(1.05); }
         }
 
-        .hero-title {
+        .page-title {
             font-family: 'Orbitron', monospace;
-            font-size: clamp(4rem, 10vw, 7rem);
+            font-size: clamp(3rem, 8vw, 5rem);
             font-weight: 900;
-            -webkit-text-stroke: 2px black;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 30px rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+            line-height: 1.1;
         }
 
-        .countdown {
+        .title-gradient {
+            background: linear-gradient(45deg, var(--neon-orange), var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* COUNTDOWN TIMER */
+        .countdown-container {
             display: flex;
-            gap: 2rem;
             justify-content: center;
-            margin: 3rem 0;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .countdown-item {
-            background: rgba(0,0,0,0.7);
+            background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border: 2px solid var(--flash-red);
-            border-radius: 20px;
-            padding: 2rem 1.5rem;
-            min-width: 120px;
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            min-width: 100px;
             text-align: center;
         }
 
-        .countdown-number {
+        .countdown-value {
             font-family: 'Orbitron', monospace;
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            color: var(--flash-red);
+            color: var(--neon-orange);
             display: block;
         }
 
@@ -224,152 +288,197 @@
             letter-spacing: 1px;
         }
 
-        /* DEALS CONTAINER */
-        .deals-container {
+        /* SECTION STYLES */
+        .container {
             max-width: 1400px;
-            margin: 4rem auto;
+            margin: 0 auto;
             padding: 0 2rem;
         }
 
-        .deals-tabs {
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
             display: flex;
-            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 3rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .tab-btn {
-            padding: 1rem 2rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: var(--neon-orange);
+        }
+
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-green);
+            text-decoration: none;
             font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--neon-green);
+            border-radius: 30px;
+            transition: all 0.3s ease;
         }
 
-        .tab-btn.active {
-            background: var(--flash-red);
-            color: white;
-            border-color: var(--flash-red);
-            box-shadow: 0 10px 25px rgba(255,71,87,0.4);
+        .view-all-btn:hover {
+            background: var(--neon-green);
+            color: black;
+            box-shadow: 0 10px 30px rgba(0,255,133,0.4);
         }
 
-        /* DEALS GRID */
-        .deals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
+        /* FLASH DEALS - HORIZONTAL SCROLL */
+        .flash-deals-section {
+            background: linear-gradient(180deg, rgba(255,107,53,0.1) 0%, transparent 100%);
+            border-top: 1px solid rgba(255,107,53,0.3);
+            border-bottom: 1px solid rgba(255,107,53,0.3);
         }
 
-        .deal-card {
+        .flash-deals-scroll {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0 2rem;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .flash-deals-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .flash-deal-card {
+            flex: 0 0 320px;
+            scroll-snap-align: start;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border: 2px solid var(--glass-border);
-            border-radius: 25px;
+            border: 2px solid rgba(255,107,53,0.3);
+            border-radius: 20px;
             overflow: hidden;
             transition: all 0.4s ease;
             position: relative;
         }
 
-        .deal-card::before {
-            content: '';
+        .flash-deal-card::before {
+            content: '⚡ FLASH';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 8px;
-            background: linear-gradient(90deg, var(--flash-red), var(--neon-cyan));
+            background: linear-gradient(90deg, var(--neon-orange), var(--neon-pink));
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            z-index: 10;
         }
 
-        .deal-card:hover {
-            transform: translateY(-15px);
-            border-color: var(--flash-red);
-            box-shadow: 0 30px 60px rgba(255,71,87,0.3);
+        .flash-deal-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-orange);
+            box-shadow: 0 25px 50px rgba(255,107,53,0.3);
         }
 
         .deal-image {
             height: 200px;
-            background: linear-gradient(45deg, #1a1a2e, #16213e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
+            background-size: cover;
+            background-position: center;
             position: relative;
+            margin-top: 32px;
         }
 
-        .deal-badge {
+        .deal-image.loading {
+            background: linear-gradient(90deg, #1a1a2e, #16213e, #1a1a2e);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .discount-badge {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--flash-red);
+            bottom: 1rem;
+            left: 1rem;
+            background: linear-gradient(45deg, var(--neon-orange), var(--neon-pink));
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-weight: 800;
-            font-size: 0.9rem;
-            animation: blink 2s infinite;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(255,107,53,0.5);
         }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.3; }
-        }
-
-        .deal-time {
+        .time-left {
             position: absolute;
             bottom: 1rem;
-            left: 1rem;
+            right: 1rem;
             background: rgba(0,0,0,0.8);
-            color: var(--flash-red);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 700;
+            color: var(--neon-orange);
+            padding: 0.4rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
-        .deal-content {
-            padding: 2rem;
+        .deal-info {
+            padding: 1.5rem;
         }
 
-        .deal-title {
-            font-size: 1.3rem;
+        .deal-name {
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.4;
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
         }
 
         .deal-prices {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .deal-new {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--flash-red);
+        .deal-new-price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--neon-green);
         }
 
-        .deal-old {
-            font-size: 1.2rem;
+        .deal-old-price {
+            font-size: 1.1rem;
             text-decoration: line-through;
             color: var(--text-secondary);
         }
 
         .deal-btn {
             width: 100%;
-            background: linear-gradient(45deg, var(--flash-red), var(--neon-cyan));
+            background: linear-gradient(45deg, var(--neon-orange), var(--neon-pink));
             color: white;
             border: none;
-            padding: 1.2rem;
-            border-radius: 15px;
-            font-weight: 800;
-            font-size: 1.1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
@@ -377,21 +486,378 @@
         }
 
         .deal-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 35px rgba(255,71,87,0.5);
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(255,107,53,0.5);
         }
 
+        /* WEEKLY DEALS GRID */
+        .weekly-deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .weekly-deal-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .weekly-deal-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 25px 50px rgba(0,255,133,0.2);
+        }
+
+        .weekly-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .weekly-discount {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .weekly-info {
+            padding: 1.5rem;
+        }
+
+        .weekly-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .weekly-prices {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .weekly-new-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--neon-green);
+        }
+
+        .weekly-old-price {
+            font-size: 1rem;
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .weekly-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .weekly-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0,255,133,0.4);
+        }
+
+        /* BUNDLE DEALS */
+        .bundles-section {
+            background: linear-gradient(180deg, transparent, rgba(157,78,221,0.1), transparent);
+        }
+
+        .bundle-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .bundle-card {
+            background: linear-gradient(135deg, rgba(157,78,221,0.2), rgba(0,212,255,0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(157,78,221,0.4);
+            border-radius: 25px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .bundle-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(157,78,221,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bundle-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 30px 60px rgba(157,78,221,0.3);
+        }
+
+        .bundle-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .bundle-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .bundle-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .bundle-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--neon-purple);
+        }
+
+        .bundle-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .bundle-games {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .bundle-game-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .bundle-pricing {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bundle-new-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--neon-green);
+        }
+
+        .bundle-old-price {
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .bundle-savings {
+            background: rgba(0,255,133,0.2);
+            color: var(--neon-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .bundle-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bundle-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(157,78,221,0.5);
+        }
+
+        /* PROMO BANNER */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--neon-orange), var(--neon-pink), var(--neon-purple));
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M20 0L0 20h10v20h20V20h10z'/%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .promo-code-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed rgba(255,255,255,0.5);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .promo-code {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .copy-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(10,10,14,0.95);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--neon-green);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .countdown {
-                gap: 1rem;
+            .nav-links {
+                display: none;
             }
-            
-            .countdown-number {
-                font-size: 2.5rem;
+
+            .countdown-container {
+                flex-wrap: wrap;
             }
-            
-            .deals-grid {
+
+            .countdown-item {
+                min-width: 80px;
+                padding: 1rem;
+            }
+
+            .countdown-value {
+                font-size: 1.8rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .bundle-cards {
                 grid-template-columns: 1fr;
+            }
+
+            .promo-code-box {
+                flex-direction: column;
+                padding: 1rem;
             }
         }
     </style>
@@ -405,85 +871,273 @@
                 WishGameStore
             </a>
             <ul class="nav-links">
-                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="store.html">Store</a></li>
                 <li><a href="gamepass.html">Game Pass</a></li>
                 <li><a href="deals.html" class="active">Deals</a></li>
+                <li><a href="faq.html">FAQ</a></li>
             </ul>
             <div class="nav-icons">
-                <div class="cart-icon" onclick="goToCart()">
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cartCount">0</span>
                 </div>
+                <button class="signin-btn" onclick="window.location.href='login.html'">Sign In</button>
             </div>
         </div>
     </nav>
 
-    <!-- HERO COUNTDOWN -->
-    <section class="hero">
-        <div class="hero-badge">
-            <i class="fas fa-bolt"></i> FLASH SALE LIVE
+    <!-- HERO BANNER -->
+    <section class="hero-banner">
+        <div class="floating-tags">
+            <span class="sale-tag">-80% OFF</span>
+            <span class="sale-tag">FLASH SALE</span>
+            <span class="sale-tag">HOT DEAL</span>
+            <span class="sale-tag">LIMITED TIME</span>
+            <span class="sale-tag">MEGA SAVE</span>
         </div>
-        <h1 class="hero-title">90% OFF</h1>
-        <p style="font-size: 1.5rem; margin-bottom: 3rem; color: rgba(255,255,255,0.9);">Limited time only - Ends in:</p>
         
-        <div class="countdown">
-            <div class="countdown-item">
-                <span class="countdown-number" id="hours">23</span>
-                <span class="countdown-label">Hours</span>
+        <div class="hero-content">
+            <div class="deal-badge">
+                <i class="fas fa-fire"></i>
+                MEGA SALE EVENT
             </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="minutes">59</span>
-                <span class="countdown-label">Minutes</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="seconds">30</span>
-                <span class="countdown-label">Seconds</span>
+            <h1 class="page-title">
+                <span class="title-gradient">Epic Deals</span><br>
+                Up to 90% OFF
+            </h1>
+            <p class="hero-subtitle">Don't miss out on the biggest gaming discounts of the year!</p>
+            
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <span class="countdown-value" id="days">02</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="hours">18</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="minutes">45</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="seconds">32</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- DEALS CONTENT -->
-    <div class="deals-container">
-        <div class="deals-tabs">
-            <button class="tab-btn active" data-tab="flash">Flash Deals</button>
-            <button class="tab-btn" data-tab="daily">Daily Deals</button>
-            <button class="tab-btn" data-tab="bundle">Bundles</button>
-            <button class="tab-btn" data-tab="ending">Ending Soon</button>
+    <!-- FLASH DEALS -->
+    <section class="section flash-deals-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    Flash Deals
+                </h2>
+                <span style="color: var(--neon-orange); font-weight: 600;">
+                    <i class="fas fa-clock"></i> Ends in limited time!
+                </span>
+            </div>
+            
+            <div class="flash-deals-scroll" id="flashDealsScroll">
+                <!-- Flash deals will be loaded here -->
+            </div>
         </div>
+    </section>
 
-        <div class="deals-grid" id="dealsGrid">
-            <!-- DYNAMIC DEALS LOAD HERE -->
+    <!-- WEEKLY DEALS -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-week"></i>
+                    Weekly Deals
+                </h2>
+                <a href="store.html" class="view-all-btn">
+                    View All Games <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="weekly-deals-grid" id="weeklyDealsGrid">
+                <!-- Weekly deals will be loaded here -->
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- PROMO BANNER -->
+    <section class="promo-banner">
+        <div class="promo-content">
+            <h2 style="font-family: 'Orbitron', monospace; font-size: 2.5rem; margin-bottom: 0.5rem;">
+                EXTRA 15% OFF
+            </h2>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Use code at checkout for additional savings!</p>
+            <div class="promo-code-box">
+                <span class="promo-code" id="promoCode">WISH15</span>
+                <button class="copy-btn" onclick="copyPromoCode()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUNDLE DEALS -->
+    <section class="section bundles-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-layer-group"></i>
+                    Bundle Deals
+                </h2>
+            </div>
+            
+            <div class="bundle-cards">
+                <div class="bundle-card">
+                    <div class="bundle-badge">BEST VALUE</div>
+                    <div class="bundle-content">
+                        <div class="bundle-icon">🎮</div>
+                        <h3 class="bundle-title">Action Bundle</h3>
+                        <p class="bundle-description">Get 5 top action games in one epic package! Includes GTA V, RDR2, and more.</p>
+                        <div class="bundle-games">
+                            <span class="bundle-game-tag">GTA V</span>
+                            <span class="bundle-game-tag">RDR2</span>
+                            <span class="bundle-game-tag">RE4</span>
+                            <span class="bundle-game-tag">GoW</span>
+                            <span class="bundle-game-tag">Spider-Man</span>
+                        </div>
+                        <div class="bundle-pricing">
+                            <span class="bundle-new-price">$49.99</span>
+                            <span class="bundle-old-price">$249.95</span>
+                            <span class="bundle-savings">Save $199</span>
+                        </div>
+                        <button class="bundle-btn" onclick="addBundleToCart('action')">
+                            <i class="fas fa-shopping-cart"></i> Get Bundle
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bundle-card">
+                    <div class="bundle-badge">POPULAR</div>
+                    <div class="bundle-content">
+                        <div class="bundle-icon">⚔️</div>
+                        <h3 class="bundle-title">RPG Collection</h3>
+                        <p class="bundle-description">Epic RPG adventures await! Elden Ring, Baldur's Gate 3, and more in one bundle.</p>
+                        <div class="bundle-games">
+                            <span class="bundle-game-tag">Elden Ring</span>
+                            <span class="bundle-game-tag">BG3</span>
+                            <span class="bundle-game-tag">Cyberpunk</span>
+                            <span class="bundle-game-tag">Starfield</span>
+                            <span class="bundle-game-tag">Hogwarts</span>
+                        </div>
+                        <div class="bundle-pricing">
+                            <span class="bundle-new-price">$79.99</span>
+                            <span class="bundle-old-price">$319.95</span>
+                            <span class="bundle-savings">Save $239</span>
+                        </div>
+                        <button class="bundle-btn" onclick="addBundleToCart('rpg')">
+                            <i class="fas fa-shopping-cart"></i> Get Bundle
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bundle-card">
+                    <div class="bundle-badge">NEW</div>
+                    <div class="bundle-content">
+                        <div class="bundle-icon">🔫</div>
+                        <h3 class="bundle-title">Shooter Pack</h3>
+                        <p class="bundle-description">Action-packed FPS games bundle! COD, Battlefield, DOOM and more.</p>
+                        <div class="bundle-games">
+                            <span class="bundle-game-tag">COD MW3</span>
+                            <span class="bundle-game-tag">BF 2042</span>
+                            <span class="bundle-game-tag">DOOM</span>
+                            <span class="bundle-game-tag">Titanfall 2</span>
+                        </div>
+                        <div class="bundle-pricing">
+                            <span class="bundle-new-price">$39.99</span>
+                            <span class="bundle-old-price">$179.96</span>
+                            <span class="bundle-savings">Save $139</span>
+                        </div>
+                        <button class="bundle-btn" onclick="addBundleToCart('shooter')">
+                            <i class="fas fa-shopping-cart"></i> Get Bundle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>WishGameStore</h4>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">Your premium destination for games at unbeatable prices.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="store.html">Store</a>
+                <a href="gamepass.html">Game Pass</a>
+                <a href="deals.html">Deals</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="faq.html">FAQ</a>
+                <a href="contactus.html">Contact Us</a>
+                <a href="refund.html">Refund Policy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 WishGameStore. All rights reserved. | Premium Gaming Marketplace</p>
+        </div>
+    </footer>
 
     <script>
-        // =====================================================
-        // DEALS PAGE - FULLY FUNCTIONAL
-        // =====================================================
-        
-        // Flash Deals Data
-        const dealsData = [
-            { id: 101, name: 'GTA V + Online', price: 7.99, oldPrice: 79.99, discount: 90, image: '🚗', timeLeft: '2h 15m' },
-            { id: 102, name: 'Cyberpunk 2077 Ultimate', price: 14.99, oldPrice: 89.99, discount: 83, image: '🌃', timeLeft: '1h 45m' },
-            { id: 103, name: 'Call of Duty Black Ops 6', price: 19.99, oldPrice: 69.99, discount: 71, image: '🔫', timeLeft: '3h 20m' },
-            { id: 104, name: 'God of War Complete', price: 12.99, oldPrice: 79.99, discount: 84, image: '🪓', timeLeft: '45m' },
-            { id: 105, name: 'Elden Ring Deluxe', price: 18.99, oldPrice: 69.99, discount: 73, image: '⚔️', timeLeft: '2h 10m' },
-            { id: 106, name: 'Resident Evil Collection', price: 22.99, oldPrice: 149.99, discount: 85, image: '🧟', timeLeft: '1h 30m' },
-            { id: 107, name: 'DOOM Slayer Bundle', price: 9.99, oldPrice: 59.99, discount: 83, image: '💀', timeLeft: '4h 5m' },
-            { id: 108, name: 'Spider-Man Ultimate', price: 29.99, oldPrice: 79.99, discount: 62, image: '🕷️', timeLeft: '2h 50m' },
-            { id: 109, name: 'Hogwarts Legacy Deluxe', price: 24.99, oldPrice: 69.99, discount: 64, image: '🪄', timeLeft: '1h 20m' },
-            { id: 110, name: 'Battlefield Premium', price: 16.99, oldPrice: 89.99, discount: 81, image: '🎮', timeLeft: '3h 40m' },
-            { id: 111, name: 'Assassin\'s Creed Collection', price: 19.99, oldPrice: 199.99, discount: 90, image: '🏹', timeLeft: '50m' },
-            { id: 112, name: 'Starfield Premium', price: 34.99, oldPrice: 99.99, discount: 65, image: '🚀', timeLeft: '2h 25m' }
+        // Game cover images
+        const gameCovers = {
+            1: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/220px-Grand_Theft_Auto_V.png',
+            2: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/44/Red_Dead_Redemption_II.jpg/220px-Red_Dead_Redemption_II.jpg',
+            3: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Cyberpunk_2077_box_art.jpg/220px-Cyberpunk_2077_box_art.jpg',
+            4: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Elden_Ring_Box_art.jpg/220px-Elden_Ring_Box_art.jpg',
+            5: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Call_of_Duty_Modern_Warfare_III_Cover.jpg/220px-Call_of_Duty_Modern_Warfare_III_Cover.jpg',
+            6: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/ee/God_of_War_Ragnar%C3%B6k_cover.jpg/220px-God_of_War_Ragnar%C3%B6k_cover.jpg',
+            7: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/TLOU_P2_Box_Art_2.png/220px-TLOU_P2_Box_Art_2.png',
+            8: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6d/Starfield_cover.jpg/220px-Starfield_cover.jpg',
+            9: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Resident_Evil_4_remake_cover_art.jpg/220px-Resident_Evil_4_remake_cover_art.jpg',
+            10: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Hogwarts_Legacy_cover_art.png/220px-Hogwarts_Legacy_cover_art.png',
+            11: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9d/Cover_Art_of_Doom_Eternal.png/220px-Cover_Art_of_Doom_Eternal.png',
+            12: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Assassin%27s_Creed_Valhalla_cover.jpg/220px-Assassin%27s_Creed_Valhalla_cover.jpg'
+        };
+
+        // Flash deals data
+        const flashDeals = [
+            { id: 1, name: 'GTA V Premium Edition', price: 7.99, oldPrice: 59.99, discount: 87, cover: 1, timeLeft: '2h 15m' },
+            { id: 2, name: 'Red Dead Redemption 2', price: 11.99, oldPrice: 59.99, discount: 80, cover: 2, timeLeft: '4h 30m' },
+            { id: 4, name: 'Elden Ring', price: 19.99, oldPrice: 59.99, discount: 67, cover: 4, timeLeft: '6h 45m' },
+            { id: 6, name: 'God of War Ragnarök', price: 29.99, oldPrice: 69.99, discount: 57, cover: 6, timeLeft: '8h 20m' },
+            { id: 9, name: 'Resident Evil 4 Remake', price: 18.99, oldPrice: 59.99, discount: 68, cover: 9, timeLeft: '3h 10m' }
+        ];
+
+        // Weekly deals data
+        const weeklyDeals = [
+            { id: 3, name: 'Cyberpunk 2077', price: 14.99, oldPrice: 59.99, discount: 75, cover: 3 },
+            { id: 5, name: 'Call of Duty: MW3', price: 24.99, oldPrice: 69.99, discount: 64, cover: 5 },
+            { id: 7, name: 'The Last of Us Part II', price: 22.99, oldPrice: 59.99, discount: 62, cover: 7 },
+            { id: 8, name: 'Starfield', price: 34.99, oldPrice: 69.99, discount: 50, cover: 8 },
+            { id: 10, name: 'Hogwarts Legacy', price: 27.99, oldPrice: 69.99, discount: 60, cover: 10 },
+            { id: 11, name: 'DOOM Eternal', price: 14.99, oldPrice: 39.99, discount: 63, cover: 11 },
+            { id: 12, name: 'Assassin\'s Creed Valhalla', price: 17.99, oldPrice: 59.99, discount: 70, cover: 12 }
         ];
 
         let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
-        let currentTab = 'flash';
 
-        // =====================================================
-        // CART FUNCTIONS (shared across all pages)
-        // =====================================================
+        // Update cart count
         function updateCartCount() {
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
             const badge = document.getElementById('cartCount');
@@ -493,8 +1147,10 @@
             }
         }
 
-        function addToCart(productId) {
-            const product = dealsData.find(deal => deal.id === productId);
+        // Add to cart
+        function addToCart(productId, name, price, event) {
+            if (event) event.stopPropagation();
+            
             const existingItem = cart.find(item => item.id === productId);
             
             if (existingItem) {
@@ -502,108 +1158,162 @@
             } else {
                 cart.push({ 
                     id: productId, 
-                    name: product.name, 
-                    price: product.price, 
-                    image: product.image, 
+                    name: name, 
+                    price: price, 
+                    image: '🎮', 
                     quantity: 1 
                 });
             }
             
-            saveCart();
+            localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
             updateCartCount();
             
             // Visual feedback
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = 'Grabbed! 🔥';
-            btn.style.background = 'var(--neon-green)';
-            setTimeout(() => {
-                btn.textContent = 'Grab Deal Now!';
-                btn.style.background = '';
-            }, 1500);
+            const btn = event ? event.target : null;
+            if (btn) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Added!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 1500);
+            }
         }
 
-        function saveCart() {
-            localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
-        }
-
-        function goToCart() {
-            window.location.href = 'cart.html';
-        }
-
-        // =====================================================
-        // COUNTDOWN TIMER
-        // =====================================================
-        function startCountdown() {
-            let timeLeft = 90 * 60; // 90 minutes in seconds
+        // Add bundle to cart
+        function addBundleToCart(bundleType) {
+            const bundles = {
+                action: { name: 'Action Bundle (5 Games)', price: 49.99 },
+                rpg: { name: 'RPG Collection (5 Games)', price: 79.99 },
+                shooter: { name: 'Shooter Pack (4 Games)', price: 39.99 }
+            };
             
-            const timer = setInterval(() => {
-                const hours = Math.floor(timeLeft / 3600);
-                const minutes = Math.floor((timeLeft % 3600) / 60);
-                const seconds = timeLeft % 60;
-                
-                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    document.querySelector('.hero').innerHTML = `
-                        <div style="text-align: center; padding: 4rem;">
-                            <i class="fas fa-fire" style="font-size: 6rem; color: var(--flash-red);"></i>
-                            <h2 style="font-size: 3rem; margin: 2rem 0; color: white;">NEXT SALE IN</h2>
-                            <div style="font-size: 4rem; color: var(--neon-green);">00:00:00</div>
-                        </div>
-                    `;
-                }
-                timeLeft--;
-            }, 1000);
+            const bundle = bundles[bundleType];
+            addToCart(`bundle-${bundleType}`, bundle.name, bundle.price, null);
+            
+            alert(`🎉 ${bundle.name} added to cart!\n\nTotal: $${bundle.price}`);
         }
 
-        // =====================================================
-        // RENDER DEALS
-        // =====================================================
-        function renderDeals() {
-            const dealsGrid = document.getElementById('dealsGrid');
-            dealsGrid.innerHTML = dealsData.map(deal => `
-                <div class="deal-card">
-                    <div class="deal-image">
-                        <span>${deal.image}</span>
-                        <div class="deal-badge">-${deal.discount}%</div>
-                        <div class="deal-time">${deal.timeLeft}</div>
+        // Render flash deals
+        function renderFlashDeals() {
+            const container = document.getElementById('flashDealsScroll');
+            container.innerHTML = flashDeals.map(deal => `
+                <div class="flash-deal-card" onclick="window.location.href='product.html?id=${deal.id}'">
+                    <div class="deal-image loading" data-src="${gameCovers[deal.cover]}">
+                        <div class="discount-badge">-${deal.discount}%</div>
+                        <div class="time-left"><i class="fas fa-clock"></i> ${deal.timeLeft}</div>
                     </div>
-                    <div class="deal-content">
-                        <div class="deal-title">${deal.name}</div>
+                    <div class="deal-info">
+                        <h3 class="deal-name">${deal.name}</h3>
                         <div class="deal-prices">
-                            <span class="deal-new">$${deal.price}</span>
-                            <span class="deal-old">$${deal.oldPrice}</span>
+                            <span class="deal-new-price">$${deal.price.toFixed(2)}</span>
+                            <span class="deal-old-price">$${deal.oldPrice.toFixed(2)}</span>
                         </div>
-                        <button class="deal-btn" onclick="addToCart(${deal.id})">Grab Deal Now!</button>
+                        <button class="deal-btn" onclick="addToCart(${deal.id}, '${deal.name}', ${deal.price}, event)">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
             `).join('');
+            
+            lazyLoadImages();
         }
 
-        // =====================================================
-        // EVENT LISTENERS
-        // =====================================================
+        // Render weekly deals
+        function renderWeeklyDeals() {
+            const container = document.getElementById('weeklyDealsGrid');
+            container.innerHTML = weeklyDeals.map(deal => `
+                <div class="weekly-deal-card" onclick="window.location.href='product.html?id=${deal.id}'">
+                    <div class="weekly-image loading" data-src="${gameCovers[deal.cover]}">
+                        <div class="weekly-discount">-${deal.discount}%</div>
+                    </div>
+                    <div class="weekly-info">
+                        <h3 class="weekly-name">${deal.name}</h3>
+                        <div class="weekly-prices">
+                            <span class="weekly-new-price">$${deal.price.toFixed(2)}</span>
+                            <span class="weekly-old-price">$${deal.oldPrice.toFixed(2)}</span>
+                        </div>
+                        <button class="weekly-btn" onclick="addToCart(${deal.id}, '${deal.name}', ${deal.price}, event)">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            lazyLoadImages();
+        }
+
+        // Lazy load images
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('.deal-image[data-src], .weekly-image[data-src]');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const el = entry.target;
+                            const src = el.dataset.src;
+                            const img = new Image();
+                            img.onload = () => {
+                                el.style.backgroundImage = `url('${src}')`;
+                                el.classList.remove('loading');
+                            };
+                            img.src = src;
+                            observer.unobserve(el);
+                        }
+                    });
+                }, { rootMargin: '50px' });
+                
+                images.forEach(el => observer.observe(el));
+            } else {
+                images.forEach(el => {
+                    el.style.backgroundImage = `url('${el.dataset.src}')`;
+                    el.classList.remove('loading');
+                });
+            }
+        }
+
+        // Countdown timer
+        function startCountdown() {
+            // Set end time to 2 days from now
+            const endTime = new Date().getTime() + (2 * 24 * 60 * 60 * 1000);
+            
+            function updateTimer() {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }
+            
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // Copy promo code
+        function copyPromoCode() {
+            const code = document.getElementById('promoCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
-            renderDeals();
+            renderFlashDeals();
+            renderWeeklyDeals();
             startCountdown();
-
-            // Tabs functionality
-            document.querySelectorAll('.tab-btn').forEach(tab => {
-                tab.onclick = () => {
-                    document.querySelector('.tab-btn.active').classList.remove('active');
-                    tab.classList.add('active');
-                    currentTab = tab.dataset.tab;
-                    // Could filter deals here based on tab
-                };
-            });
-
-            // Navbar active link
-            document.querySelector('.nav-links a[href="deals.html"]').classList.add('active');
         });
     </script>
 </body>

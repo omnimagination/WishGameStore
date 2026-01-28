@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-icon:hover {
+            color: var(--neon-green);
+            background: var(--glass-bg);
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--neon-green);
+            color: black;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .signin-btn {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,255,133,0.4);
+        }
+
+        .signin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,133,0.6);
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 100px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--neon-green);
+        }
+
+        .breadcrumb span {
+            color: var(--neon-green);
+            margin: 0 0.5rem;
+        }
+
+        /* PRODUCT CONTAINER */
+        .product-container {
+            max-width: 1400px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        /* PRODUCT IMAGE */
+        .product-gallery {
+            position: sticky;
+            top: 120px;
+        }
+
+        .main-image {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+            height: 500px;
+            position: relative;
+            border: 2px solid var(--glass-border);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .main-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(10,10,14,0.8) 100%);
+            pointer-events: none;
+        }
+
+        .discount-badge-large {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,255,133,0.4);
+        }
+
+        .edition-badge {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(0,0,0,0.8);
+            color: var(--neon-green);
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 700;
+            border: 1px solid var(--neon-green);
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            background: var(--glass-bg);
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: var(--neon-green);
+            box-shadow: 0 5px 20px rgba(0,255,133,0.3);
+            transform: scale(1.05);
+        }
+
+        /* PRODUCT INFO */
+        .product-info {
+            padding: 1rem 0;
+        }
+
+        .product-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--text-primary), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .product-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-item i {
+            color: var(--neon-green);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating i {
+            color: #ffd700;
+        }
+
+        /* PRICE BOX */
+        .price-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--neon-green);
+            text-shadow: 0 0 30px rgba(0,255,133,0.5);
+        }
+
+        .original-price {
+            font-size: 1.8rem;
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .save-badge {
+            background: rgba(0,255,133,0.2);
+            color: var(--neon-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-green);
+            font-weight: 600;
+        }
+
+        .stock-status i {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* QUANTITY SELECTOR */
+        .quantity-section {
+            margin-bottom: 2rem;
+        }
+
+        .quantity-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            width: fit-content;
+        }
+
+        .qty-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .qty-btn:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .qty-btn:hover {
+            background: var(--neon-green);
+            color: black;
+        }
+
+        .qty-input {
+            width: 80px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-left: none;
+            border-right: none;
+            color: var(--text-primary);
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-add-cart {
+            flex: 2;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .btn-add-cart:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,255,133,0.5);
+        }
+
+        .btn-add-cart.added {
+            background: var(--neon-green);
+        }
+
+        .btn-buy-now {
+            flex: 1;
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-buy-now:hover {
+            background: var(--neon-cyan);
+            color: black;
+            box-shadow: 0 10px 30px rgba(0,212,255,0.4);
+        }
+
+        .btn-wishlist {
+            width: 60px;
+            height: 60px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            color: var(--text-secondary);
+            border-radius: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-wishlist:hover, .btn-wishlist.active {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+            background: rgba(255,107,107,0.1);
+        }
+
+        /* TRUST BADGES */
+        .trust-badges {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .trust-badge i {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+
+        /* PRODUCT DESCRIPTION */
+        .product-description {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .description-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .description-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* FEATURES LIST */
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: rgba(0,255,133,0.05);
+            border-radius: 10px;
+        }
+
+        .feature-item i {
+            color: var(--neon-green);
+        }
+
+        /* SPECIFICATIONS */
+        .specifications {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        .spec-label {
+            color: var(--text-secondary);
+        }
+
+        .spec-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* RELATED PRODUCTS */
+        .related-section {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: var(--neon-green);
+            margin-bottom: 2rem;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .related-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .related-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 20px 40px rgba(0,255,133,0.2);
+        }
+
+        .related-image {
+            height: 150px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .related-info {
+            padding: 1.5rem;
+        }
+
+        .related-name {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-price {
+            color: var(--neon-green);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-gallery {
+                position: relative;
+                top: 0;
+            }
+
+            .main-image {
+                height: 400px;
+            }
+
+            .product-title {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-wrap: wrap;
+            }
+
+            .btn-add-cart {
+                flex: 1 1 100%;
+            }
+
+            .btn-buy-now {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .features-list, .spec-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="gamepass.html">Game Pass</a></li>
+                <li><a href="deals.html">Deals</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="goToCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+                <button class="signin-btn" onclick="window.location.href='login.html'">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="store.html">Store</a>
+        <span>›</span>
+        <span id="breadcrumbName">Game Name</span>
+    </div>
+
+    <!-- PRODUCT CONTAINER -->
+    <div class="product-container">
+        <!-- PRODUCT GALLERY -->
+        <div class="product-gallery">
+            <div class="main-image" id="mainImage">
+                <div class="discount-badge-large" id="discountBadge">-83%</div>
+                <div class="edition-badge" id="editionBadge">Premium Edition</div>
+            </div>
+            <div class="thumbnail-gallery">
+                <div class="thumbnail active" id="thumb1"></div>
+                <div class="thumbnail" id="thumb2"></div>
+                <div class="thumbnail" id="thumb3"></div>
+                <div class="thumbnail" id="thumb4"></div>
+            </div>
+        </div>
+
+        <!-- PRODUCT INFO -->
+        <div class="product-info">
+            <h1 class="product-title" id="productTitle">Game Title</h1>
+            
+            <div class="product-meta">
+                <div class="meta-item">
+                    <i class="fas fa-building"></i>
+                    <span id="publisher">Publisher</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-desktop"></i>
+                    <span id="platform">PC</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-calendar"></i>
+                    <span id="releaseDate">2024</span>
+                </div>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span>(4.5)</span>
+                </div>
+            </div>
+
+            <!-- PRICE BOX -->
+            <div class="price-box">
+                <div class="price-row">
+                    <span class="current-price" id="currentPrice">$9.99</span>
+                    <span class="original-price" id="originalPrice">$59.99</span>
+                    <span class="save-badge" id="saveBadge">Save $50.00</span>
+                </div>
+                <div class="stock-status">
+                    <i class="fas fa-circle"></i>
+                    <span>In Stock - Instant Delivery</span>
+                </div>
+            </div>
+
+            <!-- QUANTITY -->
+            <div class="quantity-section">
+                <label class="quantity-label">Quantity:</label>
+                <div class="quantity-selector">
+                    <button class="qty-btn" onclick="changeQuantity(-1)">-</button>
+                    <input type="number" class="qty-input" id="quantity" value="1" min="1" max="10">
+                    <button class="qty-btn" onclick="changeQuantity(1)">+</button>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="action-buttons">
+                <button class="btn-add-cart" id="addToCartBtn" onclick="addToCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    Add to Cart
+                </button>
+                <button class="btn-buy-now" onclick="buyNow()">
+                    <i class="fas fa-bolt"></i> Buy Now
+                </button>
+                <button class="btn-wishlist" id="wishlistBtn" onclick="toggleWishlist()">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+
+            <!-- TRUST BADGES -->
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <i class="fas fa-bolt"></i>
+                    <span>Instant Delivery</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Secure</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-undo"></i>
+                    <span>Money Back Guarantee</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-headset"></i>
+                    <span>24/7 Support</span>
+                </div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="product-description">
+                <h3 class="description-title">About This Game</h3>
+                <p class="description-text" id="productDescription">
+                    Game description will be loaded here...
+                </p>
+                
+                <div class="features-list" id="featuresList">
+                    <!-- Features will be loaded here -->
+                </div>
+            </div>
+
+            <!-- SPECIFICATIONS -->
+            <div class="specifications">
+                <h3 class="description-title">Product Details</h3>
+                <div class="spec-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Platform</span>
+                        <span class="spec-value" id="specPlatform">PC (Steam)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Edition</span>
+                        <span class="spec-value" id="specEdition">Premium</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Publisher</span>
+                        <span class="spec-value" id="specPublisher">Publisher</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Release Date</span>
+                        <span class="spec-value" id="specRelease">2024</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Activation</span>
+                        <span class="spec-value">Steam Key</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Region</span>
+                        <span class="spec-value">Global</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RELATED PRODUCTS -->
+    <section class="related-section">
+        <h2 class="section-title">You May Also Like</h2>
+        <div class="related-grid" id="relatedProducts">
+            <!-- Related products will be loaded here -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 WishGameStore. All rights reserved. | Premium Gaming Marketplace</p>
+        </div>
+    </footer>
+
+    <script>
+        // =====================================================
+        // GAME DATABASE WITH COVER IMAGES
+        // =====================================================
+        // High quality covers for product page (larger size)
+        const gameCovers = {
+            1: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/300px-Grand_Theft_Auto_V.png',
+            2: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/44/Red_Dead_Redemption_II.jpg/300px-Red_Dead_Redemption_II.jpg',
+            3: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Cyberpunk_2077_box_art.jpg/300px-Cyberpunk_2077_box_art.jpg',
+            4: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Elden_Ring_Box_art.jpg/300px-Elden_Ring_Box_art.jpg',
+            5: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Call_of_Duty_Modern_Warfare_III_Cover.jpg/300px-Call_of_Duty_Modern_Warfare_III_Cover.jpg',
+            6: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/ee/God_of_War_Ragnar%C3%B6k_cover.jpg/300px-God_of_War_Ragnar%C3%B6k_cover.jpg',
+            7: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/TLOU_P2_Box_Art_2.png/300px-TLOU_P2_Box_Art_2.png',
+            8: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6d/Starfield_cover.jpg/300px-Starfield_cover.jpg',
+            9: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Resident_Evil_4_remake_cover_art.jpg/300px-Resident_Evil_4_remake_cover_art.jpg',
+            10: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Hogwarts_Legacy_cover_art.png/300px-Hogwarts_Legacy_cover_art.png',
+            11: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9d/Cover_Art_of_Doom_Eternal.png/300px-Cover_Art_of_Doom_Eternal.png',
+            12: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Assassin%27s_Creed_Valhalla_cover.jpg/300px-Assassin%27s_Creed_Valhalla_cover.jpg',
+            13: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Spider-Man_Remastered_cover_art.png/300px-Spider-Man_Remastered_cover_art.png',
+            14: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Baldur%27s_Gate_3_cover_art.jpg/300px-Baldur%27s_Gate_3_cover_art.jpg',
+            15: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Battlefield_2042.jpg/300px-Battlefield_2042.jpg',
+            16: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg/300px-Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg'
+        };
+        
+        // Smaller thumbnails for related products
+        const gameThumbs = {
+            1: 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/150px-Grand_Theft_Auto_V.png',
+            2: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/44/Red_Dead_Redemption_II.jpg/150px-Red_Dead_Redemption_II.jpg',
+            3: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Cyberpunk_2077_box_art.jpg/150px-Cyberpunk_2077_box_art.jpg',
+            4: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Elden_Ring_Box_art.jpg/150px-Elden_Ring_Box_art.jpg',
+            5: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Call_of_Duty_Modern_Warfare_III_Cover.jpg/150px-Call_of_Duty_Modern_Warfare_III_Cover.jpg',
+            6: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/ee/God_of_War_Ragnar%C3%B6k_cover.jpg/150px-God_of_War_Ragnar%C3%B6k_cover.jpg',
+            7: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/TLOU_P2_Box_Art_2.png/150px-TLOU_P2_Box_Art_2.png',
+            8: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6d/Starfield_cover.jpg/150px-Starfield_cover.jpg',
+            9: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Resident_Evil_4_remake_cover_art.jpg/150px-Resident_Evil_4_remake_cover_art.jpg',
+            10: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/Hogwarts_Legacy_cover_art.png/150px-Hogwarts_Legacy_cover_art.png',
+            11: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9d/Cover_Art_of_Doom_Eternal.png/150px-Cover_Art_of_Doom_Eternal.png',
+            12: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Assassin%27s_Creed_Valhalla_cover.jpg/150px-Assassin%27s_Creed_Valhalla_cover.jpg',
+            13: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Spider-Man_Remastered_cover_art.png/150px-Spider-Man_Remastered_cover_art.png',
+            14: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/12/Baldur%27s_Gate_3_cover_art.jpg/150px-Baldur%27s_Gate_3_cover_art.jpg',
+            15: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Battlefield_2042.jpg/150px-Battlefield_2042.jpg',
+            16: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg/150px-Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg'
+        };
+
+        const allGames = [
+            { id: 1, name: 'GTA V Premium Edition', price: 9.99, oldPrice: 59.99, discount: 83, image: gameCovers[1], category: 'action', popularity: 1000, edition: 'Premium Edition', platform: 'PC', publisher: 'Rockstar Games', releaseDate: '2013-09-17', description: 'Grand Theft Auto V for PC offers players the option to explore the award-winning world of Los Santos and Blaine County in resolutions of up to 4k and beyond, as well as the chance to experience the game running at 60 frames per second.', features: ['4K Resolution Support', 'First Person Mode', 'Online Multiplayer', 'Open World', 'Story Mode'] },
+            { id: 2, name: 'Red Dead Redemption 2', price: 14.99, oldPrice: 59.99, discount: 75, image: gameCovers[2], category: 'action', popularity: 950, edition: 'Ultimate Edition', platform: 'PC', publisher: 'Rockstar Games', releaseDate: '2019-11-05', description: 'Winner of over 175 Game of the Year Awards and recipient of over 250 perfect scores, Red Dead Redemption 2 is an epic tale of honor and loyalty at the dawn of the modern age.', features: ['Open World', '4K Support', 'HDR', 'Online Mode', 'Story Campaign'] },
+            { id: 3, name: 'Cyberpunk 2077', price: 19.99, oldPrice: 59.99, discount: 67, image: gameCovers[3], category: 'rpg', popularity: 900, edition: 'Ultimate Edition', platform: 'PC', publisher: 'CD Projekt Red', releaseDate: '2020-12-10', description: 'Cyberpunk 2077 is an open-world, action-adventure RPG set in the megalopolis of Night City, where you play as a cyberpunk mercenary wrapped up in a do-or-die fight for survival.', features: ['Ray Tracing', 'Open World', 'Character Customization', 'Multiple Endings', 'Phantom Liberty DLC'] },
+            { id: 4, name: 'Elden Ring', price: 23.99, oldPrice: 59.99, discount: 60, image: gameCovers[4], category: 'rpg', popularity: 850, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Bandai Namco', releaseDate: '2022-02-25', description: 'THE NEW FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.', features: ['Open World', 'Co-op Multiplayer', 'PvP', 'Character Classes', 'Boss Battles'] },
+            { id: 5, name: 'Call of Duty: MW3', price: 29.99, oldPrice: 69.99, discount: 57, image: gameCovers[5], category: 'shooter', popularity: 800, edition: 'Vault Edition', platform: 'PC', publisher: 'Activision', releaseDate: '2023-11-10', description: 'Call of Duty: Modern Warfare III is the direct sequel to the record-breaking Call of Duty: Modern Warfare II. Captain Price and Task Force 141 face off against the ultimate threat.', features: ['Campaign', 'Multiplayer', 'Zombies', 'Warzone Integration', 'Cross-Platform'] },
+            { id: 6, name: 'God of War Ragnarök', price: 34.99, oldPrice: 69.99, discount: 50, image: gameCovers[6], category: 'action', popularity: 780, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2024-09-19', description: 'Embark on an epic and heartfelt journey as Kratos and Atreus struggle with holding on and letting go. Witness the changing dynamic of their relationship.', features: ['Story Mode', 'Combat System', 'Norse Mythology', 'Boss Battles', 'Exploration'] },
+            { id: 7, name: 'The Last of Us Part II', price: 27.99, oldPrice: 59.99, discount: 53, image: gameCovers[7], category: 'adventure', popularity: 750, edition: 'Remastered', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2024-04-02', description: 'Experience the devastating physical and emotional journey of Ellie as she pursues vengeance against those who have wronged her.', features: ['Story Driven', 'Stealth Gameplay', 'Crafting System', 'Accessibility Options', 'Photo Mode'] },
+            { id: 8, name: 'Starfield', price: 39.99, oldPrice: 69.99, discount: 43, image: gameCovers[8], category: 'rpg', popularity: 720, edition: 'Premium Edition', platform: 'PC', publisher: 'Bethesda', releaseDate: '2023-09-06', description: 'Starfield is the first new universe in 25 years from Bethesda Game Studios. In this next generation role-playing game set amongst the stars, create any character you want and explore with unparalleled freedom.', features: ['Open World', 'Space Exploration', 'Ship Building', 'Base Building', 'Modding Support'] },
+            { id: 9, name: 'Resident Evil 4 Remake', price: 24.99, oldPrice: 59.99, discount: 58, image: gameCovers[9], category: 'action', popularity: 700, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Capcom', releaseDate: '2023-03-24', description: 'Survival is just the beginning. Six years have passed since the biological disaster in Raccoon City. Leon S. Kennedy, one of the survivors, tracks the presidents kidnapped daughter to a secluded European village.', features: ['Ray Tracing', 'Reimagined Story', 'Modern Controls', 'VR Support', 'New Game Plus'] },
+            { id: 10, name: 'Hogwarts Legacy', price: 31.99, oldPrice: 69.99, discount: 54, image: gameCovers[10], category: 'rpg', popularity: 680, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Warner Bros', releaseDate: '2023-02-10', description: 'Hogwarts Legacy is an immersive, open-world action RPG. Your legacy is what you make of it. Live the unwritten.', features: ['Open World', 'Spell Casting', 'Character Creator', 'House Selection', 'Magical Beasts'] },
+            { id: 11, name: 'DOOM Eternal', price: 19.99, oldPrice: 39.99, discount: 50, image: gameCovers[11], category: 'shooter', popularity: 650, edition: 'Deluxe Edition', platform: 'PC', publisher: 'Bethesda', releaseDate: '2020-03-20', description: 'Hells armies have invaded Earth. Become the Slayer in an epic single-player campaign to conquer demons across dimensions and stop the final destruction of humanity.', features: ['Fast Combat', 'Glory Kills', 'Multiplayer', 'DLC Campaigns', 'Master Levels'] },
+            { id: 12, name: 'Assassins Creed Valhalla', price: 22.99, oldPrice: 59.99, discount: 61, image: gameCovers[12], category: 'action', popularity: 620, edition: 'Complete Edition', platform: 'PC', publisher: 'Ubisoft', releaseDate: '2020-11-10', description: 'Become Eivor, a legendary Viking raider on a quest for glory. Explore Englands Dark Ages as you raid your enemies, grow your settlement, and build your political power.', features: ['Open World', 'Viking Combat', 'Settlement Building', 'Raids', 'Multiple DLCs'] },
+            { id: 13, name: 'Spider-Man Remastered', price: 44.99, oldPrice: 69.99, discount: 36, image: gameCovers[13], category: 'action', popularity: 600, edition: 'Remastered', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2022-08-12', description: 'In Marvels Spider-Man Remastered, the worlds of Peter Parker and Spider-Man collide in an original, action-packed story. Play as an experienced Peter Parker, fighting big crime and iconic villains in Marvels New York.', features: ['Open World NYC', 'Web Swinging', 'Suit Collection', 'Ray Tracing', 'Photo Mode'] },
+            { id: 14, name: 'Baldurs Gate 3', price: 49.99, oldPrice: 59.99, discount: 17, image: gameCovers[14], category: 'rpg', popularity: 580, edition: 'Digital Deluxe', platform: 'PC', publisher: 'Larian Studios', releaseDate: '2023-08-03', description: 'Gather your party and return to the Forgotten Realms in a tale of fellowship and betrayal, sacrifice and survival, and the lure of absolute power.', features: ['Turn-Based Combat', 'Co-op Multiplayer', 'Character Creation', 'Multiple Endings', 'Romance Options'] },
+            { id: 15, name: 'Battlefield 2042', price: 26.99, oldPrice: 59.99, discount: 54, image: gameCovers[15], category: 'shooter', popularity: 550, edition: 'Gold Edition', platform: 'PC', publisher: 'EA', releaseDate: '2021-11-19', description: 'Battlefield 2042 is a first-person shooter that marks the return to the iconic all-out warfare of the franchise. Adapt and overcome in a near-future world transformed by disorder.', features: ['128 Players', 'All-Out Warfare', 'Portal Mode', 'Hazard Zone', 'Specialists'] },
+            { id: 16, name: 'Uncharted Legacy of Thieves', price: 28.99, oldPrice: 49.99, discount: 42, image: gameCovers[16], category: 'adventure', popularity: 520, edition: 'Collection', platform: 'PC', publisher: 'Sony Interactive', releaseDate: '2022-10-19', description: 'Seek your legacy and leave your mark on the map in UNCHARTED: Legacy of Thieves Collection. Includes UNCHARTED 4: A Thiefs End and UNCHARTED: The Lost Legacy.', features: ['Two Games', 'Remastered Graphics', 'Photo Mode', 'Accessibility', 'PC Optimized'] }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+        let currentProduct = null;
+        let quantity = 1;
+
+        // =====================================================
+        // LOAD PRODUCT
+        // =====================================================
+        function loadProduct() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+
+            if (!productId) {
+                window.location.href = 'store.html';
+                return;
+            }
+
+            currentProduct = allGames.find(game => game.id === productId);
+
+            if (!currentProduct) {
+                window.location.href = 'store.html';
+                return;
+            }
+
+            // Update page title
+            document.title = `${currentProduct.name} - WishGameStore`;
+
+            // Update breadcrumb
+            document.getElementById('breadcrumbName').textContent = currentProduct.name;
+
+            // Update product image with cover
+            const mainImage = document.getElementById('mainImage');
+            mainImage.style.backgroundImage = `url('${currentProduct.image}')`;
+            mainImage.style.backgroundSize = 'cover';
+            mainImage.style.backgroundPosition = 'center';
+            
+            // Update badges
+            document.getElementById('discountBadge').textContent = `-${currentProduct.discount}%`;
+            document.getElementById('editionBadge').textContent = currentProduct.edition;
+            
+            // Update thumbnails with cover images
+            document.getElementById('thumb1').style.cssText = `background: url('${currentProduct.image}') center/cover no-repeat; border-radius: 15px;`;
+            document.getElementById('thumb2').style.cssText = `background: url('${currentProduct.image}') center/cover no-repeat; border-radius: 15px; filter: brightness(0.8);`;
+            document.getElementById('thumb3').style.cssText = `background: url('${currentProduct.image}') center/cover no-repeat; border-radius: 15px; filter: saturate(1.3);`;
+            document.getElementById('thumb4').style.cssText = `background: url('${currentProduct.image}') center/cover no-repeat; border-radius: 15px; filter: contrast(1.1);`;
+
+            // Update product info
+            document.getElementById('productTitle').textContent = currentProduct.name;
+            document.getElementById('publisher').textContent = currentProduct.publisher;
+            document.getElementById('platform').textContent = currentProduct.platform;
+            document.getElementById('releaseDate').textContent = new Date(currentProduct.releaseDate).getFullYear();
+
+            // Update pricing
+            document.getElementById('currentPrice').textContent = `$${currentProduct.price.toFixed(2)}`;
+            document.getElementById('originalPrice').textContent = `$${currentProduct.oldPrice.toFixed(2)}`;
+            document.getElementById('saveBadge').textContent = `Save $${(currentProduct.oldPrice - currentProduct.price).toFixed(2)}`;
+
+            // Update description
+            document.getElementById('productDescription').textContent = currentProduct.description;
+
+            // Update features
+            const featuresList = document.getElementById('featuresList');
+            featuresList.innerHTML = currentProduct.features.map(feature => `
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${feature}</span>
+                </div>
+            `).join('');
+
+            // Update specifications
+            document.getElementById('specPlatform').textContent = `${currentProduct.platform} (Steam)`;
+            document.getElementById('specEdition').textContent = currentProduct.edition;
+            document.getElementById('specPublisher').textContent = currentProduct.publisher;
+            document.getElementById('specRelease').textContent = currentProduct.releaseDate;
+
+            // Load related products
+            loadRelatedProducts();
+        }
+
+        function loadRelatedProducts() {
+            const related = allGames
+                .filter(game => game.id !== currentProduct.id && game.category === currentProduct.category)
+                .slice(0, 4);
+
+            const relatedGrid = document.getElementById('relatedProducts');
+            relatedGrid.innerHTML = related.map(game => `
+                <div class="related-card" onclick="window.location.href='product.html?id=${game.id}'">
+                    <div class="related-image" data-src="${gameThumbs[game.id] || game.image}"></div>
+                    <div class="related-info">
+                        <div class="related-name">${game.name}</div>
+                        <div class="related-price">$${game.price.toFixed(2)}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Lazy load related images
+            lazyLoadRelatedImages();
+        }
+        
+        function lazyLoadRelatedImages() {
+            const images = document.querySelectorAll('.related-image[data-src]');
+            images.forEach(el => {
+                const src = el.dataset.src;
+                const img = new Image();
+                img.onload = () => {
+                    el.style.backgroundImage = `url('${src}')`;
+                };
+                img.src = src;
+            });
+        }
+
+        // =====================================================
+        // CART FUNCTIONS
+        // =====================================================
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            if (badge) {
+                badge.textContent = count || 0;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function changeQuantity(delta) {
+            const input = document.getElementById('quantity');
+            let newValue = parseInt(input.value) + delta;
+            if (newValue < 1) newValue = 1;
+            if (newValue > 10) newValue = 10;
+            input.value = newValue;
+            quantity = newValue;
+        }
+
+        function addToCart() {
+            const qty = parseInt(document.getElementById('quantity').value);
+            const existingItem = cart.find(item => item.id === currentProduct.id);
+            
+            if (existingItem) {
+                existingItem.quantity += qty;
+            } else {
+                cart.push({ 
+                    id: currentProduct.id, 
+                    name: currentProduct.name, 
+                    price: currentProduct.price, 
+                    image: currentProduct.image, 
+                    quantity: qty 
+                });
+            }
+            
+            saveCart();
+            updateCartCount();
+
+            // Visual feedback
+            const btn = document.getElementById('addToCartBtn');
+            btn.innerHTML = '<i class="fas fa-check"></i> Added to Cart!';
+            btn.classList.add('added');
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+                btn.classList.remove('added');
+            }, 2000);
+        }
+
+        function buyNow() {
+            addToCart();
+            setTimeout(() => {
+                window.location.href = 'cart.html';
+            }, 500);
+        }
+
+        function toggleWishlist() {
+            const btn = document.getElementById('wishlistBtn');
+            btn.classList.toggle('active');
+            const icon = btn.querySelector('i');
+            if (btn.classList.contains('active')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
+        }
+
+        function goToCart() {
+            window.location.href = 'cart.html';
+        }
+
+        // =====================================================
+        // INITIALIZE
+        // =====================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProduct();
+            updateCartCount();
+
+            // Quantity input handler
+            document.getElementById('quantity').addEventListener('change', function() {
+                let val = parseInt(this.value);
+                if (val < 1) val = 1;
+                if (val > 10) val = 10;
+                this.value = val;
+                quantity = val;
+            });
+        });
+    </script>
+</body>
+</html>
