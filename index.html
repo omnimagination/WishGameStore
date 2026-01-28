@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WishGameStore - Premium Gaming Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .search-icon, .cart-icon {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .search-icon:hover, .cart-icon:hover {
+            color: var(--neon-green);
+            background: var(--glass-bg);
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--neon-green);
+            color: black;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .signin-btn {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,255,133,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .signin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,133,0.6);
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(0,255,133,0.1) 0%, transparent 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300ff85' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            color: var(--neon-green);
+            font-weight: 600;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(0,255,133,0.3); }
+            to { box-shadow: 0 0 20px rgba(0,255,133,0.6); }
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0,255,133,0.5);
+            animation: neonGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes neonGlow {
+            from { filter: drop-shadow(0 0 10px var(--neon-green)); }
+            to { filter: drop-shadow(0 0 20px var(--neon-green)); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,255,133,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,255,133,0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--glass-border);
+            padding: 1.1rem 2.8rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neon-green);
+            color: black;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,255,133,0.5);
+        }
+
+        /* CATEGORIES */
+        .section {
+            padding: 8rem 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .category-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,133,0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--neon-green);
+            box-shadow: 0 30px 60px rgba(0,255,133,0.3);
+        }
+
+        .category-icon {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-count {
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* WHY CHOOSE */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 25px 50px rgba(0,255,133,0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--neon-green);
+            margin-bottom: 1.5rem;
+        }
+
+        /* GAMES */
+        .games-section {
+            background: rgba(0,255,133,0.05);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .games-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 3rem;
+        }
+
+        .games-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 25px 50px rgba(0,255,133,0.3);
+        }
+
+        .game-image {
+            height: 200px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .edition-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.7);
+            color: var(--neon-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .new-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--neon-green);
+        }
+
+        .old-price {
+            font-size: 1.1rem;
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .buy-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,255,133,0.5);
+        }
+
+        .view-all {
+            align-self: flex-start;
+            margin-top: 2rem;
+            color: var(--neon-green);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .view-all:hover {
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            text-align: center;
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: black;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .cta-subtitle {
+            font-size: 1.4rem;
+            color: rgba(0,0,0,0.8);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--neon-green);
+            margin-bottom: 1.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--neon-green);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons i {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .social-icons i:hover {
+            color: var(--neon-green);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .games-container {
+                flex-direction: column;
+            }
+
+            .cta-title {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#store">Store</a></li>
+                <li><a href="#gamepass">Game Pass</a></li>
+                <li><a href="#deals">Deals</a></li>
+                <li><a href="#howitworks">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-badge" id="cartCount">3</span>
+</div>
+                <button class="signin-btn">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="badge">Trusted by 10,000+ Gamers</div>
+            <h1 class="hero-title">
+                Play More.<br>
+                <span class="highlight">Pay Less.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Cheap & Original PC Games, Game Passes & Subscriptions.<br>
+                Instant delivery, unbeatable prices.
+            </p>
+            <div class="cta-buttons">
+                <button class="btn-primary">Browse Games →</button>
+                <button class="btn-secondary">View Deals ⚡</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Explore Categories</h2>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">🖥️</div>
+                    <div class="category-count">500+</div>
+                    <h3>PC Games</h3>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎮</div>
+                    <div class="category-count">15+</div>
+                    <h3>Game Passes</h3>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📋</div>
+                    <div class="category-count">10+</div>
+                    <h3>Subscriptions</h3>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📦</div>
+                    <div class="category-count">200+</div>
+                    <h3>DLCs</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose WishGameStore?</h2>
+                <p class="section-subtitle">We're committed to providing the best gaming experience at unbeatable prices.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Delivery</h3>
+                    <p>Get your game key within minutes</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔓</div>
+                    <h3>Full Access Accounts</h3>
+                    <p>Complete ownership with all features unlocked</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>1000+ Games</h3>
+                    <p>Huge library at unbeatable prices</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛠️</div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer assistance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRENDING GAMES -->
+    <section id="store" class="section games-section">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                <h2 class="section-title">Trending Games</h2>
+                <a href="#" class="view-all">View All →</a>
+            </div>
+            <div class="games-container">
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-image">
+                            <div>🚗</div>
+                            <div class="discount-badge">-83%</div>
+                            <div class="edition-tag">Premium Edition</div>
+                        </div>
+                        <div class="game-info">
+                            <div class="game-name">GTA V Premium Edition</div>
+                            <div class="price-container">
+                                <span class="new-price">$9.99</span>
+                                <span class="old-price">$59.99</span>
+                            </div>
+                            <button class="buy-btn">Buy Now</button>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-image">
+                            <div>🤠</div>
+                            <div class="discount-badge">-75%</div>
+                            <div class="edition-tag">Ultimate</div>
+                        </div>
+                        <div class="game-info">
+                            <div class="game-name">Red Dead Redemption 2</div>
+                            <div class="price-container">
+                                <span class="new-price">$14.99</span>
+                                <span class="old-price">$59.99</span>
+                            </div>
+                            <button class="buy-btn">Buy Now</button>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-image">
+                            <div>🌃</div>
+                            <div class="discount-badge">-67%</div>
+                            <div class="edition-tag">Deluxe</div>
+                        </div>
+                        <div class="game-info">
+                            <div class="game-name">Cyberpunk 2077</div>
+                            <div class="price-container">
+                                <span class="new-price">$19.99</span>
+                                <span class="old-price">$59.99</span>
+                            </div>
+                            <button class="buy-btn">Buy Now</button>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-image">
+                            <div>⚔️</div>
+                            <div class="discount-badge">-60%</div>
+                            <div class="edition-tag">Deluxe</div>
+                        </div>
+                        <div class="game-info">
+                            <div class="game-name">Elden Ring</div>
+                            <div class="price-container">
+                                <span class="new-price">$23.99</span>
+                                <span class="old-price">$59.99</span>
+                            </div>
+                            <button class="buy-btn">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Level Up?</h2>
+                <p class="cta-subtitle">Join thousands of gamers saving big on premium games, passes, and subscriptions.</p>
+                <button class="btn-primary" style="background: black; color: var(--neon-green); border: 2px solid rgba(255,255,255,0.3); font-size: 1.3rem; padding: 1.3rem 4rem;">
+                    Start Shopping →
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>WishGameStore</h3>
+                    <p>Your premium destination for cheap & original PC games, game passes, and subscriptions. Instant delivery guaranteed.</p>
+                    <div class="social-icons">
+                        <i class="fab fa-discord"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-twitch"></i>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#">Store</a>
+                    <a href="#">Game Pass</a>
+                    <a href="#">Deals</a>
+                    <a href="#">How It Works</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Refund Policy</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><a href="mailto:support@wishgamestore.com">support@wishgamestore.com</a></p>
+                    <p>Support Hours: 24/7</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 WishGameStore. All rights reserved. | Premium Gaming Marketplace</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

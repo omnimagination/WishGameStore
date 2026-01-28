@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-green) var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .search-icon, .cart-icon {
+            font-size: 1.3rem;
+            color: var(--neon-green);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-icon {
+            background: var(--glass-bg);
+        }
+
+        .cart-icon:hover {
+            background: var(--neon-green);
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .signin-btn {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,255,133,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .signin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,255,133,0.6);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(0,255,133,0.1) 0%, transparent 70%);
+            padding-top: 100px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        /* CART CONTAINER */
+        .cart-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .cart-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .continue-shopping {
+            color: var(--neon-green);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .continue-shopping:hover {
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* CART ITEMS */
+        .cart-items {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item:hover {
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .game-image {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--glass-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .qty-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background: var(--glass-bg);
+            color: var(--neon-green);
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn:hover {
+            background: var(--neon-green);
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .qty-display {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--neon-green);
+        }
+
+        .item-total {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            min-width: 120px;
+            text-align: right;
+        }
+
+        .remove-btn {
+            background: rgba(255,68,68,0.2);
+            border: 1px solid rgba(255,68,68,0.4);
+            color: #ff4444;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .remove-btn:hover {
+            background: #ff4444;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* EMPTY CART */
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-icon {
+            font-size: 6rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* CART SUMMARY */
+        .cart-summary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 1.1rem;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-top: 1rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .summary-label {
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .checkout-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-checkout {
+            flex: 1;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            color: black;
+            border: none;
+            padding: 1.3rem 2rem;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 200px;
+        }
+
+        .btn-checkout:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,255,133,0.5);
+        }
+
+        .btn-continue {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--glass-border);
+            padding: 1.2rem 2rem;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-transform: uppercase;
+            min-width: 200px;
+        }
+
+        .btn-continue:hover {
+            background: var(--neon-green);
+            color: black;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .quantity-controls {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .item-total {
+                order: 2;
+                text-align: center;
+            }
+
+            .checkout-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i>
+                WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#store">Store</a></li>
+                <li><a href="#gamepass">Game Pass</a></li>
+                <li><a href="#deals">Deals</a></li>
+            </ul>
+            <div class="nav-icons">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">3</span>
+                </div>
+                <button class="signin-btn">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="page-title">Your Cart</h1>
+        </div>
+    </section>
+
+    <!-- CART CONTENT -->
+    <div class="cart-container">
+        <div class="cart-header">
+            <h1 class="cart-title">Shopping Cart</h1>
+            <a href="index.html" class="continue-shopping">
+                ← Continue Shopping
+            </a>
+        </div>
+
+        <div class="cart-items" id="cartItems">
+            <!-- DYNAMIC CART ITEMS -->
+        </div>
+
+        <div class="cart-summary" id="cartSummary" style="display: none;">
+            <div class="summary-row">
+                <span class="summary-label">Subtotal:</span>
+                <span class="summary-value" id="subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Tax (8%):</span>
+                <span class="summary-value" id="tax">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Shipping:</span>
+                <span class="summary-value">FREE</span>
+            </div>
+            <div class="summary-row">
+                <span>Total:</span>
+                <span id="total">$0.00</span>
+            </div>
+            <div class="checkout-buttons">
+                <button class="btn-checkout" onclick="window.location.href='checkout.html'">
+                    Proceed to Checkout →
+                </button>
+                <button class="btn-continue" onclick="window.location.href='index.html'">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+
+        <!-- EMPTY CART STATE -->
+        <div class="empty-cart" id="emptyCart" style="display: none;">
+            <div class="empty-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h2 style="font-family: 'Orbitron', monospace; font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-secondary);">
+                Your Cart is Empty
+            </h2>
+            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                Looks like you haven't added anything to your cart yet.
+            </p>
+            <a href="index.html" class="btn-checkout" style="display: inline-block;">
+                Start Shopping →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Products data
+        const products = {
+            1: { name: 'GTA V Premium Edition', price: 9.99, image: '🚗' },
+            2: { name: 'Red Dead Redemption 2', price: 14.99, image: '🤠' },
+            3: { name: 'Cyberpunk 2077', price: 19.99, image: '🌃' },
+            4: { name: 'Elden Ring', price: 23.99, image: '⚔️' }
+        };
+
+        let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+
+        function renderCart() {
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartSummaryEl = document.getElementById('cartSummary');
+            const emptyCartEl = document.getElementById('emptyCart');
+            const cartCount = document.getElementById('cartCount');
+
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cart.length === 0) {
+                cartItemsEl.style.display = 'none';
+                cartSummaryEl.style.display = 'none';
+                emptyCartEl.style.display = 'block';
+                return;
+            }
+
+            cartItemsEl.style.display = 'block';
+            cartSummaryEl.style.display = 'block';
+            emptyCartEl.style.display = 'none';
+
+            cartItemsEl.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="game-image">${item.image}</div>
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">$${item.price.toFixed(2)} each</div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
+                        <span class="qty-display">${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                    </div>
+                    <div class="item-total">$${(item.price * item.quantity).toFixed(2)}</div>
+                    <button class="remove-btn" onclick="removeItem(${item.id})" title="Remove item">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            updateSummary();
+        }
+
+        function updateQuantity(id, change) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity = Math.max(1, item.quantity + change);
+                if (item.quantity === 0) {
+                    removeItem(id);
+                    return;
+                }
+                saveCart();
+                renderCart();
+            }
+        }
+
+        function removeItem(id) {
+            cart = cart.filter(item => item.id !== id);
+            saveCart();
+            renderCart();
+        }
+
+        function updateSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function saveCart() {
+            localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+</body>
+</html>

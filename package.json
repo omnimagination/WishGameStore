@@ -1,0 +1,9 @@
+{
+  "name": "wishgamestore",
+  "version": "1.0.0",
+  "description": "Gacha Simulator",
+  "scripts": {
+    "start": "live-server . --port=3000 --host=localhost",
+    "dev": "live-server . --port=3000 --host=localhost"
+  }
+}
