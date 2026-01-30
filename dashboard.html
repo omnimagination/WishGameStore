@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - WishGameStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reusing common styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --neon-green: #00ff85;
+            --neon-cyan: #00d4ff;
+            --dark-bg: #0a0a0e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(0,255,133,0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(10,10,14,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        .nav-container {
+            max-width: 1400px; margin: 0 auto; padding: 0 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-family: 'Orbitron', monospace; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex; align-items: center; gap: 2rem; list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+        
+        .main-content {
+            flex: 1;
+            padding: 120px 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .welcome-text h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            color: var(--text-primary);
+        }
+        .welcome-text span {
+            color: var(--neon-green);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--neon-cyan); }
+
+        .card h2 {
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            color: var(--neon-cyan);
+        }
+
+        .user-info p {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+        .user-info strong { color: var(--text-primary); }
+
+        .action-btn {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .action-btn:hover {
+            background: var(--neon-green);
+            color: black;
+        }
+
+        .logout-btn {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: #ff4757;
+            color: #ff4757;
+        }
+        .logout-btn:hover {
+            background: #ff4757;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i> WishGameStore
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="dashboard-header">
+            <div class="welcome-text">
+                <h1>Hello, <span id="welcomeUsername">Gamer</span>!</h1>
+                <p style="color: var(--text-secondary);">Welcome to your dashboard</p>
+            </div>
+            <button id="logoutBtn" class="action-btn logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>Account Info</h2>
+                <div class="user-info">
+                    <p>Username: <strong id="displayUsername">Loading...</strong></p>
+                    <p>Email: <strong id="displayEmail">Loading...</strong></p>
+                    <p>Member Since: <strong id="displayJoined">Loading...</strong></p>
+                </div>
+                <a href="profile.html" class="action-btn">Edit Profile</a>
+            </div>
+
+            <div class="card">
+                <h2>My Games</h2>
+                <p style="color: var(--text-secondary);">You haven't purchased any games yet.</p>
+                <a href="store.html" class="action-btn">Browse Store</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/auth-guard.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
