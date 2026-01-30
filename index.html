@@ -823,44 +823,6 @@
     </style>
 </head>
 <body>
-    <script>
-        // Force Currency Converter - Runs on every page load
-        (function forceCurrency() {
-            function convert() {
-                // Replace all $ symbols with ₹ in text nodes
-                const walker = document.createTreeWalker(
-                    document.body,
-                    NodeFilter.SHOW_TEXT,
-                    null,
-                    false
-                );
-                
-                let node;
-                while (node = walker.nextNode()) {
-                    if (node.nodeValue.includes('$')) {
-                        // Simple replace for symbol
-                        node.nodeValue = node.nodeValue.replace(/\$/g, '₹');
-                        
-                        // Convert typical USD prices to INR roughly (x83)
-                        // This handles dynamic text that might still be in USD
-                        node.nodeValue = node.nodeValue.replace(/(\d+\.\d{2})/g, (match) => {
-                            return Math.round(parseFloat(match) * 83).toLocaleString('en-IN');
-                        });
-                    }
-                }
-            }
-            
-            // Run immediately
-            convert();
-            
-            // Run periodically to catch dynamic content
-            setInterval(convert, 100);
-            
-            // Also observe DOM changes
-            const observer = new MutationObserver(convert);
-            observer.observe(document.body, { childList: true, subtree: true });
-        })();
-    </script>
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
@@ -884,7 +846,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cartCount">0</span>
                 </div>
-                <button class="signin-btn">Sign In</button>
+                <button class="signin-btn" id="navSigninBtn">Sign In</button>
             </div>
         </div>
     </nav>
@@ -1074,8 +1036,8 @@
                         <div class="game-info">
                             <div class="game-name">GTA V Premium Edition</div>
                             <div class="price-container">
-                                <span class="new-price">₹799</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="new-price">$9.99</span>
+                                <span class="old-price">$59.99</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1088,8 +1050,8 @@
                         <div class="game-info">
                             <div class="game-name">Red Dead Redemption 2</div>
                             <div class="price-container">
-                                <span class="new-price">₹1,199</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="new-price">$14.99</span>
+                                <span class="old-price">$59.99</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1102,8 +1064,8 @@
                         <div class="game-info">
                             <div class="game-name">Cyberpunk 2077</div>
                             <div class="price-container">
-                                <span class="new-price">₹1,599</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="new-price">$19.99</span>
+                                <span class="old-price">$59.99</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1116,8 +1078,8 @@
                         <div class="game-info">
                             <div class="game-name">Elden Ring</div>
                             <div class="price-container">
-                                <span class="new-price">₹1,899</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="new-price">$23.99</span>
+                                <span class="old-price">$59.99</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1214,6 +1176,387 @@
         </div>
         <div id="searchResults" style="margin-top:10px;max-height:350px;overflow-y:auto;"></div>
     </div>
+
+    <script>
+    // RGB KEYBOARD WAVE ANIMATION - Dynamic delay assignment
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('.keyboard-row');
+        rows.forEach((row, rowIndex) => {
+            const keys = row.querySelectorAll('.key');
+            keys.forEach((key, keyIndex) => {
+                // Create wave effect: delay based on both row and column
+                const delay = (keyIndex * 0.06) + (rowIndex * 0.12);
+                key.style.animationDelay = `${delay}s`;
+            });
+        });
+        
+        // Lazy load game images
+        lazyLoadGameImages();
+    });
+    
+    // Lazy load images with Intersection Observer
+    function lazyLoadGameImages() {
+        const imageElements = document.querySelectorAll('.game-image[data-src]');
+        
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const src = element.dataset.src;
+                        
+                        // Create image to preload
+                        const img = new Image();
+                        img.onload = () => {
+                            element.style.backgroundImage = `url('${src}')`;
+                            element.classList.remove('loading');
+                        };
+                        img.onerror = () => {
+                            element.classList.remove('loading');
+                        };
+                        img.src = src;
+                        element.classList.add('loading');
+                        
+                        observer.unobserve(element);
+                    }
+                });
+            }, { rootMargin: '100px' });
+            
+            imageElements.forEach(el => {
+                el.classList.add('loading');
+                observer.observe(el);
+            });
+        } else {
+            // Fallback for older browsers
+            imageElements.forEach(element => {
+                const src = element.dataset.src;
+                element.style.backgroundImage = `url('${src}')`;
+            });
+        }
+    }
+    </script>
+
+    <script>
+    // Shopping Cart System
+    let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
+    
+    const products = {
+        1: { name: 'GTA V Premium Edition', price: 9.99, image: '🚗' },
+        2: { name: 'Red Dead Redemption 2', price: 14.99, image: '🤠' },
+        3: { name: 'Cyberpunk 2077', price: 19.99, image: '🌃' },
+        4: { name: 'Elden Ring', price: 23.99, image: '⚔️' }
+    };
+
+    function updateCartCount() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const badge = document.getElementById('cartCount');
+        badge.textContent = count || 0;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    function addToCart(productId) {
+        const product = products[productId];
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id: productId, name: product.name, price: product.price, image: product.image, quantity: 1 });
+        }
+        
+        saveCart();
+        updateCartCount();
+        
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Added! ✅';
+        btn.style.background = 'var(--neon-green)';
+        setTimeout(() => {
+            btn.textContent = 'Add to Cart';
+            btn.style.background = '';
+        }, 1500);
+    }
+
+    function saveCart() {
+        localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCount();
+        
+        document.querySelectorAll('.buy-btn').forEach((btn, index) => {
+            btn.textContent = 'Add to Cart';
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                addToCart(index + 1);
+            };
+        });
+    });
+    </script>
+
+    <script type="module">
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+        // Minimal Firebase Init for Index Page Check
+        // Ideally reuse from firebase-config but script type="module" scope applies
+        // Using direct imports for simplicity here or could import form config
+        
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project.firebasestorage.app",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const navBtn = document.getElementById('navSigninBtn');
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navBtn.textContent = "Dashboard";
+                navBtn.onclick = () => window.location.href = "dashboard.html";
+            } else {
+                navBtn.textContent = "Sign In";
+                navBtn.onclick = () => window.location.href = "signin.html";
+            }
+        });
+
+        // Other page logic
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        document.querySelector(".logo").onclick = () => scrollToSection("home");
+        document.querySelector(".btn-secondary").onclick = () => {
+            window.location.href = "deals.html";
+        };
+        document.querySelector(".cta-section .btn-primary").onclick = () => {
+            window.location.href = "store.html";
+        };
+        // Removed old signin-btn listener to avoid conflict
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("✅ Multi-page search loaded");
+
+        // 🔑 COMPREHENSIVE SEARCH INDEX - ALL PAGES WITH DIRECT PRODUCT LINKS
+        const SEARCH_INDEX = [
+            // HOME PAGE
+            { title: "Home", page: "index.html", description: "WishGameStore Homepage", category: "Page" },
+            { title: "Play More Pay Less", page: "index.html", description: "Main tagline", category: "Home" },
+            { title: "Trending Games", page: "index.html", description: "Featured games section", category: "Home" },
+            
+            // STORE PAGE
+            { title: "Store", page: "store.html", description: "Browse all games", category: "Page" },
+            { title: "PC Games", page: "store.html", description: "All PC Games Collection", category: "Category" },
+            
+            // INDIVIDUAL GAME PRODUCTS - Direct links to product.html?id=X
+            { title: "GTA V Premium Edition", page: "product.html?id=1", description: "Grand Theft Auto V - Open World Action - $9.99", category: "Game", price: "$9.99", emoji: "🚗" },
+            { title: "Red Dead Redemption 2", page: "product.html?id=2", description: "RDR2 Western Action Adventure - $14.99", category: "Game", price: "$14.99", emoji: "🤠" },
+            { title: "Cyberpunk 2077", page: "product.html?id=3", description: "Futuristic Open World RPG - $19.99", category: "Game", price: "$19.99", emoji: "🌃" },
+            { title: "Elden Ring", page: "product.html?id=4", description: "FromSoftware Action RPG Souls-like - $23.99", category: "Game", price: "$23.99", emoji: "⚔️" },
+            { title: "Call of Duty MW3", page: "product.html?id=5", description: "FPS Shooter Military - $29.99", category: "Game", price: "$29.99", emoji: "🔫" },
+            { title: "God of War Ragnarok", page: "product.html?id=6", description: "Action Adventure Norse Mythology - $34.99", category: "Game", price: "$34.99", emoji: "🪓" },
+            { title: "The Last of Us Part II", page: "product.html?id=7", description: "Post-apocalyptic Adventure - $27.99", category: "Game", price: "$27.99", emoji: "🧟" },
+            { title: "Starfield", page: "product.html?id=8", description: "Bethesda Space Exploration RPG - $39.99", category: "Game", price: "$39.99", emoji: "🚀" },
+            { title: "Resident Evil 4 Remake", page: "product.html?id=9", description: "Horror Survival Capcom - $24.99", category: "Game", price: "$24.99", emoji: "🧟‍♂️" },
+            { title: "Hogwarts Legacy", page: "product.html?id=10", description: "Harry Potter Wizarding World RPG - $31.99", category: "Game", price: "$31.99", emoji: "🪄" },
+            { title: "DOOM Eternal", page: "product.html?id=11", description: "Fast-paced FPS Shooter - $19.99", category: "Game", price: "$19.99", emoji: "💀" },
+            { title: "Assassin's Creed Valhalla", page: "product.html?id=12", description: "Viking Action Adventure - $22.99", category: "Game", price: "$22.99", emoji: "🏹" },
+            { title: "Spider-Man Remastered", page: "product.html?id=13", description: "Marvel Superhero Action - $44.99", category: "Game", price: "$44.99", emoji: "🕷️" },
+            { title: "Baldur's Gate 3", page: "product.html?id=14", description: "CRPG D&D Fantasy Adventure - $49.99", category: "Game", price: "$49.99", emoji: "🗡️" },
+            { title: "Battlefield 2042", page: "product.html?id=15", description: "Large-scale FPS Shooter - $26.99", category: "Game", price: "$26.99", emoji: "🎮" },
+            { title: "Uncharted Legacy of Thieves", page: "product.html?id=16", description: "Action Adventure Collection - $28.99", category: "Game", price: "$28.99", emoji: "🗺️" },
+            
+            // DEALS PAGE
+            { title: "Deals", page: "deals.html", description: "Special offers and discounts", category: "Page" },
+            { title: "Flash Sale", page: "deals.html", description: "Limited time flash deals", category: "Deals" },
+            { title: "Weekly Deals", page: "deals.html", description: "Best weekly offers", category: "Deals" },
+            { title: "Discounts", page: "deals.html", description: "Discounted games collection", category: "Deals" },
+            { title: "Special Offers", page: "deals.html", description: "Exclusive special deals", category: "Deals" },
+            { title: "Bundle Deals", page: "deals.html", description: "Game bundle packages", category: "Deals" },
+            { title: "Sale Games", page: "deals.html", description: "Games currently on sale", category: "Deals" },
+            { title: "Clearance", page: "deals.html", description: "Clearance sale items", category: "Deals" },
+            
+            // GAME PASS PAGE
+            { title: "Game Pass", page: "gamepass.html", description: "Gaming subscriptions hub", category: "Page" },
+            { title: "Xbox Game Pass", page: "gamepass.html", description: "Microsoft Xbox subscription", category: "Subscription" },
+            { title: "Xbox Game Pass Ultimate", page: "gamepass.html", description: "Premium Xbox subscription with EA Play", category: "Subscription" },
+            { title: "Xbox Game Pass PC", page: "gamepass.html", description: "PC only Game Pass", category: "Subscription" },
+            { title: "EA Play", page: "gamepass.html", description: "Electronic Arts subscription", category: "Subscription" },
+            { title: "EA Play Pro", page: "gamepass.html", description: "Premium EA subscription", category: "Subscription" },
+            { title: "PlayStation Plus", page: "gamepass.html", description: "Sony PlayStation subscription", category: "Subscription" },
+            { title: "PS Plus Essential", page: "gamepass.html", description: "Basic PlayStation subscription", category: "Subscription" },
+            { title: "PS Plus Extra", page: "gamepass.html", description: "Mid-tier PlayStation subscription", category: "Subscription" },
+            { title: "PS Plus Premium", page: "gamepass.html", description: "Premium PlayStation subscription", category: "Subscription" },
+            { title: "Ubisoft Plus", page: "gamepass.html", description: "Ubisoft+ subscription service", category: "Subscription" },
+            { title: "Nintendo Switch Online", page: "gamepass.html", description: "Nintendo online subscription", category: "Subscription" },
+            { title: "Humble Bundle", page: "gamepass.html", description: "Monthly game bundles", category: "Subscription" },
+            { title: "Subscriptions", page: "gamepass.html", description: "All subscription services", category: "Category" },
+            
+            // FAQ PAGE
+            { title: "FAQ", page: "faq.html", description: "Frequently Asked Questions", category: "Page" },
+            { title: "How do I redeem my key?", page: "faq.html", description: "Key redemption guide Steam", category: "FAQ" },
+            { title: "How to activate game", page: "faq.html", description: "Game activation instructions", category: "FAQ" },
+            { title: "Payment methods accepted", page: "faq.html", description: "Credit card PayPal crypto", category: "FAQ" },
+            { title: "Refund policy", page: "faq.html", description: "How to get a refund", category: "FAQ" },
+            { title: "Is it safe to buy?", page: "faq.html", description: "Security and legitimacy", category: "FAQ" },
+            { title: "Delivery time", page: "faq.html", description: "How long for instant delivery", category: "FAQ" },
+            { title: "Account issues", page: "faq.html", description: "Help with account problems", category: "FAQ" },
+            { title: "Region lock restrictions", page: "faq.html", description: "Regional game restrictions", category: "FAQ" },
+            { title: "Steam key activation", page: "faq.html", description: "How to redeem on Steam", category: "FAQ" },
+            { title: "Epic Games key", page: "faq.html", description: "Epic Games Store activation", category: "FAQ" },
+            { title: "Help Support", page: "faq.html", description: "Get customer help", category: "FAQ" },
+            
+            // OTHER PAGES
+            { title: "Contact Us", page: "contactus.html", description: "Get in touch with support", category: "Page" },
+            { title: "About Us", page: "about.html", description: "About WishGameStore company", category: "Page" },
+            { title: "How It Works", page: "howitworks.html", description: "How our store works step by step", category: "Page" },
+            { title: "Cart", page: "cart.html", description: "View shopping cart", category: "Page" },
+            { title: "Login Sign In", page: "login.html", description: "Sign in to your account", category: "Page" },
+            { title: "Refund Policy", page: "refund.html", description: "Refund terms and conditions", category: "Page" },
+            { title: "Customer Support", page: "contactus.html", description: "24/7 customer assistance", category: "Support" }
+        ];
+
+        const searchIcon = document.querySelector(".search-icon");
+        const searchBox = document.getElementById("searchBox");
+        const searchInput = document.getElementById("searchInput");
+        const searchResults = document.getElementById("searchResults");
+        const closeSearch = document.getElementById("closeSearch");
+
+        if (!searchIcon || !searchBox || !searchInput || !searchResults) {
+            console.error("❌ Search DOM elements missing");
+            return;
+        }
+
+        // Open search
+        searchIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            searchBox.style.display = "block";
+            searchInput.focus();
+        });
+
+        // Close search
+        closeSearch.addEventListener("click", () => {
+            searchBox.style.display = "none";
+            searchInput.value = "";
+            searchResults.innerHTML = "";
+        });
+
+        // Close with ESC
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") {
+                searchBox.style.display = "none";
+                searchInput.value = "";
+                searchResults.innerHTML = "";
+            }
+        });
+
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!searchBox.contains(e.target) && !searchIcon.contains(e.target)) {
+                searchBox.style.display = "none";
+                searchInput.value = "";
+                searchResults.innerHTML = "";
+            }
+        });
+
+        // Live search with category badges
+        searchInput.addEventListener("input", () => {
+            const q = searchInput.value.toLowerCase().trim();
+            searchResults.innerHTML = "";
+
+            if (!q) return;
+
+            // Search in title and description
+            const matches = SEARCH_INDEX.filter(item =>
+                item.title.toLowerCase().includes(q) ||
+                item.description.toLowerCase().includes(q)
+            ).slice(0, 10); // Limit to 10 results
+
+            if (!matches.length) {
+                searchResults.innerHTML = `
+                    <div style="color:#777;padding:12px;text-align:center;">
+                        <i class="fas fa-search" style="font-size:1.5rem;margin-bottom:8px;display:block;"></i>
+                        No results found for "${q}"
+                    </div>`;
+                return;
+            }
+
+            matches.forEach(item => {
+                const row = document.createElement("div");
+                row.style.cssText = `
+                    padding:10px 12px;
+                    cursor:pointer;
+                    border-radius:8px;
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:4px;
+                    transition:background 0.2s;
+                `;
+                
+                // Category color coding
+                let categoryColor = "#00ff85";
+                let categoryIcon = "fas fa-file";
+                switch(item.category) {
+                    case "Game": categoryColor = "#00d4ff"; categoryIcon = "fas fa-gamepad"; break;
+                    case "Subscription": categoryColor = "#ff6b6b"; categoryIcon = "fas fa-ticket-alt"; break;
+                    case "Deals": categoryColor = "#ffd93d"; categoryIcon = "fas fa-bolt"; break;
+                    case "FAQ": categoryColor = "#c084fc"; categoryIcon = "fas fa-question-circle"; break;
+                    case "Page": categoryColor = "#00ff85"; categoryIcon = "fas fa-link"; break;
+                }
+
+                // Show emoji for games, icon for others
+                const iconDisplay = item.emoji 
+                    ? `<span style="font-size:1.5rem;width:30px;text-align:center;">${item.emoji}</span>`
+                    : `<i class="${categoryIcon}" style="color:${categoryColor};width:30px;text-align:center;"></i>`;
+
+                // Show price badge for games
+                const priceDisplay = item.price 
+                    ? `<span style="background:#00ff85;color:black;padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-right:8px;">${item.price}</span>`
+                    : '';
+
+                row.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        ${iconDisplay}
+                        <div>
+                            <div style="font-weight:600;">${item.title}</div>
+                            <div style="font-size:0.8rem;color:#777;">${item.description}</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;">
+                        ${priceDisplay}
+                        <span style="
+                            background:${categoryColor}22;
+                            color:${categoryColor};
+                            padding:2px 8px;
+                            border-radius:20px;
+                            font-size:0.7rem;
+                            font-weight:600;
+                        ">${item.category}</span>
+                    </div>
+                `;
+                
+                row.onmouseenter = () => row.style.background = "rgba(0,255,133,0.1)";
+                row.onmouseleave = () => row.style.background = "transparent";
+                row.onclick = () => window.location.href = item.page;
+                searchResults.appendChild(row);
+            });
+        });
+
+        console.log(`✅ Search index loaded with ${SEARCH_INDEX.length} items`);
+    });
+    </script>
 
     <!-- FLOATING SUBSCRIBE BUTTON -->
     <div id="floatingSubscribe" onclick="openSubscribeModal()" style="
@@ -1467,357 +1810,6 @@
             ">Start Shopping 🎮</button>
         </div>
     </div>
-
-    <script>
-    // RGB KEYBOARD WAVE ANIMATION - Dynamic delay assignment
-    document.addEventListener('DOMContentLoaded', function() {
-        const rows = document.querySelectorAll('.keyboard-row');
-        rows.forEach((row, rowIndex) => {
-            const keys = row.querySelectorAll('.key');
-            keys.forEach((key, keyIndex) => {
-                // Create wave effect: delay based on both row and column
-                const delay = (keyIndex * 0.06) + (rowIndex * 0.12);
-                key.style.animationDelay = `${delay}s`;
-            });
-        });
-        
-        // Lazy load game images
-        lazyLoadGameImages();
-    });
-    
-    // Lazy load images with Intersection Observer
-    function lazyLoadGameImages() {
-        const imageElements = document.querySelectorAll('.game-image[data-src]');
-        
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const element = entry.target;
-                        const src = element.dataset.src;
-                        
-                        // Create image to preload
-                        const img = new Image();
-                        img.onload = () => {
-                            element.style.backgroundImage = `url('${src}')`;
-                            element.classList.remove('loading');
-                        };
-                        img.onerror = () => {
-                            element.classList.remove('loading');
-                        };
-                        img.src = src;
-                        element.classList.add('loading');
-                        
-                        observer.unobserve(element);
-                    }
-                });
-            }, { rootMargin: '100px' });
-            
-            imageElements.forEach(el => {
-                el.classList.add('loading');
-                observer.observe(el);
-            });
-        } else {
-            // Fallback for older browsers
-            imageElements.forEach(element => {
-                const src = element.dataset.src;
-                element.style.backgroundImage = `url('${src}')`;
-            });
-        }
-    }
-    </script>
-
-    <script>
-    // Shopping Cart System
-    let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
-    
-    const products = {
-        1: { name: 'GTA V Premium Edition', price: 799, image: '🚗' },
-        2: { name: 'Red Dead Redemption 2', price: 1199, image: '🤠' },
-        3: { name: 'Cyberpunk 2077', price: 1599, image: '🌃' },
-        4: { name: 'Elden Ring', price: 1899, image: '⚔️' }
-    };
-
-    function updateCartCount() {
-        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-        const badge = document.getElementById('cartCount');
-        badge.textContent = count || 0;
-        badge.style.display = count > 0 ? 'flex' : 'none';
-    }
-
-    function addToCart(productId) {
-        const product = products[productId];
-        const existingItem = cart.find(item => item.id === productId);
-        
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({ id: productId, name: product.name, price: product.price, image: product.image, quantity: 1 });
-        }
-        
-        saveCart();
-        updateCartCount();
-        
-        const btn = event.target;
-        const originalText = btn.textContent;
-        btn.textContent = 'Added! ✅';
-        btn.style.background = 'var(--neon-green)';
-        setTimeout(() => {
-            btn.textContent = 'Add to Cart';
-            btn.style.background = '';
-        }, 1500);
-    }
-
-    function saveCart() {
-        localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        updateCartCount();
-        
-        document.querySelectorAll('.buy-btn').forEach((btn, index) => {
-            btn.textContent = 'Add to Cart';
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                addToCart(index + 1);
-            };
-        });
-    });
-    </script>
-
-    <script>
-    function scrollToSection(id) {
-        const el = document.getElementById(id);
-        if (el) {
-            el.scrollIntoView({ behavior: "smooth" });
-        }
-    }
-
-    document.querySelector(".logo").onclick = () => scrollToSection("home");
-    document.querySelector(".btn-secondary").onclick = () => {
-        window.location.href = "deals.html";
-    };
-    document.querySelector(".cta-section .btn-primary").onclick = () => {
-        window.location.href = "store.html";
-    };
-    document.querySelector(".signin-btn").onclick = () => {
-        window.location.href = "login.html";
-    };
-    </script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("✅ Multi-page search loaded");
-
-        // 🔑 COMPREHENSIVE SEARCH INDEX - ALL PAGES WITH DIRECT PRODUCT LINKS
-        const SEARCH_INDEX = [
-            // HOME PAGE
-            { title: "Home", page: "index.html", description: "WishGameStore Homepage", category: "Page" },
-            { title: "Play More Pay Less", page: "index.html", description: "Main tagline", category: "Home" },
-            { title: "Trending Games", page: "index.html", description: "Featured games section", category: "Home" },
-            
-            // STORE PAGE
-            { title: "Store", page: "store.html", description: "Browse all games", category: "Page" },
-            { title: "PC Games", page: "store.html", description: "All PC Games Collection", category: "Category" },
-            
-            // INDIVIDUAL GAME PRODUCTS - Direct links to product.html?id=X
-            { title: "GTA V Premium Edition", page: "product.html?id=1", description: "Grand Theft Auto V - Open World Action - ₹799", category: "Game", price: "₹799", emoji: "🚗" },
-            { title: "Red Dead Redemption 2", page: "product.html?id=2", description: "RDR2 Western Action Adventure - ₹1,199", category: "Game", price: "₹1,199", emoji: "🤠" },
-            { title: "Cyberpunk 2077", page: "product.html?id=3", description: "Futuristic Open World RPG - ₹1,599", category: "Game", price: "₹1,599", emoji: "🌃" },
-            { title: "Elden Ring", page: "product.html?id=4", description: "FromSoftware Action RPG Souls-like - ₹1,899", category: "Game", price: "₹1,899", emoji: "⚔️" },
-            { title: "Call of Duty MW3", page: "product.html?id=5", description: "FPS Shooter Military - ₹2,399", category: "Game", price: "₹2,399", emoji: "🔫" },
-            { title: "God of War Ragnarok", page: "product.html?id=6", description: "Action Adventure Norse Mythology - ₹2,799", category: "Game", price: "₹2,799", emoji: "🪓" },
-            { title: "The Last of Us Part II", page: "product.html?id=7", description: "Post-apocalyptic Adventure - ₹2,199", category: "Game", price: "₹2,199", emoji: "🧟" },
-            { title: "Starfield", page: "product.html?id=8", description: "Bethesda Space Exploration RPG - ₹3,199", category: "Game", price: "₹3,199", emoji: "🚀" },
-            { title: "Resident Evil 4 Remake", page: "product.html?id=9", description: "Horror Survival Capcom - ₹1,999", category: "Game", price: "₹1,999", emoji: "🧟‍♂️" },
-            { title: "Hogwarts Legacy", page: "product.html?id=10", description: "Harry Potter Wizarding World RPG - ₹2,499", category: "Game", price: "₹2,499", emoji: "🪄" },
-            { title: "DOOM Eternal", page: "product.html?id=11", description: "Fast-paced FPS Shooter - ₹1,599", category: "Game", price: "₹1,599", emoji: "💀" },
-            { title: "Assassin's Creed Valhalla", page: "product.html?id=12", description: "Viking Action Adventure - ₹1,799", category: "Game", price: "₹1,799", emoji: "🏹" },
-            { title: "Spider-Man Remastered", page: "product.html?id=13", description: "Marvel Superhero Action - ₹3,599", category: "Game", price: "₹3,599", emoji: "🕷️" },
-            { title: "Baldur's Gate 3", page: "product.html?id=14", description: "CRPG D&D Fantasy Adventure - ₹3,999", category: "Game", price: "₹3,999", emoji: "🗡️" },
-            { title: "Battlefield 2042", page: "product.html?id=15", description: "Large-scale FPS Shooter - ₹2,099", category: "Game", price: "₹2,099", emoji: "🎮" },
-            { title: "Uncharted Legacy of Thieves", page: "product.html?id=16", description: "Action Adventure Collection - ₹2,299", category: "Game", price: "₹2,299", emoji: "🗺️" },
-            
-            // DEALS PAGE
-            { title: "Deals", page: "deals.html", description: "Special offers and discounts", category: "Page" },
-            { title: "Flash Sale", page: "deals.html", description: "Limited time flash deals", category: "Deals" },
-            { title: "Weekly Deals", page: "deals.html", description: "Best weekly offers", category: "Deals" },
-            { title: "Discounts", page: "deals.html", description: "Discounted games collection", category: "Deals" },
-            { title: "Special Offers", page: "deals.html", description: "Exclusive special deals", category: "Deals" },
-            { title: "Bundle Deals", page: "deals.html", description: "Game bundle packages", category: "Deals" },
-            { title: "Sale Games", page: "deals.html", description: "Games currently on sale", category: "Deals" },
-            { title: "Clearance", page: "deals.html", description: "Clearance sale items", category: "Deals" },
-            
-            // GAME PASS PAGE
-            { title: "Game Pass", page: "gamepass.html", description: "Gaming subscriptions hub", category: "Page" },
-            { title: "Xbox Game Pass", page: "gamepass.html", description: "Microsoft Xbox subscription", category: "Subscription" },
-            { title: "Xbox Game Pass Ultimate", page: "gamepass.html", description: "Premium Xbox subscription with EA Play", category: "Subscription" },
-            { title: "Xbox Game Pass PC", page: "gamepass.html", description: "PC only Game Pass", category: "Subscription" },
-            { title: "EA Play", page: "gamepass.html", description: "Electronic Arts subscription", category: "Subscription" },
-            { title: "EA Play Pro", page: "gamepass.html", description: "Premium EA subscription", category: "Subscription" },
-            { title: "PlayStation Plus", page: "gamepass.html", description: "Sony PlayStation subscription", category: "Subscription" },
-            { title: "PS Plus Essential", page: "gamepass.html", description: "Basic PlayStation subscription", category: "Subscription" },
-            { title: "PS Plus Extra", page: "gamepass.html", description: "Mid-tier PlayStation subscription", category: "Subscription" },
-            { title: "PS Plus Premium", page: "gamepass.html", description: "Premium PlayStation subscription", category: "Subscription" },
-            { title: "Ubisoft Plus", page: "gamepass.html", description: "Ubisoft+ subscription service", category: "Subscription" },
-            { title: "Nintendo Switch Online", page: "gamepass.html", description: "Nintendo online subscription", category: "Subscription" },
-            { title: "Humble Bundle", page: "gamepass.html", description: "Monthly game bundles", category: "Subscription" },
-            { title: "Subscriptions", page: "gamepass.html", description: "All subscription services", category: "Category" },
-            
-            // FAQ PAGE
-            { title: "FAQ", page: "faq.html", description: "Frequently Asked Questions", category: "Page" },
-            { title: "How do I redeem my key?", page: "faq.html", description: "Key redemption guide Steam", category: "FAQ" },
-            { title: "How to activate game", page: "faq.html", description: "Game activation instructions", category: "FAQ" },
-            { title: "Payment methods accepted", page: "faq.html", description: "Credit card PayPal crypto", category: "FAQ" },
-            { title: "Refund policy", page: "faq.html", description: "How to get a refund", category: "FAQ" },
-            { title: "Is it safe to buy?", page: "faq.html", description: "Security and legitimacy", category: "FAQ" },
-            { title: "Delivery time", page: "faq.html", description: "How long for instant delivery", category: "FAQ" },
-            { title: "Account issues", page: "faq.html", description: "Help with account problems", category: "FAQ" },
-            { title: "Region lock restrictions", page: "faq.html", description: "Regional game restrictions", category: "FAQ" },
-            { title: "Steam key activation", page: "faq.html", description: "How to redeem on Steam", category: "FAQ" },
-            { title: "Epic Games key", page: "faq.html", description: "Epic Games Store activation", category: "FAQ" },
-            { title: "Help Support", page: "faq.html", description: "Get customer help", category: "FAQ" },
-            
-            // OTHER PAGES
-            { title: "Contact Us", page: "contactus.html", description: "Get in touch with support", category: "Page" },
-            { title: "About Us", page: "about.html", description: "About WishGameStore company", category: "Page" },
-            { title: "How It Works", page: "howitworks.html", description: "How our store works step by step", category: "Page" },
-            { title: "Cart", page: "cart.html", description: "View shopping cart", category: "Page" },
-            { title: "Login Sign In", page: "login.html", description: "Sign in to your account", category: "Page" },
-            { title: "Refund Policy", page: "refund.html", description: "Refund terms and conditions", category: "Page" },
-            { title: "Customer Support", page: "contactus.html", description: "24/7 customer assistance", category: "Support" }
-        ];
-
-        const searchIcon = document.querySelector(".search-icon");
-        const searchBox = document.getElementById("searchBox");
-        const searchInput = document.getElementById("searchInput");
-        const searchResults = document.getElementById("searchResults");
-        const closeSearch = document.getElementById("closeSearch");
-
-        if (!searchIcon || !searchBox || !searchInput || !searchResults) {
-            console.error("❌ Search DOM elements missing");
-            return;
-        }
-
-        // Open search
-        searchIcon.addEventListener("click", (e) => {
-            e.stopPropagation();
-            searchBox.style.display = "block";
-            searchInput.focus();
-        });
-
-        // Close search
-        closeSearch.addEventListener("click", () => {
-            searchBox.style.display = "none";
-            searchInput.value = "";
-            searchResults.innerHTML = "";
-        });
-
-        // Close with ESC
-        document.addEventListener("keydown", e => {
-            if (e.key === "Escape") {
-                searchBox.style.display = "none";
-                searchInput.value = "";
-                searchResults.innerHTML = "";
-            }
-        });
-
-        // Close when clicking outside
-        document.addEventListener("click", (e) => {
-            if (!searchBox.contains(e.target) && !searchIcon.contains(e.target)) {
-                searchBox.style.display = "none";
-                searchInput.value = "";
-                searchResults.innerHTML = "";
-            }
-        });
-
-        // Live search with category badges
-        searchInput.addEventListener("input", () => {
-            const q = searchInput.value.toLowerCase().trim();
-            searchResults.innerHTML = "";
-
-            if (!q) return;
-
-            // Search in title and description
-            const matches = SEARCH_INDEX.filter(item =>
-                item.title.toLowerCase().includes(q) ||
-                item.description.toLowerCase().includes(q)
-            ).slice(0, 10); // Limit to 10 results
-
-            if (!matches.length) {
-                searchResults.innerHTML = `
-                    <div style="color:#777;padding:12px;text-align:center;">
-                        <i class="fas fa-search" style="font-size:1.5rem;margin-bottom:8px;display:block;"></i>
-                        No results found for "${q}"
-                    </div>`;
-                return;
-            }
-
-            matches.forEach(item => {
-                const row = document.createElement("div");
-                row.style.cssText = `
-                    padding:10px 12px;
-                    cursor:pointer;
-                    border-radius:8px;
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    margin-bottom:4px;
-                    transition:background 0.2s;
-                `;
-                
-                // Category color coding
-                let categoryColor = "#00ff85";
-                let categoryIcon = "fas fa-file";
-                switch(item.category) {
-                    case "Game": categoryColor = "#00d4ff"; categoryIcon = "fas fa-gamepad"; break;
-                    case "Subscription": categoryColor = "#ff6b6b"; categoryIcon = "fas fa-ticket-alt"; break;
-                    case "Deals": categoryColor = "#ffd93d"; categoryIcon = "fas fa-bolt"; break;
-                    case "FAQ": categoryColor = "#c084fc"; categoryIcon = "fas fa-question-circle"; break;
-                    case "Page": categoryColor = "#00ff85"; categoryIcon = "fas fa-link"; break;
-                }
-
-                // Show emoji for games, icon for others
-                const iconDisplay = item.emoji 
-                    ? `<span style="font-size:1.5rem;width:30px;text-align:center;">${item.emoji}</span>`
-                    : `<i class="${categoryIcon}" style="color:${categoryColor};width:30px;text-align:center;"></i>`;
-
-                // Show price badge for games
-                const priceDisplay = item.price 
-                    ? `<span style="background:#00ff85;color:black;padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-right:8px;">${item.price}</span>`
-                    : '';
-
-                row.innerHTML = `
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        ${iconDisplay}
-                        <div>
-                            <div style="font-weight:600;">${item.title}</div>
-                            <div style="font-size:0.8rem;color:#777;">${item.description}</div>
-                        </div>
-                    </div>
-                    <div style="display:flex;align-items:center;">
-                        ${priceDisplay}
-                        <span style="
-                            background:${categoryColor}22;
-                            color:${categoryColor};
-                            padding:2px 8px;
-                            border-radius:20px;
-                            font-size:0.7rem;
-                            font-weight:600;
-                        ">${item.category}</span>
-                    </div>
-                `;
-                
-                row.onmouseenter = () => row.style.background = "rgba(0,255,133,0.1)";
-                row.onmouseleave = () => row.style.background = "transparent";
-                row.onclick = () => window.location.href = item.page;
-                searchResults.appendChild(row);
-            });
-        });
-
-        console.log(`✅ Search index loaded with ${SEARCH_INDEX.length} items`);
-    });
-    </script>
 
     <script>
         let selectedPlan = 'yearly';
