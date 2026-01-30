@@ -12,7 +12,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
             --neon-green: #00ff85;
             --neon-cyan: #00d4ff;
@@ -22,7 +21,6 @@
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
         }
-
         body {
             font-family: 'Exo 2', sans-serif;
             background: var(--dark-bg);
@@ -30,7 +28,6 @@
             line-height: 1.6;
             min-height: 100vh;
         }
-
         /* NAVBAR */
         .navbar {
             position: fixed;
@@ -42,7 +39,6 @@
             z-index: 1000;
             padding: 1rem 0;
         }
-
         .nav-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -51,7 +47,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .logo {
             display: flex;
             align-items: center;
@@ -65,26 +60,22 @@
             background-clip: text;
             text-decoration: none;
         }
-
         .nav-links {
             display: flex;
             align-items: center;
             gap: 2rem;
             list-style: none;
         }
-
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
         }
-
         .nav-links a:hover {
             color: var(--neon-green);
             text-shadow: 0 0 10px var(--neon-green);
         }
-
         .signin-btn {
             background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
             color: black;
@@ -97,12 +88,10 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(0,255,133,0.4);
         }
-
         .signin-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0,255,133,0.6);
         }
-
         /* HERO */
         .hero {
             min-height: 30vh;
@@ -114,7 +103,6 @@
             background: radial-gradient(ellipse at center, rgba(0,255,133,0.1) 0%, transparent 70%);
             padding-top: 100px;
         }
-
         .page-title {
             font-family: 'Orbitron', monospace;
             font-size: clamp(2.5rem, 6vw, 4rem);
@@ -123,7 +111,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         /* CART CONTAINER */
         .cart-container {
             max-width: 1200px;
@@ -134,7 +121,6 @@
             gap: 3rem;
             align-items: start;
         }
-
         /* CART ITEMS */
         .cart-items {
             background: var(--glass-bg);
@@ -143,7 +129,6 @@
             border-radius: 20px;
             padding: 2rem;
         }
-
         .cart-header {
             display: flex;
             justify-content: space-between;
@@ -152,13 +137,11 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--glass-border);
         }
-
         .cart-header h2 {
             font-family: 'Orbitron', monospace;
             font-size: 1.5rem;
             color: var(--neon-green);
         }
-
         .clear-cart {
             color: #ff4757;
             background: transparent;
@@ -169,12 +152,10 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
         }
-
         .clear-cart:hover {
             background: #ff4757;
             color: white;
         }
-
         .cart-item {
             display: grid;
             grid-template-columns: 80px 1fr auto auto;
@@ -183,11 +164,9 @@
             padding: 1.5rem 0;
             border-bottom: 1px solid var(--glass-border);
         }
-
         .cart-item:last-child {
             border-bottom: none;
         }
-
         .item-image {
             width: 80px;
             height: 80px;
@@ -200,24 +179,20 @@
             justify-content: center;
             font-size: 2rem;
         }
-
         .item-details h3 {
             font-size: 1.2rem;
             margin-bottom: 0.3rem;
         }
-
         .item-details .item-price {
             color: var(--neon-green);
             font-weight: 700;
             font-size: 1.1rem;
         }
-
         .quantity-controls {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-
         .qty-btn {
             width: 36px;
             height: 36px;
@@ -229,19 +204,16 @@
             font-size: 1.2rem;
             transition: all 0.3s ease;
         }
-
         .qty-btn:hover {
             border-color: var(--neon-green);
             color: var(--neon-green);
         }
-
         .qty-value {
             width: 40px;
             text-align: center;
             font-weight: 700;
             font-size: 1.1rem;
         }
-
         .item-total {
             font-size: 1.3rem;
             font-weight: 800;
@@ -249,7 +221,6 @@
             min-width: 80px;
             text-align: right;
         }
-
         .remove-btn {
             background: transparent;
             border: none;
@@ -259,17 +230,14 @@
             padding: 0.5rem;
             transition: all 0.3s ease;
         }
-
         .remove-btn:hover {
             transform: scale(1.2);
         }
-
         /* EMPTY CART */
         .empty-cart {
             text-align: center;
             padding: 4rem 2rem;
         }
-
         .empty-cart-icon {
             font-size: 6rem;
             color: var(--text-secondary);
@@ -278,24 +246,20 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .empty-cart-icon:hover {
             color: var(--neon-green);
             opacity: 1;
             transform: scale(1.1);
         }
-
         .empty-cart h3 {
             font-size: 1.8rem;
             margin-bottom: 1rem;
             color: var(--text-secondary);
         }
-
         .empty-cart p {
             color: var(--text-secondary);
             margin-bottom: 2rem;
         }
-
         .shop-now-btn {
             background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
             color: black;
@@ -308,12 +272,10 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
         }
-
         .shop-now-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 35px rgba(0,255,133,0.5);
         }
-
         /* ORDER SUMMARY */
         .order-summary {
             background: var(--glass-bg);
@@ -324,7 +286,6 @@
             position: sticky;
             top: 100px;
         }
-
         .summary-title {
             font-family: 'Orbitron', monospace;
             font-size: 1.5rem;
@@ -334,7 +295,6 @@
             align-items: center;
             gap: 0.8rem;
         }
-
         .summary-row {
             display: flex;
             justify-content: space-between;
@@ -342,11 +302,9 @@
             font-size: 1.1rem;
             border-bottom: 1px solid var(--glass-border);
         }
-
         .summary-row:last-of-type {
             border-bottom: none;
         }
-
         .summary-row.total {
             font-size: 1.5rem;
             font-weight: 900;
@@ -355,19 +313,16 @@
             border-top: 2px solid var(--glass-border);
             border-bottom: none;
         }
-
         .summary-row.total span:last-child {
             background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .promo-code {
             display: flex;
             gap: 0.5rem;
             margin: 1.5rem 0;
         }
-
         .promo-input {
             flex: 1;
             padding: 0.8rem 1rem;
@@ -377,11 +332,9 @@
             color: var(--text-primary);
             font-size: 0.95rem;
         }
-
         .promo-input::placeholder {
             color: var(--text-secondary);
         }
-
         .promo-btn {
             padding: 0.8rem 1.2rem;
             background: var(--glass-bg);
@@ -392,12 +345,10 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
-
         .promo-btn:hover {
             background: var(--neon-green);
             color: black;
         }
-
         .checkout-btn {
             width: 100%;
             background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
@@ -413,18 +364,15 @@
             letter-spacing: 1px;
             margin-top: 1rem;
         }
-
         .checkout-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 35px rgba(0,255,133,0.5);
         }
-
         .checkout-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
-
         .continue-shopping {
             display: block;
             text-align: center;
@@ -434,12 +382,10 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
-
         .continue-shopping:hover {
             color: var(--neon-green);
             text-shadow: 0 0 10px var(--neon-green);
         }
-
         .trust-badges {
             display: flex;
             justify-content: center;
@@ -448,20 +394,17 @@
             padding-top: 1.5rem;
             border-top: 1px solid var(--glass-border);
         }
-
         .trust-badge {
             text-align: center;
             font-size: 0.8rem;
             color: var(--text-secondary);
         }
-
         .trust-badge i {
             display: block;
             font-size: 1.5rem;
             color: var(--neon-green);
             margin-bottom: 0.3rem;
         }
-
         /* FOOTER */
         .footer {
             background: rgba(10,10,14,0.95);
@@ -470,32 +413,26 @@
             text-align: center;
             color: var(--text-secondary);
         }
-
         @media (max-width: 1024px) {
             .cart-container {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-
             .order-summary {
                 position: static;
             }
         }
-
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-
             .cart-item {
                 grid-template-columns: 60px 1fr;
                 gap: 1rem;
             }
-
             .quantity-controls, .item-total {
                 grid-column: 2;
             }
-
             .item-total {
                 text-align: left;
             }
@@ -517,24 +454,27 @@
                 <li><a href="deals.html">Deals</a></li>
                 <li><a href="faq.html">FAQ</a></li>
             </ul>
-            <button class="signin-btn" onclick="window.location.href='login.html'">Sign In</button>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
+                <button class="signin-btn" onclick="window.location.href='login.html'">Sign In</button>
+            </div>
         </div>
     </nav>
-
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <h1 class="page-title"><i class="fas fa-shopping-cart"></i> Shopping Cart</h1>
         </div>
     </section>
-
     <!-- CART CONTENT -->
     <div class="cart-container">
         <!-- CART ITEMS -->
         <div class="cart-items" id="cartItems">
             <!-- Dynamic content will be loaded here -->
         </div>
-
         <!-- ORDER SUMMARY -->
         <div class="order-summary" id="orderSummary">
             <h3 class="summary-title">
@@ -543,34 +483,30 @@
             </h3>
             <div class="summary-row">
                 <span>Subtotal</span>
-                <span id="subtotal">$0.00</span>
+                <span id="subtotal">₹0.00</span>
             </div>
             <div class="summary-row">
                 <span>Discount</span>
-                <span id="discount" style="color: var(--neon-green);">-$0.00</span>
+                <span id="discount" style="color: var(--neon-green);">-₹0.00</span>
             </div>
             <div class="summary-row">
                 <span>Tax (8%)</span>
-                <span id="tax">$0.00</span>
+                <span id="tax">₹0.00</span>
             </div>
             <div class="summary-row total">
                 <span>Total</span>
-                <span id="total">$0.00</span>
+                <span id="total">₹0.00</span>
             </div>
-
             <div class="promo-code">
                 <input type="text" class="promo-input" id="promoInput" placeholder="Promo code">
                 <button class="promo-btn" onclick="applyPromo()">Apply</button>
             </div>
-
             <button class="checkout-btn" id="checkoutBtn" onclick="proceedToCheckout()">
                 Proceed to Checkout
             </button>
-
             <a href="store.html" class="continue-shopping">
                 <i class="fas fa-arrow-left"></i> Continue Shopping
             </a>
-
             <div class="trust-badges">
                 <div class="trust-badge">
                     <i class="fas fa-bolt"></i>
@@ -587,12 +523,10 @@
             </div>
         </div>
     </div>
-
     <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 WishGameStore. All rights reserved.</p>
     </footer>
-
     <script>
         // Game cover images
         const gameCovers = {
@@ -613,14 +547,16 @@
             15: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/47/Battlefield_2042.jpg/220px-Battlefield_2042.jpg',
             16: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/78/Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg/220px-Uncharted_Legacy_of_Thieves_Collection_cover_art.jpg'
         };
-
         let cart = JSON.parse(localStorage.getItem('wishgamestore_cart')) || [];
         let promoApplied = false;
         let discountPercent = 0;
-
+        // Check if item is a subscription/gamepass/bundle
+        function isSubscriptionItem(id) {
+            const strId = String(id);
+            return strId.startsWith('gamepass-') || strId.startsWith('sub-') || strId.startsWith('bundle-');
+        }
         function renderCart() {
             const cartItemsEl = document.getElementById('cartItems');
-
             if (cart.length === 0) {
                 cartItemsEl.innerHTML = `
                     <div class="empty-cart">
@@ -638,59 +574,75 @@
                 updateSummary();
                 return;
             }
-
             cartItemsEl.innerHTML = `
                 <div class="cart-header">
-                    <h2><i class="fas fa-gamepad"></i> Your Games (${cart.length})</h2>
+                    <h2><i class="fas fa-gamepad"></i> Your Items (${cart.length})</h2>
                     <button class="clear-cart" onclick="clearCart()">
                         <i class="fas fa-trash"></i> Clear All
                     </button>
                 </div>
-                ${cart.map(item => `
+                ${cart.map(item => {
+                    const isSubscription = isSubscriptionItem(item.id);
+                    const itemIdStr = String(item.id);
+                    const coverImage = gameCovers[item.id] || '';
+                    
+                    return `
                     <div class="cart-item">
-                        <div class="item-image" style="background-image: url('${gameCovers[item.id] || ''}'); background-size: cover; background-position: center;">
-                            ${!gameCovers[item.id] ? item.image : ''}
+                        <div class="item-image" style="${coverImage ? `background-image: url('${coverImage}'); background-size: cover; background-position: center;` : ''}">
+                            ${!coverImage ? (item.image || '🎮') : ''}
                         </div>
                         <div class="item-details">
                             <h3>${item.name}</h3>
-                            <div class="item-price">$${item.price.toFixed(2)}</div>
+                            <div class="item-price">₹${item.price.toLocaleString('en-IN')}${isSubscription ? ' <span style="color: var(--neon-cyan); font-size: 0.8rem;">(Subscription)</span>' : ''}</div>
                         </div>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
-                            <span class="qty-value">${item.quantity}</span>
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                        </div>
-                        <div class="item-total">$${(item.price * item.quantity).toFixed(2)}</div>
-                        <button class="remove-btn" onclick="removeItem(${item.id})">
+                        ${isSubscription ? `
+                            <div class="quantity-controls">
+                                <span style="color: var(--neon-cyan); font-weight: 600; padding: 0.5rem 1rem; background: rgba(0,212,255,0.1); border-radius: 8px;">
+                                    <i class="fas fa-infinity"></i> Subscription
+                                </span>
+                            </div>
+                        ` : `
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateQuantity('${itemIdStr}', -1)">−</button>
+                                <span class="qty-value">${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity('${itemIdStr}', 1)">+</button>
+                            </div>
+                        `}
+                        <div class="item-total">₹${(item.price * item.quantity).toLocaleString('en-IN')}</div>
+                        <button class="remove-btn" onclick="removeItem('${itemIdStr}')" title="Remove item">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                `).join('')}
+                `}).join('')}
             `;
-
             document.getElementById('checkoutBtn').disabled = false;
             updateSummary();
         }
-
         function updateQuantity(id, delta) {
-            const item = cart.find(i => i.id === id);
+            const strId = String(id);
+            
+            // Don't allow quantity changes for subscriptions
+            if (isSubscriptionItem(strId)) {
+                return;
+            }
+            
+            const item = cart.find(i => String(i.id) === strId);
             if (item) {
                 item.quantity += delta;
                 if (item.quantity <= 0) {
-                    removeItem(id);
+                    removeItem(strId);
                 } else {
                     saveCart();
                     renderCart();
                 }
             }
         }
-
         function removeItem(id) {
-            cart = cart.filter(i => i.id !== id);
+            const strId = String(id);
+            cart = cart.filter(i => String(i.id) !== strId);
             saveCart();
             renderCart();
         }
-
         function clearCart() {
             if (confirm('Are you sure you want to clear your cart?')) {
                 cart = [];
@@ -698,20 +650,17 @@
                 renderCart();
             }
         }
-
         function updateSummary() {
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const discountAmount = subtotal * (discountPercent / 100);
             const taxableAmount = subtotal - discountAmount;
             const tax = taxableAmount * 0.08;
             const total = taxableAmount + tax;
-
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('discount').textContent = `-$${discountAmount.toFixed(2)}`;
-            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+            document.getElementById('discount').textContent = `-₹${discountAmount.toLocaleString('en-IN')}`;
+            document.getElementById('tax').textContent = `₹${tax.toLocaleString('en-IN')}`;
+            document.getElementById('total').textContent = `₹${total.toLocaleString('en-IN')}`;
         }
-
         function applyPromo() {
             const code = document.getElementById('promoInput').value.trim().toUpperCase();
             const promoCodes = {
@@ -720,12 +669,10 @@
                 'WISH15': 15,
                 'NEWUSER': 25
             };
-
             if (promoApplied) {
                 alert('A promo code is already applied!');
                 return;
             }
-
             if (promoCodes[code]) {
                 discountPercent = promoCodes[code];
                 promoApplied = true;
@@ -739,7 +686,6 @@
                 alert('Invalid promo code. Try: SAVE10, GAMER20, WISH15, or NEWUSER');
             }
         }
-
         function proceedToCheckout() {
             if (cart.length === 0) {
                 alert('Your cart is empty!');
@@ -747,11 +693,9 @@
             }
             window.location.href = 'checkout.html';
         }
-
         function saveCart() {
             localStorage.setItem('wishgamestore_cart', JSON.stringify(cart));
         }
-
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             renderCart();
