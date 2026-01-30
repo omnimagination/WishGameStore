@@ -491,7 +491,7 @@
                 <!-- BASIC PLAN -->
                 <div class="plan-card">
                     <div class="plan-name">Starter</div>
-                    <div class="plan-price">$4.99</div>
+                    <div class="plan-price">₹415</div>
                     <div class="plan-period">per month</div>
                     <ul class="plan-features">
                         <li><i class="fas fa-check"></i>500+ Games</li>
@@ -510,7 +510,7 @@
                         Most Popular
                     </div>
                     <div class="plan-name">Ultimate</div>
-                    <div class="plan-price">$9.99</div>
+                    <div class="plan-price">₹830</div>
                     <div class="plan-period">per month</div>
                     <ul class="plan-features">
                         <li><i class="fas fa-check"></i>1000+ Games</li>
@@ -525,7 +525,7 @@
                 <!-- YEARLY PLAN -->
                 <div class="plan-card">
                     <div class="plan-name">Annual</div>
-                    <div class="plan-price">$79.99</div>
+                    <div class="plan-price">₹6,650</div>
                     <div class="plan-period">per year (save 33%)</div>
                     <ul class="plan-features">
                         <li><i class="fas fa-check"></i>Everything in Ultimate</li>
@@ -572,14 +572,14 @@
         // =====================================================
         function subscribePlan(plan) {
             const plans = {
-                starter: { name: 'Starter Game Pass', price: 4.99, duration: '1 month' },
-                ultimate: { name: 'Ultimate Game Pass', price: 9.99, duration: '1 month' },
-                annual: { name: 'Annual Game Pass', price: 79.99, duration: '12 months' }
+                starter: { name: 'Starter Game Pass', price: 415, duration: '1 month' },
+                ultimate: { name: 'Ultimate Game Pass', price: 830, duration: '1 month' },
+                annual: { name: 'Annual Game Pass', price: 6650, duration: '12 months' }
             };
 
             const selectedPlan = plans[plan];
             
-            if (confirm(`🎮 Subscribe to ${selectedPlan.name}\n\n💰 $${selectedPlan.price}\n📅 ${selectedPlan.duration}\n\n✅ Instant access to 1000+ games\n\nConfirm subscription?`)) {
+            if (confirm(`🎮 Subscribe to ${selectedPlan.name}\n\n💰 ₹${selectedPlan.price.toLocaleString('en-IN')}\n📅 ${selectedPlan.duration}\n\n✅ Instant access to 1000+ games\n\nConfirm subscription?`)) {
                 alert(`🎉 Excellent choice!\n\n${selectedPlan.name} activated!\n\n✅ Access granted immediately\n✅ Welcome to WishGame Pass!\n\nYour games are now available in your account dashboard 🚀`);
                 
                 // Add to cart for checkout flow (optional)
