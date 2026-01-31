@@ -810,6 +810,8 @@
                     </label>
                 </div>
 
+                <div id="generalError" class="error-message" style="margin-bottom: 1rem; text-align: center;"></div>
+
                 <button type="submit" class="submit-btn" id="submitBtn">
                     Create Account
                 </button>
@@ -886,7 +888,7 @@
             </div>
 
             <p class="login-link">
-                Already have an account? <a href="login.html">Sign In</a>
+                Already have an account? <a href="signin.html">Sign In</a>
             </p>
         </div>
     </div>
@@ -899,7 +901,7 @@
             </div>
             <h2 class="success-title">Welcome Aboard!</h2>
             <p class="success-text">Your account has been created successfully. Get ready to discover amazing games at unbeatable prices!</p>
-            <button class="success-btn" onclick="window.location.href='login.html'">
+            <button class="success-btn" onclick="window.location.href='signin.html'">
                 Sign In Now
             </button>
         </div>
@@ -909,8 +911,6 @@
     <footer class="footer">
         <p>&copy; 2026 WishGameStore. All rights reserved.</p>
     </footer>
-
-    <div id="generalError" class="error-message" style="margin-top: 1rem; width: 100%;"></div>
     
     <script type="module" src="js/auth-guard.js"></script>
     <script type="module" src="js/signup.js"></script>
