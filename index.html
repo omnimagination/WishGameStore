@@ -165,14 +165,23 @@
             box-shadow: 0 10px 30px rgba(0,255,133,0.6);
         }
 
-        .nav-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid var(--neon-green);
-    cursor: pointer;
-    object-fit: cover;
-}
+        /* PROFILE IMAGE STYLES */
+        .profile-image {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--neon-green);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,255,133,0.4);
+            object-fit: cover;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0,255,133,0.6);
+            border-color: var(--neon-cyan);
+        }
 
         /* HERO */
         .hero {
@@ -860,10 +869,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cartCount">0</span>
                 </div>
-                <!-- Wrapper so we can swap between button and avatar -->
-<div id="navAuthContainer">
-    <button class="signin-btn" id="navSigninBtn">Sign In</button>
-</div>
+                <div id="navSigninBtn" class="signin-btn">Sign In</div>
             </div>
         </div>
     </nav>
@@ -1329,36 +1335,36 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        const navAuthContainer = document.getElementById('navAuthContainer');
-
-onAuthStateChanged(auth, (user) => {
-    navAuthContainer.innerHTML = ""; // clear old content
-
-    if (user) {
-        // Create avatar image
-        const img = document.createElement("img");
-        img.className = "nav-avatar";
-        img.alt = "Profile";
-
-        // Use Firebase photoURL if available, else a placeholder
-        img.src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "Gamer");
-
-        // Clicking avatar goes to dashboard
-        img.onclick = () => window.location.href = "dashboard.html";
-
-        navAuthContainer.appendChild(img);
-    } else {
-        // Show normal Sign In button
-        const btn = document.createElement("button");
-        btn.className = "signin-btn";
-        btn.id = "navSigninBtn";
-        btn.textContent = "Sign In";
-        btn.onclick = () => window.location.href = "signin.html";
-
-        navAuthContainer.appendChild(btn);
-    }
-});
-
+        const navBtn = document.getElementById('navSigninBtn');
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in - show profile image
+                const photoURL = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || user.email || 'User') + '&background=00ff85&color=000&size=128';
+                
+                // Replace button with profile image
+                navBtn.className = 'profile-image';
+                navBtn.innerHTML = '';
+                navBtn.style.width = '45px';
+                navBtn.style.height = '45px';
+                navBtn.style.padding = '0';
+                navBtn.style.backgroundImage = `url('${photoURL}')`;
+                navBtn.style.backgroundSize = 'cover';
+                navBtn.style.backgroundPosition = 'center';
+                navBtn.onclick = () => window.location.href = "dashboard.html";
+                navBtn.title = 'Go to Dashboard';
+            } else {
+                // User is signed out - show sign in button
+                navBtn.className = 'signin-btn';
+                navBtn.innerHTML = 'Sign In';
+                navBtn.style.width = 'auto';
+                navBtn.style.height = 'auto';
+                navBtn.style.padding = '0.8rem 2rem';
+                navBtn.style.backgroundImage = '';
+                navBtn.onclick = () => window.location.href = "signin.html";
+                navBtn.title = '';
+            }
+        });
 
         // Other page logic
         function scrollToSection(id) {
