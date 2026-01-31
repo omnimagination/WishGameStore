@@ -22,8 +22,24 @@ export const registerUser = (email, password) => {
  * @param {string} password 
  * @returns {Promise<UserCredential>}
  */
-export const loginUser = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
+export const loginUser = async (email, password) => {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    // Save user data to localStorage for profile image display
+    localStorage.setItem('wishgamestore_user_email', user.email);
+    if (user.displayName) {
+        localStorage.setItem('wishgamestore_user_name', user.displayName);
+    } else {
+        // Use email prefix as name if displayName doesn't exist
+        const nameFromEmail = user.email.split('@')[0];
+        localStorage.setItem('wishgamestore_user_name', nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1));
+    }
+    if (user.photoURL) {
+        localStorage.setItem('wishgamestore_user_photo', user.photoURL);
+    }
+    
+    return userCredential;
 };
 
 /**
@@ -31,6 +47,11 @@ export const loginUser = (email, password) => {
  * @returns {Promise<void>}
  */
 export const logoutUser = () => {
+    // Clear localStorage when logging out
+    localStorage.removeItem('wishgamestore_user_email');
+    localStorage.removeItem('wishgamestore_user_name');
+    localStorage.removeItem('wishgamestore_user_photo');
+    
     return signOut(auth);
 };
 
@@ -39,5 +60,27 @@ export const logoutUser = () => {
  * @param {function} callback 
  */
 export const authStateListener = (callback) => {
-    return onAuthStateChanged(auth, callback);
+    return onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in - update localStorage
+            localStorage.setItem('wishgamestore_user_email', user.email);
+            if (user.displayName) {
+                localStorage.setItem('wishgamestore_user_name', user.displayName);
+            } else {
+                const nameFromEmail = user.email.split('@')[0];
+                localStorage.setItem('wishgamestore_user_name', nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1));
+            }
+            if (user.photoURL) {
+                localStorage.setItem('wishgamestore_user_photo', user.photoURL);
+            }
+        } else {
+            // User is signed out - clear localStorage
+            localStorage.removeItem('wishgamestore_user_email');
+            localStorage.removeItem('wishgamestore_user_name');
+            localStorage.removeItem('wishgamestore_user_photo');
+        }
+        
+        // Call the original callback
+        callback(user);
+    });
 };
