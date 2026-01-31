@@ -1318,29 +1318,18 @@
     </script>
 
     <script type="module">
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-
-        // Minimal Firebase Init for Index Page Check
-        
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "your-project.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project.firebasestorage.app",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
-        };
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
+        // Check if user is signed in using localStorage first (works immediately)
         const navBtn = document.getElementById('navSigninBtn');
         
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
+        // Immediate check from localStorage
+        function checkAuthStatus() {
+            const userEmail = localStorage.getItem('wishgamestore_user_email');
+            const userName = localStorage.getItem('wishgamestore_user_name');
+            const userPhoto = localStorage.getItem('wishgamestore_user_photo');
+            
+            if (userEmail) {
                 // User is signed in - show profile image
-                const photoURL = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || user.email || 'User') + '&background=00ff85&color=000&size=128';
+                const photoURL = userPhoto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userName || userEmail) + '&background=00ff85&color=000&size=128';
                 
                 // Replace button with profile image
                 navBtn.className = 'profile-image';
@@ -1364,7 +1353,55 @@
                 navBtn.onclick = () => window.location.href = "signin.html";
                 navBtn.title = '';
             }
-        });
+        }
+        
+        // Run immediately
+        checkAuthStatus();
+        
+        // Also listen for storage changes (in case user signs in/out in another tab)
+        window.addEventListener('storage', checkAuthStatus);
+
+        // Try Firebase if available
+        try {
+            import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js").then(({ initializeApp }) => {
+                import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then(({ getAuth, onAuthStateChanged }) => {
+                    // You can add your actual Firebase config here
+                    const firebaseConfig = {
+                        apiKey: "YOUR_API_KEY",
+                        authDomain: "your-project.firebaseapp.com",
+                        projectId: "your-project-id",
+                        storageBucket: "your-project.firebasestorage.app",
+                        messagingSenderId: "123456789",
+                        appId: "1:123456789:web:abcdef123456"
+                    };
+                    
+                    try {
+                        const app = initializeApp(firebaseConfig);
+                        const auth = getAuth(app);
+                        
+                        onAuthStateChanged(auth, (user) => {
+                            if (user) {
+                                // Update localStorage
+                                localStorage.setItem('wishgamestore_user_email', user.email);
+                                if (user.displayName) localStorage.setItem('wishgamestore_user_name', user.displayName);
+                                if (user.photoURL) localStorage.setItem('wishgamestore_user_photo', user.photoURL);
+                                checkAuthStatus();
+                            } else {
+                                // Clear localStorage
+                                localStorage.removeItem('wishgamestore_user_email');
+                                localStorage.removeItem('wishgamestore_user_name');
+                                localStorage.removeItem('wishgamestore_user_photo');
+                                checkAuthStatus();
+                            }
+                        });
+                    } catch (e) {
+                        console.log("Firebase not configured, using localStorage only");
+                    }
+                });
+            });
+        } catch (e) {
+            console.log("Firebase not available, using localStorage only");
+        }
 
         // Other page logic
         function scrollToSection(id) {
