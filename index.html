@@ -165,6 +165,15 @@
             box-shadow: 0 10px 30px rgba(0,255,133,0.6);
         }
 
+        .nav-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--neon-green);
+    cursor: pointer;
+    object-fit: cover;
+}
+
         /* HERO */
         .hero {
             height: 100vh;
@@ -851,7 +860,10 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge" id="cartCount">0</span>
                 </div>
-                <button class="signin-btn" id="navSigninBtn">Sign In</button>
+                <!-- Wrapper so we can swap between button and avatar -->
+<div id="navAuthContainer">
+    <button class="signin-btn" id="navSigninBtn">Sign In</button>
+</div>
             </div>
         </div>
     </nav>
@@ -1317,17 +1329,36 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        const navBtn = document.getElementById('navSigninBtn');
-        
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                navBtn.textContent = "Dashboard";
-                navBtn.onclick = () => window.location.href = "dashboard.html";
-            } else {
-                navBtn.textContent = "Sign In";
-                navBtn.onclick = () => window.location.href = "signin.html";
-            }
-        });
+        const navAuthContainer = document.getElementById('navAuthContainer');
+
+onAuthStateChanged(auth, (user) => {
+    navAuthContainer.innerHTML = ""; // clear old content
+
+    if (user) {
+        // Create avatar image
+        const img = document.createElement("img");
+        img.className = "nav-avatar";
+        img.alt = "Profile";
+
+        // Use Firebase photoURL if available, else a placeholder
+        img.src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || "Gamer");
+
+        // Clicking avatar goes to dashboard
+        img.onclick = () => window.location.href = "dashboard.html";
+
+        navAuthContainer.appendChild(img);
+    } else {
+        // Show normal Sign In button
+        const btn = document.createElement("button");
+        btn.className = "signin-btn";
+        btn.id = "navSigninBtn";
+        btn.textContent = "Sign In";
+        btn.onclick = () => window.location.href = "signin.html";
+
+        navAuthContainer.appendChild(btn);
+    }
+});
+
 
         // Other page logic
         function scrollToSection(id) {
