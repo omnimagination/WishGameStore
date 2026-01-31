@@ -230,7 +230,7 @@
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.15);
             animation: premiumWave 4s ease-in-out infinite;
-            box-shadow: 
+            box-shadow:
                 0 4px 12px rgba(0,0,0,0.4),
                 inset 0 1px 0 rgba(255,255,255,0.1),
                 inset 0 -1px 0 rgba(0,0,0,0.2);
@@ -255,14 +255,14 @@
 
         @keyframes premiumWave {
             0%, 100% {
-                box-shadow: 
+                box-shadow:
                     0 4px 12px rgba(0,0,0,0.4),
                     0 0 20px rgba(255, 255, 255, 0.1),
                     inset 0 1px 0 rgba(255,255,255,0.1);
                 border-color: rgba(255, 255, 255, 0.15);
             }
             25% {
-                box-shadow: 
+                box-shadow:
                     0 4px 15px rgba(0,0,0,0.4),
                     0 0 30px rgba(255, 255, 255, 0.3),
                     0 0 60px rgba(200, 220, 255, 0.2),
@@ -270,7 +270,7 @@
                 border-color: rgba(255, 255, 255, 0.4);
             }
             50% {
-                box-shadow: 
+                box-shadow:
                     0 4px 15px rgba(0,0,0,0.4),
                     0 0 35px rgba(0, 212, 255, 0.4),
                     0 0 70px rgba(0, 212, 255, 0.2),
@@ -278,7 +278,7 @@
                 border-color: rgba(0, 212, 255, 0.5);
             }
             75% {
-                box-shadow: 
+                box-shadow:
                     0 4px 15px rgba(0,0,0,0.4),
                     0 0 30px rgba(200, 220, 255, 0.3),
                     0 0 60px rgba(255, 255, 255, 0.15),
@@ -714,6 +714,11 @@
             animation: rotate 20s linear infinite;
         }
 
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .cta-content {
             position: relative;
             z-index: 2;
@@ -1037,7 +1042,7 @@
                             <div class="game-name">GTA V Premium Edition</div>
                             <div class="price-container">
                                 <span class="new-price">₹799</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="old-price">₹4,799</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1051,7 +1056,7 @@
                             <div class="game-name">Red Dead Redemption 2</div>
                             <div class="price-container">
                                 <span class="new-price">₹1,199</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="old-price">₹4,799</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1065,7 +1070,7 @@
                             <div class="game-name">Cyberpunk 2077</div>
                             <div class="price-container">
                                 <span class="new-price">₹1,599</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="old-price">₹4,799</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1078,8 +1083,8 @@
                         <div class="game-info">
                             <div class="game-name">Elden Ring</div>
                             <div class="price-container">
-                                <span class="new-price">₹1,899</span>
-                                <span class="old-price">₹4,999</span>
+                                <span class="new-price">₹1,919</span>
+                                <span class="old-price">₹4,799</span>
                             </div>
                             <button class="buy-btn">Buy Now</button>
                         </div>
@@ -1137,7 +1142,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 WishGameStore. All rights reserved. | Premium Gaming Marketplace</p>
+                <p>© 2026 WishGameStore. All rights reserved. | Premium Gaming Marketplace</p>
             </div>
         </div>
     </footer>
@@ -1244,7 +1249,7 @@
         1: { name: 'GTA V Premium Edition', price: 799, image: '🚗' },
         2: { name: 'Red Dead Redemption 2', price: 1199, image: '🤠' },
         3: { name: 'Cyberpunk 2077', price: 1599, image: '🌃' },
-        4: { name: 'Elden Ring', price: 1899, image: '⚔️' }
+        4: { name: 'Elden Ring', price: 1919, image: '⚔️' }
     };
 
     function updateCartCount() {
@@ -1299,7 +1304,8 @@
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
-        // Firebase Init
+        // Minimal Firebase Init for Index Page Check
+        
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "your-project.firebaseapp.com",
@@ -1311,35 +1317,13 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        const navIconsContainer = document.querySelector('.nav-icons');
         const navBtn = document.getElementById('navSigninBtn');
         
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Remove the signin button if it exists
-                if (navBtn) navBtn.style.display = 'none';
-
-                // Check if profile icon already exists to prevent duplicates
-                if (!document.getElementById('navProfileIcon')) {
-                    // Create Profile Icon
-                    const profileLink = document.createElement('div');
-                    profileLink.id = 'navProfileIcon';
-                    profileLink.className = 'cart-icon'; // Reuse existing icon style
-                    profileLink.style.marginLeft = '0';
-                    profileLink.innerHTML = '<i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>';
-                    profileLink.onclick = () => window.location.href = "dashboard.html";
-                    profileLink.title = "Go to Dashboard";
-                    
-                    navIconsContainer.appendChild(profileLink);
-                }
+                navBtn.textContent = "Dashboard";
+                navBtn.onclick = () => window.location.href = "dashboard.html";
             } else {
-                // Show Sign In button
-                if (navBtn) navBtn.style.display = 'block';
-                
-                // Remove profile icon if it exists
-                const profileIcon = document.getElementById('navProfileIcon');
-                if (profileIcon) profileIcon.remove();
-                
                 navBtn.textContent = "Sign In";
                 navBtn.onclick = () => window.location.href = "signin.html";
             }
@@ -1381,19 +1365,19 @@
             { title: "GTA V Premium Edition", page: "product.html?id=1", description: "Grand Theft Auto V - Open World Action - ₹799", category: "Game", price: "₹799", emoji: "🚗" },
             { title: "Red Dead Redemption 2", page: "product.html?id=2", description: "RDR2 Western Action Adventure - ₹1,199", category: "Game", price: "₹1,199", emoji: "🤠" },
             { title: "Cyberpunk 2077", page: "product.html?id=3", description: "Futuristic Open World RPG - ₹1,599", category: "Game", price: "₹1,599", emoji: "🌃" },
-            { title: "Elden Ring", page: "product.html?id=4", description: "FromSoftware Action RPG Souls-like - ₹1,899", category: "Game", price: "₹1,899", emoji: "⚔️" },
+            { title: "Elden Ring", page: "product.html?id=4", description: "FromSoftware Action RPG Souls-like - ₹1,919", category: "Game", price: "₹1,919", emoji: "⚔️" },
             { title: "Call of Duty MW3", page: "product.html?id=5", description: "FPS Shooter Military - ₹2,399", category: "Game", price: "₹2,399", emoji: "🔫" },
             { title: "God of War Ragnarok", page: "product.html?id=6", description: "Action Adventure Norse Mythology - ₹2,799", category: "Game", price: "₹2,799", emoji: "🪓" },
-            { title: "The Last of Us Part II", page: "product.html?id=7", description: "Post-apocalyptic Adventure - ₹2,199", category: "Game", price: "₹2,199", emoji: "🧟" },
+            { title: "The Last of Us Part II", page: "product.html?id=7", description: "Post-apocalyptic Adventure - ₹2,239", category: "Game", price: "₹2,239", emoji: "🧟" },
             { title: "Starfield", page: "product.html?id=8", description: "Bethesda Space Exploration RPG - ₹3,199", category: "Game", price: "₹3,199", emoji: "🚀" },
             { title: "Resident Evil 4 Remake", page: "product.html?id=9", description: "Horror Survival Capcom - ₹1,999", category: "Game", price: "₹1,999", emoji: "🧟‍♂️" },
-            { title: "Hogwarts Legacy", page: "product.html?id=10", description: "Harry Potter Wizarding World RPG - ₹2,499", category: "Game", price: "₹2,499", emoji: "🪄" },
+            { title: "Hogwarts Legacy", page: "product.html?id=10", description: "Harry Potter Wizarding World RPG - ₹2,559", category: "Game", price: "₹2,559", emoji: "🪄" },
             { title: "DOOM Eternal", page: "product.html?id=11", description: "Fast-paced FPS Shooter - ₹1,599", category: "Game", price: "₹1,599", emoji: "💀" },
-            { title: "Assassin's Creed Valhalla", page: "product.html?id=12", description: "Viking Action Adventure - ₹1,799", category: "Game", price: "₹1,799", emoji: "🏹" },
+            { title: "Assassin's Creed Valhalla", page: "product.html?id=12", description: "Viking Action Adventure - ₹1,839", category: "Game", price: "₹1,839", emoji: "🏹" },
             { title: "Spider-Man Remastered", page: "product.html?id=13", description: "Marvel Superhero Action - ₹3,599", category: "Game", price: "₹3,599", emoji: "🕷️" },
             { title: "Baldur's Gate 3", page: "product.html?id=14", description: "CRPG D&D Fantasy Adventure - ₹3,999", category: "Game", price: "₹3,999", emoji: "🗡️" },
-            { title: "Battlefield 2042", page: "product.html?id=15", description: "Large-scale FPS Shooter - ₹2,099", category: "Game", price: "₹2,099", emoji: "🎮" },
-            { title: "Uncharted Legacy of Thieves", page: "product.html?id=16", description: "Action Adventure Collection - ₹2,299", category: "Game", price: "₹2,299", emoji: "🗺️" },
+            { title: "Battlefield 2042", page: "product.html?id=15", description: "Large-scale FPS Shooter - ₹2,159", category: "Game", price: "₹2,159", emoji: "🎮" },
+            { title: "Uncharted Legacy of Thieves", page: "product.html?id=16", description: "Action Adventure Collection - ₹2,319", category: "Game", price: "₹2,319", emoji: "🗺️" },
             
             // DEALS PAGE
             { title: "Deals", page: "deals.html", description: "Special offers and discounts", category: "Page" },
